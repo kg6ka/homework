@@ -1,0 +1,12 @@
+npm-debug.log
+.idea/
+dist/
+node_modules
+logs/checkLogs
+logs/exceptions
+ERRDiagram
+config/dev
+config/test
+config/prod
+config/config.json
+bower_components/

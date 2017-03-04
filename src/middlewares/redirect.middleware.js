@@ -1,6 +1,6 @@
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router';
 
-import { ROUTING } from '../constants/Routing'
+import { ROUTING } from '../constants/Routing';
 
 // ------------------------------------
 // Middleware
@@ -8,12 +8,10 @@ import { ROUTING } from '../constants/Routing'
 // Fires if action.payload is Promise
 // ---
 
-const redirect = store => next => action => { //eslint-disable-line no-unused-vars
+export const redirectMiddleware = store => next => action => { //eslint-disable-line no-unused-vars
     if (action.type === ROUTING) {
         browserHistory[action.payload.method](action.payload.nextUrl)
     }
 
     return next(action)
 };
-
-export default redirect;

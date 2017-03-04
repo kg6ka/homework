@@ -1,8 +1,10 @@
 /*
  * Show spinner on each async request
  */
-import  { startSpinner } from '../constants/Spinner';
-import  { stopSpinner } from '../constants/Spinner';
+import  {
+    startSpinner,
+    stopSpinner
+} from '../constants/Spinner';
 
 // ------------------------------------
 // Middleware
@@ -10,7 +12,7 @@ import  { stopSpinner } from '../constants/Spinner';
 // Fires if action.payload is Promise
 // ------------------------------------
 
-const spinnerMiddleware = store => next => (action) => {
+export const spinnerMiddleware = store => next => action => {
     const { payload } = action;
     if (
         (action) &&
@@ -19,24 +21,22 @@ const spinnerMiddleware = store => next => (action) => {
     ) {
         console.log('REQUEST STARTED');
         store.dispatch({
-            type: startSpinner,
+            type: startSpinner
         });
         payload
             .then(
                 () => {
                     console.log('REQUEST ENDED');
                     store.dispatch({
-                        type: stopSpinner,
+                        type: stopSpinner
                     });
                 }, () => {
                     console.log('REQUEST ENDED WITH ERROR');
                     store.dispatch({
-                        type: stopSpinner,
+                        type: stopSpinner
                     });
                 },
             );
     }
     next(action);
 };
-
-export default spinnerMiddleware;

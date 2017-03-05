@@ -9,11 +9,11 @@ import Promo from './components/Promo';
 import Catalog from './components/Catalog';
 import Categories from './components/Categories';
 
-// import requireAuthentication from './containers/AuthenticatedComponent'; TODO
+import requireAuthentication from './components/shared/AuthenticatedComponent';
 
 export const routes = (
     <div>
-        <Route path='/' component={MainApp}>
+        <Route path='/' component={requireAuthentication(MainApp)}>
             <IndexRoute component={Promo}/>
             <Route path='catalogs'>
                 <IndexRoute component={Catalog}/>

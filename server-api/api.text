@@ -9,8 +9,8 @@ POST           /registrationPending            controllers.RegistrationAPI.regis
 GET            /activate/*hash                 controllers.RegistrationAPI.registrationSecondStep(hash)
 
 POST           /login                          controllers.LoginAPI.login                                             model: {
-                                                                                                                                email: 'string',
-                                                                                                                                password: 'string'
+                                                                                                                                email: 'admin@admin.com',
+                                                                                                                                password: 'admin'
                                                                                                                              }
 
 POST           /checkSession                   controllers.LoginAPI.checkSession

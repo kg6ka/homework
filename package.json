@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./webpack/prod.config.js --progress --colors",
-    "start": "node bin/server.js",
-    "postinstall": "npm install"
+    "start": "node bin/server.js"
   },
   "engines": {
     "node": "^6.9.1",

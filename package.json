@@ -4,6 +4,7 @@
   "description": "smart-app",
   "main": "index.js",
   "scripts": {
+    "build": "NODE_ENV=production webpack --config ./webpack/prod.config.js --progress --colors",
     "start": "node bin/server.js"
   },
   "author": "kg6ka",

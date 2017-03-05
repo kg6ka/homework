@@ -33,11 +33,10 @@ export default class Sidebar extends Component {
                             <FA className="icon" name='home' />
                             Home
                         </NavLink>
-
-                            <NavSubLink to='/catalogs'>
-                                <FA className="icon" name='list' />
-                                Catalog
-                            </NavSubLink>
+                        <NavSubLink to='/catalogs'>
+                            <FA className="icon" name='list' />
+                            Catalog
+                        </NavSubLink>
                         <NavLink to='/mycatalogs'>
                             <FA className="icon" name='list-alt' />
                             My Catalog

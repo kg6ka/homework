@@ -1,0 +1,16 @@
+POST           /recoveryPassword               controllers.RegistrationAPI.recoveryPasswordPending
+
+POST           /recoveryPassword/*hash         controllers.RegistrationAPI.recoveryPasswordSecondStep(hash)
+
+GET            /checkHash/*hash                controllers.RegistrationAPI.checkHash(hash)
+
+POST           /registrationPending            controllers.RegistrationAPI.registrationPending
+
+GET            /activate/*hash                 controllers.RegistrationAPI.registrationSecondStep(hash)
+
+POST           /login                          controllers.LoginAPI.login                                             model: {
+                                                                                                                                email: 'string',
+                                                                                                                                password: 'string'
+                                                                                                                             }
+
+POST           /checkSession                   controllers.LoginAPI.checkSession

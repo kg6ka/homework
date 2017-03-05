@@ -11,3 +11,8 @@ npm install
 npm start
 ```
 
+#Install heroku
+```
+Guid -> https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up
+```
+

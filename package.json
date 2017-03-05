@@ -7,6 +7,10 @@
     "build": "NODE_ENV=production webpack --config ./webpack/prod.config.js --progress --colors",
     "start": "node bin/server.js"
   },
+  "engines": {
+    "node": "^6.9.1",
+    "npm": "^3.10.8"
+  },
   "author": "kg6ka",
   "license": "MIT",
   "devDependencies": {

@@ -9,6 +9,9 @@ export default class Promo extends Component {
      const { getPhotos } = this.props.pageActions;
      console.log(getPhotos())
      }*/
+    componentDidMount() {
+        console.log(document.getElementById('page-wrapper').offsetHeight);
+    }
     render() {
         return (
             <section className="animated fadeInDown col-md-12">
@@ -17,8 +20,12 @@ export default class Promo extends Component {
                         <h2>Promo</h2>
                     </div>
                     <div className="ibox-content" id="program-page">
-                        <div className="tabs-container">
-                        </div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam aspernatur consequuntur cum debitis doloremque explicabo facilis id
+                        illo itaque laboriosam laborum maiores nemo nesciunt perferendis placeat quam quibusdam rerum, soluta, suscipit vero. Accusamus adipisci
+                        aperiam esse eum exercitationem fuga illo iure laborum mollitia officia reiciendis sit, sunt voluptatum? Eius iure non provident quod reprehenderit.
+                        Alias aliquam beatae corporis, cum eveniet fuga labore laboriosam, laudantium minus molestiae nihil officia perspiciatis placeat quae quo quod rem,
+                        similique sint voluptas voluptate? Accusantium aliquid asperiorescumque dolor error maiores nam nostrum, placeat porro quibusdam quo, quod soluta
+                        tempora velit voluptatem! Dolores maxime nihil sint.
                     </div>
                 </div>
             </section>

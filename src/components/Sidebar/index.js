@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FA from 'react-fontawesome';
 
 import NavLink from '../../components/NavLink';
+import NavSubLink from '../../components/NavSubLink';
 
 export default class Sidebar extends Component {
     componentWillMount() {
@@ -32,10 +33,11 @@ export default class Sidebar extends Component {
                             <FA className="icon" name='home' />
                             Home
                         </NavLink>
-                        <NavLink to='/catalogs'>
-                            <FA className="icon" name='list' />
-                            Catalog
-                        </NavLink>
+
+                            <NavSubLink to='/catalogs'>
+                                <FA className="icon" name='list' />
+                                Catalog
+                            </NavSubLink>
                         <NavLink to='/mycatalogs'>
                             <FA className="icon" name='list-alt' />
                             My Catalog

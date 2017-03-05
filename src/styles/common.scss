@@ -1,3 +1,14 @@
+html,
+body {
+  height: 100%;
+}
 body {
   background: #2f4050;
+  height: 100%;
+}
+#rootApp {
+  min-height: 100%;
+}
+#main {
+  overflow: hidden;
 }

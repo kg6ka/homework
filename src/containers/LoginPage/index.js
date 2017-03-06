@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as UserActions from '../../actions/UserActions';
+import * as UserActions from '../../actions/UserActions/index';
+console.log(UserActions)
 import * as ApiUrl from '../../constants/Routes';
 
 export class LoginPage extends Component {
@@ -36,29 +37,43 @@ export class LoginPage extends Component {
         this.setState({userPassword: event.target.value});
     }
 
+    handleLogin(user, success) {
+        if (success) {
+            user.email = this.state.userEmail;
+            user.isAuthenticated = true;
+            this.props.actions.login_success(user);
+        } else {
+            user.email = this.state.userEmail;
+            user.isAuthenticated = false;
+            user.token = '';
+            user.user_id = '';
+            user.expired = 0;
+            this.props.actions.login_fail(user);
+        }
+        this.state.userEmail = '';
+        this.state.userPassword = '';
+    }
+
     handleSubmit(event) {
         event.preventDefault();
-
+        this.props.actions.login_request();
         this.fetchOpt.body = JSON.stringify({email: this.state.userEmail, password: this.state.userPassword});
-        //TODO add seccuse and fail logic
+        //TODO  add expired data
         fetch(this.loginUrl, this.fetchOpt)
-            .then(res => { console.log(res); })
-            .catch(error => { console.log(error) });
-
-        // e.preventDefault();
-        // this.props.actions.login({
-        //     email: e.target.elements[0].value,
-        //     password: e.target.elements[1].value
-        // });
-
-        /*const login = e.target.elements[0].value;
-         window.localStorage.setItem('rr_login', login);
-
-         if (login === 'admin') {
-         this.context.router.push('/admin')
-         } else {
-         this.context.router.push('/')
-         }*/
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    throw new Error(res.statusText);
+                }
+            })
+            .then(user => {
+                this.handleLogin(user, true);
+            })
+            .catch(error => {
+                console.log(error.message);
+                this.handleLogin({}, false);
+            });
     }
     render() {
         return (
@@ -99,15 +114,13 @@ export class LoginPage extends Component {
     }
 }
 
-/*LoginPage.contextTypes = {
- router: PropTypes.object.isRequired
- };*/
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+};
 
-function mapStateToProps() {
-    return {}
-}
-
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(UserActions, dispatch)
     }

@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 
 import NavLink  from '../NavLink';
 // import { Accordion, Panel } from 'react-bootstrap';
 
 export default class NavSubLink extends Component {
     render() {
+        console.log(this.props.to);
+        console.log(this.props.children);
         let isActive = this.context.router.isActive(this.props.to, true),
             className = isActive ? 'active' : '',
             collapseIsActive = className ? 'in' : '',
@@ -13,7 +15,8 @@ export default class NavSubLink extends Component {
 
         return (
                 <li className={className}>
-                    <Link {...this.props} activeClassName='active'/>
+                    {/*<Link {...this.props} activeClassName='active'/>*/}
+                    <a>CAtalog</a>
                     <ul className={collapseClasses}>
                         <NavLink to='/catalogs/sub1'>
                             Sub catalog 1

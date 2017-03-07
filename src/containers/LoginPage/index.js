@@ -17,7 +17,7 @@ export class LoginPage extends Component {
         })
 
         this.fetchOpt = {
-            method: 'POST', 
+            method: 'POST',
             headers: this.requestHeader,
             mode: 'cors'
         }
@@ -91,15 +91,15 @@ export class LoginPage extends Component {
                                            name="userEmail"
                                            className="form-control"
                                            placeholder="Email"
-                                           value={this.state.userEmail} 
+                                           value={this.state.userEmail}
                                            onChange={::this.handleChangeEmail} />
                                 </div>
                                 <div className="form-group">
                                     <input type="password"
                                            name="userPassword"
                                            className="form-control"
-                                           placeholder="Password" 
-                                           value={this.state.userPassword} 
+                                           placeholder="Password"
+                                           value={this.state.userPassword}
                                            onChange={::this.handleChangePassword}/>
                                 </div>
                                 <button type="submit"

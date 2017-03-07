@@ -16,11 +16,11 @@ export default class Sidebar extends Component {
                         <li className='nav-header'>
                             <div className='dropdown profile-element' data-dropdown>
                                 {/*<img className='img-circle'  width='70px' height='70px' src='{{profile.avatar.default}}' />*/}
-                                <img className='img-circle' width='65px' height='65px' src='{{profile.avatar.small}}' />
+                                {/*<img className='img-circle' width='65px' height='65px' src='{{profile.avatar.small}}' />*/}
                                 <a className='dropdown-toggle' data-dropdown-toggle>
                                     <span className='clear'>
                                         <span className='block m-t-xs'>
-                                            <strong className='font-bold'>Profile name</strong>
+                                            <strong className='font-bold'>User email</strong>
                                         </span>
                                     </span>
                                 </a>

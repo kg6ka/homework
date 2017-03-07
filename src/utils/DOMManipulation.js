@@ -13,12 +13,6 @@ class DOMManipulation {
             pageWrapper.style.height = windowHeight + 'px';
         }
     }
-    addEventListener(event, cb) {
-        self.window.addEventListener(event, cb);
-    }
-    removeEventListener(event, cb) {
-        self.window.removeEventListener(event, cb);
-    }
 }
 
 export default new DOMManipulation();

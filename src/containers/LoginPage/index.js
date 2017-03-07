@@ -40,9 +40,8 @@ export class LoginPage extends Component {
             user.user_id = '';
             user.expired = 0;
             this.props.actions.login_fail(user);
+            this.setState({userEmail: '', userPassword: ''});
         }
-        this.state.userEmail = '';
-        this.state.userPassword = '';
     }
 
     handleSubmit(event) {

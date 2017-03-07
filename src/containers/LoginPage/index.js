@@ -51,12 +51,11 @@ export class LoginPage extends Component {
         //TODO  add expired data
         userAPI.getCurrentUser(currentUserBody)
             .then(res => {
-                // if (res.status === 200) {
-                //     return res.json();
-                // } else {
-                //     throw new Error(res.statusText);
-                // }
-                return res.json();
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    throw new Error(res.statusText);
+                }
             })
             .then(user => {
                 this.handleLogin(user, true);

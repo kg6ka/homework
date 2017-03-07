@@ -13,10 +13,16 @@ module.exports = {
     },
 
     module: {
-        loaders: [{
-            test: /\.scss$/,
-            loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass',
-        }],
+        loaders: [
+            {
+                test: /\.scss$/,
+                loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass',
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass',
+            }
+        ],
     },
 
     plugins: [

@@ -1,5 +1,10 @@
 /*eslint-disable*/
 import {
+  pendingTask,
+  begin,
+  end 
+} from 'react-redux-spinner';
+import {
     LOGIN_REQUEST,
     LOGIN_FAIL,
     LOGIN_SUCCESS,
@@ -8,21 +13,24 @@ import {
 
 export function login_request() {
   return {
-    type: LOGIN_REQUEST
+    type: LOGIN_REQUEST,
+    [ pendingTask ]: begin
   }
 }
 
 export function login_success(payload) {
   return {
     type: LOGIN_SUCCESS,
-    payload
+    payload,
+    [ pendingTask ]: end
   }
 }
 
 export function login_fail(payload) {
   return {
     type: LOGIN_FAIL,
-    payload
+    payload,
+    [ pendingTask ]: end
   }
 }
 

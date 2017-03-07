@@ -12,3 +12,12 @@ body {
 #main {
   overflow: hidden;
 }
+#page-wrapper {
+  //min-height: 600px !important;
+  min-height: 100% !important;
+}
+.promo-navigation {
+  height: 100%;
+  background: #2f4050 !important;
+  border-radius: 0;
+}

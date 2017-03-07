@@ -10,7 +10,6 @@ export default class Promo extends Component {
      console.log(getPhotos())
      }*/
     componentDidMount() {
-        console.log(document.getElementById('page-wrapper').offsetHeight);
     }
     render() {
         return (

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Spinner } from 'react-redux-spinner';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
 console.log(UserActions);
 import * as userAPI from '../../utils/userApi';
@@ -29,6 +31,8 @@ export class LoginPage extends Component {
             user.email = this.state.userEmail;
             user.isAuthenticated = true;
             this.props.actions.login_success(user);
+            localStorage.setItem('user', JSON.stringify(user));
+            browserHistory.push('/')
         } else {
             user.email = this.state.userEmail;
             user.isAuthenticated = false;
@@ -69,6 +73,7 @@ export class LoginPage extends Component {
         return (
             <div className="loginColumns animated fadeInDown"
                  noValidate="novalidate">
+                <Spinner />
                 <div className="row">
                     <div className="col-md-12">
                         <div className="ibox-content">

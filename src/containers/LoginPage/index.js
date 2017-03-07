@@ -1,28 +1,15 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as UserActions from '../../actions/UserActions/index';
-console.log(UserActions)
-import * as ApiUrl from '../../constants/Routes';
+import * as UserActions from '../../actions/UserActions';
+console.log(UserActions);
+import * as userAPI from '../../utils/userApi';
 
 export class LoginPage extends Component {
     //TODO
     constructor(props) {
         super(props);
         this.state = {userEmail: '', userPassword: ''};
-
-        this.requestHeader = new Headers({
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json'
-        })
-
-        this.fetchOpt = {
-            method: 'POST',
-            headers: this.requestHeader,
-            mode: 'cors'
-        }
-
-        this.loginUrl = ApiUrl.ROOT_API + ApiUrl.LOGIN_API;
     }
 
     componentDidMount() {
@@ -57,15 +44,19 @@ export class LoginPage extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.props.actions.login_request();
-        this.fetchOpt.body = JSON.stringify({email: this.state.userEmail, password: this.state.userPassword});
+        let currentUserBody = {
+            email: this.state.userEmail,
+            password: this.state.userPassword
+        };
         //TODO  add expired data
-        fetch(this.loginUrl, this.fetchOpt)
+        userAPI.getCurrentUser(currentUserBody)
             .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
+                // if (res.status === 200) {
+                //     return res.json();
+                // } else {
+                //     throw new Error(res.statusText);
+                // }
+                return res.json();
             })
             .then(user => {
                 this.handleLogin(user, true);
@@ -124,6 +115,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(UserActions, dispatch)
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

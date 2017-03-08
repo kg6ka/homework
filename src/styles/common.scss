@@ -20,4 +20,15 @@ body {
   height: 100%;
   background: #2f4050 !important;
   border-radius: 0;
+  .user-info {
+    color: #fff;
+  }
+  .nav-link {
+    > a {
+      padding-left: 40px;
+    }
+    .icon {
+      margin-left: -20px;
+    }
+  }
 }

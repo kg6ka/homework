@@ -15,7 +15,7 @@ export default class NavSubLink extends Component {
             collapseClasses = `nav nav-second-level collapse ${collapseIsActive}`;
 
         return (
-                <li className={className}>
+                <li className={`nav-link ${className}`}>
                     {/*<Link {...this.props} activeClassName='active'/>*/}
                     <a>
                         <FA className="icon" name='list' />

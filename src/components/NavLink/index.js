@@ -9,7 +9,7 @@ export default class NavLink extends Component {
             className = isActive ? 'active' : '';
 
         return (
-            <li className={className}>
+            <li className={`nav-link ${className}`}>
                 <Link {...this.props} activeClassName='active'/>
             </li>
         );

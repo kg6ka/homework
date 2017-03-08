@@ -9,7 +9,7 @@ export default function requireAuthentication(Component) {
 
     class AuthenticatedComponent extends React.Component {
         componentWillMount() {
-            console.log('requireAuthentication', this.props);
+            // console.log('requireAuthentication', this.props);
             this.checkAuth()
         }
 

@@ -1,7 +1,7 @@
-import * as ApiUrl from '../constants/Routes';
+import * as ApiUrl from '../../constants/Routes';
 
 export const getCurrentUser = (params) => {
-    let loginURl = ApiUrl.ROOT_API + ApiUrl.LOGIN_API;
+    let loginURl = ApiUrl.ROOT_API + ApiUrl.LOGIN;
     let requestHeader =  new Headers({
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json; charset=utf-8'

@@ -3,29 +3,16 @@ import FA from 'react-fontawesome';
 
 import NavLink from '../../components/NavLink';
 import NavSubLink from '../../components/NavSubLink';
+import { UserInfo } from '../../components/UserInfo';
 
 export default class Sidebar extends Component {
-    componentWillMount() {
-
-    }
     render() {
         return (
             <nav className='promo-navigation navbar-default navbar-static-side' role='navigation'>
                 <div className='sidebar-collapse'>
-                    <ul data-side-navigation className='nav metismenu' id='side-menu'>
+                    <ul className='nav metismenu' id='side-menu'>
                         <li className='nav-header'>
-                            <div className='dropdown profile-element' data-dropdown>
-                                <a className='dropdown-toggle' data-dropdown-toggle>
-                                    <span className='clear'>
-                                        <span className='block m-t-xs'>
-                                            <strong className='font-bold'>User email</strong>
-                                        </span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div className='logo-element'>
-                                AppName
-                            </div>
+                            <UserInfo user={this.props.user}/>
                         </li>
                         <NavLink onlyActiveOnIndex={true} to='/'>
                             <FA className="icon" name='home' />

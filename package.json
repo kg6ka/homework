@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "express": "^4.13.4",
+    "formsy-react": "^0.19.2",
     "inspinia": "^2.6.5",
     "jquery": "^2.2.1",
     "react": "^15.4.1",

@@ -4,13 +4,27 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
-import * as userAPI from '../../utils/userApi';
+import * as userAPI from '../../utils/endpoints/userApi';
+
+// import { Form } from 'formsy-react';
+// import MyInput from '../../components/shared/MyInput';
 
 export class LoginPage extends Component {
     //TODO
     constructor(props) {
         super(props);
         this.state = {userEmail: '', userPassword: ''};
+    }
+    getInitialState() {
+        return { canSubmit: false };
+    }
+
+    enableButton() {
+        this.setState({ canSubmit: true });
+    }
+
+    disableButton() {
+        this.setState({ canSubmit: false });
     }
 
     componentDidMount() {
@@ -78,14 +92,23 @@ export class LoginPage extends Component {
                             <form className="sm-t"
                                   name="loginForm"
                                   role="form"
-                                  onSubmit={::this.handleSubmit}>
+                                  onSubmit={::this.handleSubmit}
+                                  noValidate="">
                                 <div className="form-group">
-                                    <input type="text"
+                                    <input type="email"
                                            name="userEmail"
                                            className="form-control"
                                            placeholder="Email"
                                            value={this.state.userEmail}
-                                           onChange={::this.handleChangeEmail} />
+                                           onChange={::this.handleChangeEmail}
+                                           required/>
+                                    {/*<MyInput value={this.state.userEmail}
+                                             onChange={::this.handleChangeEmail}
+                                             name="userEmail"
+                                             placeholder="Email"
+                                             validations="isEmail"
+                                             validationError="This is not a valid email"
+                                             required />*/}
                                 </div>
                                 <div className="form-group">
                                     <input type="password"
@@ -93,11 +116,18 @@ export class LoginPage extends Component {
                                            className="form-control"
                                            placeholder="Password"
                                            value={this.state.userPassword}
-                                           onChange={::this.handleChangePassword}/>
+                                           onChange={::this.handleChangePassword}
+                                           required/>
+                                    {/*<MyInput value={this.state.userPassword}
+                                             name="userPassword"
+                                             placeholder="Password"
+                                             onChange={::this.handleChangePassword}
+                                             type="password"
+                                             required />*/}
                                 </div>
                                 <button type="submit"
                                         className="btn btn-primary block full-width m-b"
-                                >Login</button>
+                                >Login</button>{/*disabled={!this.state.canSubmit}*/}
                             </form>
                         </div>
                     </div>

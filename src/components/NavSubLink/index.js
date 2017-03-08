@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 // import { Link } from 'react-router';
+import FA from 'react-fontawesome';
 
 import NavLink  from '../NavLink';
 // import { Accordion, Panel } from 'react-bootstrap';
@@ -16,7 +17,10 @@ export default class NavSubLink extends Component {
         return (
                 <li className={className}>
                     {/*<Link {...this.props} activeClassName='active'/>*/}
-                    <a>CAtalog</a>
+                    <a>
+                        <FA className="icon" name='list' />
+                        Каталог всех товаров
+                    </a>
                     <ul className={collapseClasses}>
                         <NavLink to='/catalogs/sub1'>
                             Sub catalog 1

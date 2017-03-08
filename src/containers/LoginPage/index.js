@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
-console.log(UserActions);
 import * as userAPI from '../../utils/userApi';
 
 export class LoginPage extends Component {
@@ -72,7 +71,7 @@ export class LoginPage extends Component {
         return (
             <div className="loginColumns animated fadeInDown"
                  noValidate="novalidate">
-                <Spinner />
+                <Spinner config={{ trickleRate: 0.02, trickleSpeed: 50 }}/>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="ibox-content">

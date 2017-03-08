@@ -15,12 +15,13 @@ export default function requireAuthentication(Component) {
 
         checkAuth() {
             let user = JSON.parse(localStorage.getItem('user'));
+            console.log('checkAuth', this.props.user);
             if (user && user.isAuthenticated) {
-                if (!this.props.user.toker) {
+                if (!this.props.user.token) {
                     this.props.actions.login_success(user);
                 }
             } else {
-                browserHistory.push('/login')
+                browserHistory.push('/login');
             }
         }
 
@@ -40,7 +41,7 @@ export default function requireAuthentication(Component) {
         return {
             user: state.user
         }
-    }
+    };
 
     const mapDispatchToProps = (dispatch) => {
         return {

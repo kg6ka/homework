@@ -2,7 +2,7 @@
 import {
   pendingTask,
   begin,
-  end 
+  end
 } from 'react-redux-spinner';
 import {
     LOGIN_REQUEST,

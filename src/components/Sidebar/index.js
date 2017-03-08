@@ -15,8 +15,6 @@ export default class Sidebar extends Component {
                     <ul data-side-navigation className='nav metismenu' id='side-menu'>
                         <li className='nav-header'>
                             <div className='dropdown profile-element' data-dropdown>
-                                {/*<img className='img-circle'  width='70px' height='70px' src='{{profile.avatar.default}}' />*/}
-                                {/*<img className='img-circle' width='65px' height='65px' src='{{profile.avatar.small}}' />*/}
                                 <a className='dropdown-toggle' data-dropdown-toggle>
                                     <span className='clear'>
                                         <span className='block m-t-xs'>
@@ -31,15 +29,38 @@ export default class Sidebar extends Component {
                         </li>
                         <NavLink onlyActiveOnIndex={true} to='/'>
                             <FA className="icon" name='home' />
-                            Home
+                            Главная
+                        </NavLink>
+                        <NavLink to='/role-management'>
+                            <FA className="icon" name='home' />
+                            Управление ролями
+                        </NavLink>
+                        <NavLink to='/user-management'>
+                            <FA className="icon" name='home' />
+                            Управление пользователями
+                        </NavLink>
+                        <NavLink to='/my-catalogs'>
+                            <FA className="icon" name='list-alt' />
+                            Мои товары
                         </NavLink>
                         <NavSubLink to='/catalogs'>
                             <FA className="icon" name='list' />
-                            Catalog
+                            Каталог всех товаров
                         </NavSubLink>
-                        <NavLink to='/mycatalogs'>
-                            <FA className="icon" name='list-alt' />
-                            My Catalog
+                        <NavLink to='/goods-audit'>
+                            <FA className="icon" name='home' />
+                            Аудит товар
+                        </NavLink>
+                        <NavLink to='/my-selling'>
+                            <FA className="icon" name='home' />
+                            Мои продажи
+                        </NavLink>
+                        <NavLink to='/partition-management'>
+                            <FA className="icon" name='home' />
+                            Управление разделами
+                        </NavLink>
+                        <NavLink to='/partition-shares'>
+                            Управление акциями
                         </NavLink>
                     </ul>
                 </div>

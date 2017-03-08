@@ -1,6 +1,7 @@
 // import jQuery from 'jquery';
 
 class DOMManipulation {
+    //TODO Resize/orient
     constructor() {
         let self = this;
         self.window = window;
@@ -10,7 +11,7 @@ class DOMManipulation {
         let windowHeight = window.innerHeight;
         if (pageWrapper.offsetHeight < windowHeight) {
             console.log(windowHeight, pageWrapper.offsetHeight);
-            pageWrapper.style.height = windowHeight + 'px';
+            pageWrapper.style.minHeight = windowHeight + 'px';
         }
     }
 }

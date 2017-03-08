@@ -14,17 +14,17 @@ import requireAuthentication from './components/shared/AuthenticatedComponent';
 export const routes = (
     <div>
         <Route path='/' component={requireAuthentication(MainApp)}>
-            <IndexRoute component={Promo}/>
+            <IndexRoute component={requireAuthentication(Promo)}/>
             <Route path='catalogs'>
-                <IndexRoute component={Catalog}/>
-                <Route path=':categories' component={Categories} />
+                <IndexRoute component={requireAuthentication(Catalog)}/>
+                <Route path=':categories' component={requireAuthentication(Categories)} />
             </Route>
-            <Route path='mycatalogs'>
-                <IndexRoute component={Catalog}/>
-                <Route path=':categories' component={Categories} />
+            <Route path='my-catalogs'>
+                <IndexRoute component={requireAuthentication(Catalog)}/>
+                <Route path=':categories' component={requireAuthentication(Categories)} />
             </Route>
         </Route>
         <Route path='login' component={LoginPage}/>
-        <Route path='*' component={NotFoundRoute} />
+        <Route path='*' component={requireAuthentication(NotFoundRoute)} />
     </div>
 );

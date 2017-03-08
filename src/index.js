@@ -8,6 +8,7 @@ import { Router, browserHistory } from 'react-router';
 
 import { routes } from './routes';
 
+import './styles/style.css';
 import './styles/common.scss';
 
 const rootApp = document.getElementById('rootApp');

@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react';
 // import { Link } from 'react-router';
 import FA from 'react-fontawesome';
 
-import NavLink  from '../NavLink';
+import { NavLink } from '../../components';
 // import { Accordion, Panel } from 'react-bootstrap';
+const { string, object } = PropTypes;
 
 export default class NavSubLink extends Component {
     render() {
@@ -57,5 +58,6 @@ export default class NavSubLink extends Component {
 }
 
 NavSubLink.contextTypes = {
-    router: PropTypes.object.isRequired
+    router: object.isRequired,
+    to: string
 };

@@ -22,14 +22,21 @@ export class LogOut extends Component {
     }
 }
 
-function mapStateToProps() {
-    return {}
-}
+// function mapStateToProps() {
+//     return {}
+// }
+//
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         actions: bindActionCreators(UserActions, dispatch)
+//     }
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(LogOut)
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(UserActions, dispatch)
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogOut)
+export default connect(
+    ({ mapStateToProps }) => ({ mapStateToProps }),
+    dispatch => bindActionCreators({
+        UserActions
+    }, dispatch)
+)(LogOut);

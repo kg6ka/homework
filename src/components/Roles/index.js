@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as rolesApi from '../../utils/endpoints/rolesApi';
-import * as rolesActions from '../../actions/UserActions';
+import * as RolesActions from '../../actions/RolesActions';
 
 export class Roles extends Component {
     componentDidMount() {
@@ -11,7 +11,7 @@ export class Roles extends Component {
     }
     getAllRoles() {
         console.log('componentWillMount', this.props);
-        // this.props.actions.roles_request();
+        this.props.actions.roles_request();
         rolesApi
             .getAllRoles({'Authorization': this.props.user.token})
             .then(res => {
@@ -39,7 +39,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(rolesActions, dispatch)
+        actions: bindActionCreators(RolesActions, dispatch)
     }
 };
 

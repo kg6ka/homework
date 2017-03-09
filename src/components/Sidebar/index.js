@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import FA from 'react-fontawesome';
 
-import NavLink from '../../components/NavLink';
-import NavSubLink from '../../components/NavSubLink';
-import { UserInfo } from '../../components/UserInfo';
+import { NavLink, NavSubLink, UserInfo } from '../../components';
 
 export default class Sidebar extends Component {
     render() {

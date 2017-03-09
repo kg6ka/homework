@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ButtonLink from '../shared/ButtonLink';
+import { ButtonLink } from '../../components';
 
 export default class Catalog extends Component {
     render() {

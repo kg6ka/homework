@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 // import jQuery from 'jquery';
 
 //Custom components
-import Sidebar from '../../components/Sidebar';
-import { TopNavBar } from '../../components/TopNavBar';
+import { Sidebar, TopNavBar } from '../../components';
+//Utils
 import * as DOMManipulation from '../../utils/DOMManipulation';
+
+const { node } = PropTypes;
 
 export default class MainApp extends Component {
     componentDidMount() {
@@ -45,3 +47,7 @@ export default class MainApp extends Component {
         )
     }
 }
+
+MainApp.contextTypes = {
+    children: node
+};

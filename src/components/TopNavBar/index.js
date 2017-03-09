@@ -2,7 +2,7 @@ import React  from 'react';
 
 import LogOut from '../LogOut';
 
-export const TopNavBar = () => {
+export default () => {
     return (
         <div className="row border-bottom">
             <nav className="navbar navbar-static-top white-bg"

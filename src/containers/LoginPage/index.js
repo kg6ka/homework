@@ -30,6 +30,7 @@ export class LoginPage extends Component {
     }
 
     componentDidMount() {
+        let user = JSON.parse(localStorage.getItem('user'));
         const notifyOptions = {
             message: 'Добро пожаловать',
             type: 'custom',
@@ -40,12 +41,15 @@ export class LoginPage extends Component {
             }
         };
         document.body.classList.remove('gray-bg');
-        notify.show(
-            notifyOptions.message,
-            notifyOptions.type,
-            notifyOptions.timeout,
-            notifyOptions.color
-        );
+        //TODO change to prop after route fix
+        if (!user.isAuthenticated) {
+            notify.show(
+                notifyOptions.message,
+                notifyOptions.type,
+                notifyOptions.timeout,
+                notifyOptions.color
+            );
+        }
     }
 
     handleChangeEmail(email) {
@@ -86,7 +90,7 @@ export class LoginPage extends Component {
             password: data.userPassword
         };
         this.handleChangeEmail(data.userEmail);
-        this.handleChangePassword(data.userEmail);
+        this.handleChangePassword(data.userPassword);
         //TODO  add expired data
         userAPI.getCurrentUser(currentUserBody)
             .then(res => {

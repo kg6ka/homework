@@ -4,6 +4,7 @@ import FA from 'react-fontawesome';
 import { NavLink, NavSubLink, UserInfo } from '../../components';
 
 export default class Sidebar extends Component {
+    //TODO iterator for navigation link
     render() {
         console.log(this.props);
         return (

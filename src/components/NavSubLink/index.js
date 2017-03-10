@@ -8,15 +8,15 @@ const { string, object } = PropTypes;
 
 export default class NavSubLink extends Component {
     render() {
-        console.log(this.props.to);
         console.log(this.props.children);
         let isActive = this.context.router.isActive(this.props.to, true),
             className = isActive ? 'active' : '',
             collapseIsActive = className ? 'in' : '',
             collapseClasses = `nav nav-second-level collapse ${collapseIsActive}`;
 
+        //TODO accordion
         return (
-                <li className={`nav-link ${className}`}>
+                <li className={`nav-link ${className} `}>
                     {/*<Link {...this.props} activeClassName='active'/>*/}
                     <a>
                         <FA className="icon" name='list' />

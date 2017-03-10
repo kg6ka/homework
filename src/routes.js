@@ -10,8 +10,9 @@ import Catalog from './components/Catalog';
 import Categories from './components/Categories';
 import Roles from './components/Roles';
 import CreateRole from './components/CreateRole';
+import EditRole from './components/EditRole';
 
-import requireAuthentication from './components/shared/AuthenticatedComponent';
+import { requireAuthentication } from './components';
 
 export const routes = (
     <div>
@@ -20,6 +21,7 @@ export const routes = (
             <Route path="role-management">
                 <IndexRoute component={requireAuthentication(Roles)}/>
                 <Route path='create' component={requireAuthentication(CreateRole)} />
+                <Route path='edit' component={requireAuthentication(EditRole)} />
             </Route>
             <Route path='catalogs'>
                 <IndexRoute component={requireAuthentication(Catalog)}/>

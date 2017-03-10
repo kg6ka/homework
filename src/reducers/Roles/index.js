@@ -1,30 +1,45 @@
 import {
     ROLES_REQUEST,
     ROLES_FAIL,
-    ROLES_SUCCESS
+    ROLES_SUCCESS,
+    DELETE_ROLE_SUCCESS
 } from '../../constants/Roles'
 
-const initialState = {};
+const initialState = {
+    list: [],
+    fetching: false
+};
 
 export default function rolesState(state = initialState, action) {
 
     switch (action.type) {
 
         case ROLES_REQUEST:
-            return { ...state, fetching: true };
+            return { ...state,
+                list: [],
+                fetching: true
+            };
 
         case ROLES_SUCCESS:
             return {...state,
-                roles: action.payload.roles,
+                list: action.payload.list,
                 fetching: false
             };
 
         case ROLES_FAIL:
             return {...state,
-                roles: [],
+                list: [],
                 fetching: false
             };
 
+        case DELETE_ROLE_SUCCESS: {
+            const newList = state.list.filter(item => item.id !== action.payload.id);
+            return {
+                ...state,
+                list: newList,
+                fetching: false
+            };
+        }
         default:
             return state
     }

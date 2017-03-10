@@ -5,6 +5,7 @@ import { NavLink, NavSubLink, UserInfo } from '../../components';
 
 export default class Sidebar extends Component {
     render() {
+        console.log(this.props);
         return (
             <nav className='promo-navigation navbar-default navbar-static-side' role='navigation'>
                 <div className='sidebar-collapse'>

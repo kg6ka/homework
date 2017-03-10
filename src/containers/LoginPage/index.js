@@ -6,17 +6,19 @@ import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
 import * as userAPI from '../../utils/endpoints/userApi';
 
-// import { Form } from 'formsy-react';
-// import MyInput from '../../components/shared/MyInput';
+import Notifications, {notify} from 'react-notify-toast';
+import { Form } from 'formsy-react';
+import MyInput from '../../components/shared/MyInput';
 
 export class LoginPage extends Component {
     //TODO
     constructor(props) {
         super(props);
-        this.state = {userEmail: '', userPassword: ''};
-    }
-    getInitialState() {
-        return { canSubmit: false };
+        this.state = {
+            userEmail: '',
+            userPassword: '',
+            canSubmit: false
+        };
     }
 
     enableButton() {
@@ -28,15 +30,30 @@ export class LoginPage extends Component {
     }
 
     componentDidMount() {
+        const notifyOptions = {
+            message: 'Добро пожаловать',
+            type: 'custom',
+            timeout: 3000,
+            color: {
+                background: '#18a689',
+                text: '#fff'
+            }
+        };
         document.body.classList.remove('gray-bg');
+        notify.show(
+            notifyOptions.message,
+            notifyOptions.type,
+            notifyOptions.timeout,
+            notifyOptions.color
+        );
     }
 
-    handleChangeEmail(event) {
-        this.setState({userEmail: event.target.value});
+    handleChangeEmail(email) {
+        this.setState({userEmail: email});
     }
 
-    handleChangePassword(event) {
-        this.setState({userPassword: event.target.value});
+    handleChangePassword(pass) {
+        this.setState({userPassword: pass});
     }
 
     handleLogin(user, success) {
@@ -57,13 +74,19 @@ export class LoginPage extends Component {
         }
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
+    handleSubmit(data) {
+        if (!this.state.canSubmit) {
+            return;
+        }
+
         this.props.actions.login_request();
+
         let currentUserBody = {
-            email: this.state.userEmail,
-            password: this.state.userPassword
+            email: data.userEmail,
+            password: data.userPassword
         };
+        this.handleChangeEmail(data.userEmail);
+        this.handleChangePassword(data.userEmail);
         //TODO  add expired data
         userAPI.getCurrentUser(currentUserBody)
             .then(res => {
@@ -82,53 +105,62 @@ export class LoginPage extends Component {
             });
     }
     render() {
+        const minLength = 4;
+        const emailValidations = {
+            isEmail: true,
+            maxLength: 100
+        };
+        const passValidations = { minLength };
         return (
-            <div className="loginColumns animated fadeInDown"
-                 noValidate="novalidate">
+            <div className="loginColumns animated fadeInDown">
+                <Notifications />
                 <Spinner config={{ trickleRate: 0.02, trickleSpeed: 50 }}/>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="ibox-content">
-                            <form className="sm-t"
+                            <Form className="sm-t"
                                   name="loginForm"
                                   role="form"
                                   onSubmit={::this.handleSubmit}
+                                  onValid={::this.enableButton}
+                                  onInvalid={::this.disableButton}
                                   noValidate="">
                                 <div className="form-group">
-                                    <input type="email"
+                                    {/*<input type="email"
                                            name="userEmail"
                                            className="form-control"
                                            placeholder="Email"
                                            value={this.state.userEmail}
                                            onChange={::this.handleChangeEmail}
-                                           required/>
-                                    {/*<MyInput value={this.state.userEmail}
-                                             onChange={::this.handleChangeEmail}
+                                           required/>*/}
+                                    <MyInput value={this.state.userEmail}
                                              name="userEmail"
                                              placeholder="Email"
-                                             validations="isEmail"
-                                             validationError="This is not a valid email"
-                                             required />*/}
+                                             validations={emailValidations}
+                                             validationError='Не корректный емейл'
+                                             required />
                                 </div>
                                 <div className="form-group">
-                                    <input type="password"
+                                    {/*<input type="password"
                                            name="userPassword"
                                            className="form-control"
                                            placeholder="Password"
                                            value={this.state.userPassword}
                                            onChange={::this.handleChangePassword}
-                                           required/>
-                                    {/*<MyInput value={this.state.userPassword}
+                                           required/>*/}
+                                    <MyInput value={this.state.userPassword}
                                              name="userPassword"
                                              placeholder="Password"
-                                             onChange={::this.handleChangePassword}
+                                             validations={passValidations}
+                                             validationError={`Пароль должен состоять минимум из ${minLength} символов`}
                                              type="password"
-                                             required />*/}
+                                             required />
                                 </div>
                                 <button type="submit"
+                                        disabled={!this.state.canSubmit}
                                         className="btn btn-primary block full-width m-b"
-                                >Login</button>{/*disabled={!this.state.canSubmit}*/}
-                            </form>
+                                >Login</button>
+                            </Form>
                         </div>
                     </div>
                 </div>

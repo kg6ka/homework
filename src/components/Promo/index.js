@@ -13,7 +13,7 @@ export default class Promo extends Component {
     }
     render() {
         return (
-            <section className="animated fadeInDown col-md-12">
+            <section className="animated fadeInRight">
                 <div className="wrapper border-bottom white-bg page-heading">
                     <div className="ibox-title">
                         <h2>Promo</h2>

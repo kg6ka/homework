@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
-import * as UserActions from '../../../actions/UserActions';
+import * as UserActions from '../../actions/UserActions';
 // import { ROUTING } from '../../../constants/Routing'
 
 export default function requireAuthentication(Component) {

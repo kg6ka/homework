@@ -20,7 +20,7 @@ export const routes = (
         <Route path='/' component={requireAuthentication(MainApp)}>
             <IndexRoute component={requireAuthentication(Promo)}/>
             <Route path="role-management">
-                <IndexRoute component={requireAuthentication(Roles)}/>
+                <IndexRoute component={requireAuthentication(Roles, 'admin')}/>
                 <Route path='create' component={requireAuthentication(CreateRole)} />
                 <Route path='edit' component={requireAuthentication(EditRole)} />
             </Route>

@@ -45,3 +45,15 @@ export const editRoles = (headers, params) => {
     };
     return fetch(rolesUrl, fetchOptions)
 };
+
+
+export const permisionsCheck = (store, permisions) => {
+
+    return (location, replaceWith) => {
+        //TODO maybe better to use localstorage due to clearning state when user change url in browser
+        const user = store.getState().user;
+        if(user.permisions !== permisions) {
+            replaceWith({ nextPathname: location.location.pathname }, '/')
+        }
+    }
+}

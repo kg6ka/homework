@@ -10,11 +10,10 @@ export default class Promo extends Component {
      console.log(getPhotos())
      }*/
     componentDidMount() {
-        console.log(document.getElementById('page-wrapper').offsetHeight);
     }
     render() {
         return (
-            <section className="animated fadeInDown col-md-12">
+            <section className="animated fadeInRight">
                 <div className="wrapper border-bottom white-bg page-heading">
                     <div className="ibox-title">
                         <h2>Promo</h2>

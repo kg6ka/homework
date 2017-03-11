@@ -6,6 +6,8 @@ import FA from 'react-fontawesome';
 import { Button } from 'react-bootstrap';
 import { ButtonLink } from '../../components';
 
+// import { Modal } from 'react-bootstrap';
+
 // import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
 
@@ -14,8 +16,8 @@ export class Roles extends Component {
         this.getAllRoles();
     }
     getAllRoles() {
-        this.props.actions.roles_request();
-        this.props.actions.roles_success({
+        this.props.rolesActions.roles_request();
+        this.props.rolesActions.roles_success({
             list: [
                 {
                     id: 1,
@@ -47,7 +49,7 @@ export class Roles extends Component {
         //     });
     }
     removeRole(role) {
-        this.props.actions.role_delete(role);
+        this.props.rolesActions.role_delete(role);
     }
     render() {
         const { list } = this.props.roles;
@@ -62,7 +64,8 @@ export class Roles extends Component {
                     </div>
                 </header>
                 <div className='ibox-title animated fadeInRight'>
-                    <ButtonLink to='role-management/create'>
+                    <ButtonLink className='btn btn-sm btn-primary'
+                                to='role-management/create'>
                         <FA name='plus' className='m-r-xs' />
                         Создать роль
                     </ButtonLink>
@@ -101,9 +104,10 @@ export class Roles extends Component {
                                                 </td>
                                                 <td>
                                                     <div className='btn-holder'>
-                                                        <Button bsStyle='success' bsSize='small'>
+                                                        <ButtonLink className='btn btn-success btn-sm'
+                                                                    to={`role-management/edit/${item.id}`}>
                                                             <FA name='pencil-square-o' />
-                                                        </Button>
+                                                        </ButtonLink>
                                                         <Button onClick={this.removeRole.bind(this, item)}
                                                                 bsStyle='danger'
                                                                 bsSize='small'>
@@ -132,7 +136,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(RolesActions, dispatch)
+        rolesActions: bindActionCreators(RolesActions, dispatch)
     }
 };
 

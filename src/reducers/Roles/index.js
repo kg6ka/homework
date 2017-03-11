@@ -2,7 +2,8 @@ import {
     ROLES_REQUEST,
     ROLES_FAIL,
     ROLES_SUCCESS,
-    DELETE_ROLE_SUCCESS
+    DELETE_ROLE_SUCCESS,
+    CURRENT_ROLE_SUCCESS
 } from '../../constants/Roles'
 
 const initialState = {
@@ -36,8 +37,13 @@ export default function rolesState(state = initialState, action) {
             const newList = state.list.filter(item => item.id !== action.payload.id);
             return {
                 ...state,
-                list: newList,
-                fetching: false
+                list: newList
+            };
+        }
+        case CURRENT_ROLE_SUCCESS: {
+            return {
+                ...state,
+                currentRole: action.payload.currentRole
             };
         }
         default:

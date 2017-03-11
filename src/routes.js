@@ -11,6 +11,7 @@ import Categories from './components/Categories';
 import Roles from './components/Roles';
 import CreateRole from './components/CreateRole';
 import EditRole from './components/EditRole';
+import Customers from './components/Customers';
 
 import { requireAuthentication } from './components';
 import { loginWrap } from './components';
@@ -19,17 +20,22 @@ export const routes = (
     <div>
         <Route path='/' component={requireAuthentication(MainApp)}>
             <IndexRoute component={requireAuthentication(Promo)}/>
-            <Route path="role-management">
-                <IndexRoute component={requireAuthentication(Roles, 'admin')}/>
+            <Route path='role-management'>
+                <IndexRoute component={requireAuthentication(Roles)}/>
                 <Route path='create' component={requireAuthentication(CreateRole)} />
-                <Route path='edit' component={requireAuthentication(EditRole)} />
+                <Route path='edit/:id' component={requireAuthentication(EditRole)} />
+            </Route>
+            <Route path='user-management'>
+                <IndexRoute component={requireAuthentication(Customers)}/>
+                {/*<Route path='create' component={requireAuthentication(CreateRole)} />*/}
+                {/*<Route path='edit/:id' component={requireAuthentication(EditRole)} />*/}
             </Route>
             <Route path='catalogs'>
                 <IndexRoute component={requireAuthentication(Catalog)}/>
                 <Route path=':categories' component={requireAuthentication(Categories)} />
             </Route>
             <Route path='my-catalogs'>
-                <IndexRoute component={requireAuthentication(Catalog)}/>
+                <IndexRoute component={requireAuthentication(Catalog, 'admin')}/>
                 <Route path=':categories' component={requireAuthentication(Categories)} />
             </Route>
         </Route>

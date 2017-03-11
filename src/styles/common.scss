@@ -87,3 +87,11 @@ body {
     border-color: #e5e6e7;
   }
 }
+.holder-position {
+  position: relative;
+}
+.absolute-box {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+}

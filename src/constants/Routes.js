@@ -8,3 +8,4 @@ export const REGISTRATION_PENDING = '/registrationPending';
 export const LOGIN = '/login';
 export const CHECK_SESSION = '/checkSession';
 export const ROLES = '/roles';
+export const PERMISSIONS = '/permissions';

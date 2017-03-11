@@ -54,15 +54,17 @@ export class Roles extends Component {
         //TODO main table component
         return (
             <section className='roles-management'>
-                <header className='sub-header clearfix white-bg'>
+                <header className='sub-header row white-bg'>
                     <div className='col-lg-12'>
-                        <h1 className='pull-left'>Управление ролями</h1>
+                        <h1 className='title pull-left'>
+                            Управление ролями
+                        </h1>
                     </div>
                 </header>
-                <div className='ibox-title'>
-                    <ButtonLink to='/role-management/create'>
+                <div className='ibox-title animated fadeInRight'>
+                    <ButtonLink to='role-management/create'>
                         <FA name='plus' className='m-r-xs' />
-                        Создать
+                        Создать роль
                     </ButtonLink>
                 </div>
                 {list.length > 0 &&
@@ -88,7 +90,11 @@ export class Roles extends Component {
                                                     <ul className='info-list'>
                                                         {
                                                             item.permissions.map(permission =>
-                                                                <li key={permission}>{permission}</li>
+                                                                <li key={permission}>
+                                                                    <span className='label btn-status label-primary'>
+                                                                        {permission}
+                                                                    </span>
+                                                                </li>
                                                             )
                                                         }
                                                     </ul>

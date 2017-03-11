@@ -34,29 +34,9 @@ export function login_fail(payload) {
   }
 }
 
-// export function logout(payload) {
-//     return (dispatch) => {
-
-//         setTimeout(() => {
-//             dispatch({
-//                 type: LOGOUT_SUCCESS,
-//                 payload: {
-//                     email: payload.email,
-//                     password: payload.password,
-//                     isAuthenticated: false
-//                 }
-//             });
-
-//             window.localStorage.clear();
-
-//             dispatch({
-//                 type: ROUTING,
-//                 payload: {
-//                     method: 'replace',
-//                     nextUrl: '/login'
-//                 }
-//             });
-//         }, 1500)
-//     }
-// }
+export function logout_success() {
+  return {
+    type: LOGOUT_SUCCESS
+  }
+}
 /*eslint-enable*/

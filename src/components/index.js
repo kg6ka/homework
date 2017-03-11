@@ -14,3 +14,4 @@ export UserInfo from './UserInfo';
 export requireAuthentication from './AuthenticatedComponent';
 export ButtonLink from './shared/ButtonLink';
 export MyInput from './shared/MyInput';
+export loginWrap from './LoginWrap';

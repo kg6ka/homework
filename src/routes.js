@@ -13,6 +13,7 @@ import CreateRole from './components/CreateRole';
 import EditRole from './components/EditRole';
 
 import { requireAuthentication } from './components';
+import { loginWrap } from './components';
 
 export const routes = (
     <div>
@@ -32,7 +33,7 @@ export const routes = (
                 <Route path=':categories' component={requireAuthentication(Categories)} />
             </Route>
         </Route>
-        <Route path='login' component={LoginPage}/>
+        <Route path='login' component={loginWrap(LoginPage)}/>
         <Route path='*' component={requireAuthentication(NotFoundRoute)} />
     </div>
 );

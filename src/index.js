@@ -20,7 +20,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 render(
     <Provider store={store}>
         <div className="root-app">
-            <Router history={history} routes={routes(store)} />
+            <Router history={history} routes={routes} />
         </div>
     </Provider>,
     rootApp

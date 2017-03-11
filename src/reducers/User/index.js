@@ -38,10 +38,11 @@ export default function userState(state = initialState, action) {
         case LOGOUT_SUCCESS:
             // TODO
             return {...state,
+                email: '',
                 token: '',
                 user_id: '',
                 expired: 0,
-                isAuthenticated: action.payload.isAuthenticated
+                isAuthenticated: false
             };
 
         default:

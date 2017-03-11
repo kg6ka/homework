@@ -12,9 +12,10 @@ export class LogOut extends Component {
         });
     }
     render() {
+        const { className } = this.props;
         return (
-            <button type="button"
-                    className="btn btn-primary"
+            <button className={className}
+                    type='button'
                     onClick={::this.handleSubmit}>
                 <FA name='sign-out' />
             </button>

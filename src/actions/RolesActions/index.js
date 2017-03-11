@@ -2,7 +2,8 @@ import {
     ROLES_REQUEST,
     ROLES_FAIL,
     ROLES_SUCCESS,
-    DELETE_ROLE_SUCCESS
+    DELETE_ROLE_SUCCESS,
+    CURRENT_ROLE_SUCCESS
 } from '../../constants/Roles';
 
 export function roles_request() {
@@ -28,6 +29,13 @@ export function roles_fail(payload) {
 export function role_delete(payload) {
     return {
         type: DELETE_ROLE_SUCCESS,
+        payload
+    }
+}
+
+export function current_role_success(payload) {
+    return {
+        type: CURRENT_ROLE_SUCCESS,
         payload
     }
 }

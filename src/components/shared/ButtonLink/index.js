@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 export default class ButtonLink extends Component {
     render() {
-        return <Link className='btn btn-primary' role='button' {...this.props}/>
+        const { className } = this.props;
+        return <Link className={className} role='button' {...this.props}/>
     }
 }

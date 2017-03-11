@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as UserActions from '../../actions/UserActions';
 // import { ROUTING } from '../../../constants/Routing'
 
-export default function requireAuthentication(Component) {
+export default function requireAuthentication(Component, permissions) {
 
     class AuthenticatedComponent extends React.Component {
         componentWillMount() {
@@ -19,6 +19,10 @@ export default function requireAuthentication(Component) {
             if (user && user.isAuthenticated) {
                 if (!this.props.user.token) {
                     this.props.actions.login_success(user);
+                }
+
+                if(permissions && user.permissions !== permissions) {
+                    browserHistory.push('/');
                 }
             } else {
                 browserHistory.push('/login');

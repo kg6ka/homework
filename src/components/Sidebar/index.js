@@ -3,10 +3,70 @@ import FA from 'react-fontawesome';
 
 import { NavLink, NavSubLink, UserInfo } from '../../components';
 
+const navigationOptions = [
+    {
+        toPath: '/',
+        activeOnIndex: true,
+        icon: 'home',
+        title: 'Главная'
+    }, {
+        toPath: 'role-management',
+        icon: 'home',
+        title: 'Управление ролями'
+    }, {
+        toPath: 'user-management',
+        icon: 'home',
+        title: 'Управление пользователями'
+    }, {
+        toPath: 'my-catalogs',
+        icon: 'list-alt',
+        title: 'Мои товары'
+    }, {
+        toPath: 'catalogs',
+        sidebar: true,
+        icon: 'list',
+        title: 'Каталог всех товаров'
+    }, {
+        toPath: 'goods-audit',
+        icon: 'home',
+        title: 'Аудит товар'
+    }, {
+        toPath: 'my-selling',
+        icon: 'home',
+        title: 'Мои продажи'
+    }, {
+        toPath: 'partition-management',
+        icon: 'home',
+        title: 'Управление разделами'
+    }, {
+        toPath: 'partition-shares',
+        icon: 'home',
+        title: 'Управление акциями'
+    }
+];
+
 export default class Sidebar extends Component {
-    //TODO iterator for navigation link
+    //TODO user info
     render() {
-        console.log(this.props);
+        let navItem = null;
+        const navList = navigationOptions.map(item => {
+            if (!item.sidebar) {
+                navItem = (
+                  <NavLink onlyActiveOnIndex={item.activeOnIndex} key={item.title} to={item.toPath}>
+                      <FA className="icon" name={item.icon} />
+                      {item.title}
+                  </NavLink>
+                );
+            } else {
+                navItem = (
+                    <NavSubLink key={item.title} to={item.toPath}>
+                        <FA className="icon" name={item.icon} />
+                        {item.title}
+                    </NavSubLink>
+                );
+            }
+            return navItem;
+        });
         return (
             <nav className='promo-navigation navbar-default navbar-static-side' role='navigation'>
                 <div className='sidebar-collapse'>
@@ -14,41 +74,7 @@ export default class Sidebar extends Component {
                         <li className='nav-header'>
                             <UserInfo user={this.props.user}/>
                         </li>
-                        <NavLink onlyActiveOnIndex={true} to='/'>
-                            <FA className="icon" name='home' />
-                            Главная
-                        </NavLink>
-                        <NavLink to='/role-management'>
-                            <FA className="icon" name='home' />
-                            Управление ролями
-                        </NavLink>
-                        <NavLink to='/user-management'>
-                            <FA className="icon" name='home' />
-                            Управление пользователями
-                        </NavLink>
-                        <NavLink to='/my-catalogs'>
-                            <FA className="icon" name='list-alt' />
-                            Мои товары
-                        </NavLink>
-                        <NavSubLink to='/catalogs'>
-                            <FA className="icon" name='list' />
-                            Каталог всех товаров
-                        </NavSubLink>
-                        <NavLink to='/goods-audit'>
-                            <FA className="icon" name='home' />
-                            Аудит товар
-                        </NavLink>
-                        <NavLink to='/my-selling'>
-                            <FA className="icon" name='home' />
-                            Мои продажи
-                        </NavLink>
-                        <NavLink to='/partition-management'>
-                            <FA className="icon" name='home' />
-                            Управление разделами
-                        </NavLink>
-                        <NavLink to='/partition-shares'>
-                            Управление акциями
-                        </NavLink>
+                        {navList}
                     </ul>
                 </div>
             </nav>

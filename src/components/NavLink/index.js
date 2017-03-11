@@ -9,16 +9,14 @@ export default class NavLink extends Component {
         return currentLocation.pathname.slice(1).split('/').shift();
     }
     get toPath() {
-        return this.props.to.slice(1);
+        return this.props.to;
     }
     render() {
-        console.log(this.currentPath, this.toPath);
         let isActive = this.context.router.isActive(this.props.to, true),
-            className = isActive || this.currentPath === this.toPath ? 'active' : '',
-            isActiveParent = this.currentPath === this.toPath ? 'active-parent' : '';
+            className = isActive || this.currentPath === this.toPath ? 'active' : '';
 
         return (
-            <li className={`nav-link ${className} ${isActiveParent}`}>
+            <li className={`nav-link ${className}`}>
                 <Link {...this.props} activeClassName='active'/>
             </li>
         );

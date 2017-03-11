@@ -23,14 +23,12 @@ class LogOut extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('fdsfsfsfsdf',state);
     return {
         user: state.user
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    console.log('fdsfsfsfsdf',UserActions)
     return {
         actions: bindActionCreators(UserActions, dispatch)
     }

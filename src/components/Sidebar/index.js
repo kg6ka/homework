@@ -46,7 +46,7 @@ const navigationOptions = [
 ];
 
 export default class Sidebar extends Component {
-    //TODO user info
+    //TODO user info, separate navigate
     render() {
         let navItem = null;
         const navList = navigationOptions.map(item => {

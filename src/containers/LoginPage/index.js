@@ -10,6 +10,23 @@ import Notifications, {notify} from 'react-notify-toast';
 import { Form } from 'formsy-react';
 import MyInput from '../../components/shared/MyInput';
 
+const notifyOptions = {
+    message: 'Добро пожаловать',
+    type: 'custom',
+    timeout: 3000,
+    color: {
+        background: '#18a689',
+        text: '#fff'
+    }
+};
+
+const minLength = 4;
+const emailValidations = {
+    isEmail: true,
+    maxLength: 100
+};
+const passValidations = { minLength };
+
 export class LoginPage extends Component {
     //TODO
     constructor(props) {
@@ -31,15 +48,6 @@ export class LoginPage extends Component {
 
     componentDidMount() {
         let user = JSON.parse(localStorage.getItem('user'));
-        const notifyOptions = {
-            message: 'Добро пожаловать',
-            type: 'custom',
-            timeout: 3000,
-            color: {
-                background: '#18a689',
-                text: '#fff'
-            }
-        };
         document.body.classList.remove('gray-bg');
         //TODO change to prop after route fix
         if (!(user && user.isAuthenticated)) {
@@ -109,12 +117,6 @@ export class LoginPage extends Component {
             });
     }
     render() {
-        const minLength = 4;
-        const emailValidations = {
-            isEmail: true,
-            maxLength: 100
-        };
-        const passValidations = { minLength };
         return (
             <div className="loginColumns animated fadeInDown">
                 <Notifications />

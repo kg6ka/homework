@@ -7,6 +7,14 @@ import { browserHistory } from 'react-router';
 import { Form } from 'formsy-react';
 import MyInput from '../../components/shared/MyInput';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+// import * as rolesApi from '../../utils/endpoints/rolesApi';
+import * as RolesActions from '../../actions/RolesActions';
+import * as permissionsApi from '../../utils/endpoints/permissionsApi';
+import * as PermissionsAction from '../../actions/PermissionsAction';
+
 import 'react-select/dist/react-select.css';
 
 const FLAVOURS = [
@@ -18,37 +26,102 @@ const FLAVOURS = [
     { label: 'Peppermint', value: 'peppermint' }
 ];
 
-export default class CreateRole extends Component {
+const validators = {
+    matchRegexp: /^[a-z0-9а-яё]+$/i
+};
+
+export class CreateRole extends Component {
     constructor(props) {
         super(props);
         this.state = {
             disabled: false,
             crazy: false,
             canSubmit: false,
+            fullField: false,
             roleName: '',
-            options: FLAVOURS,
-            value: [
-                { label: 'Chocolate', value: 'chocolate' },
-                { label: 'Vanilla', value: 'vanilla' }
-            ]
+            options: [],
+            value: ''
         };
+    }
+
+    componentDidMount() {
+        this.setState({ options: FLAVOURS });
+        // this.getAllPermissions();
+    }
+
+    getAllPermissions() {
+        this.props.permissionActions.roles_request();
+        permissionsApi
+            .getAllPermissions({'Authorization': this.props.user.token})
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    throw new Error(res.statusText);
+                }
+            })
+            .then(roles => {
+               console.log('getAllRoles', roles);
+            })
+            .catch(error => {
+                console.log(error.message);
+                // this.handleError({}, false);
+            });
+    }
+
+    createRole(data) {
+        console.log(data);
+        this.props.rolesActions.roles_request();
+        // rolesApi
+        //     .createRole({'Authorization': this.props.user.token}, params)
+        //     .then(res => {
+        //         if (res.status === 200) {
+        //             return res.json();
+        //         } else {
+        //             throw new Error(res.statusText);
+        //         }
+        //     })
+        //     .then(roles => {
+        //        console.log('getAllRoles', roles);
+        //     })
+        //     .catch(error => {
+        //         console.log(error.message);
+        //         // this.handleError({}, false);
+        //     });
     }
 
     handleSelectChange(value) {
         console.log('You\'ve selected:', value);
         this.setState({ value });
+        if (this.state.canSubmit && value.length > 0) {
+            this.setState({fullField: true});
+        } else {
+            this.setState({fullField: false});
+        }
     }
 
     handleSubmit(data) {
         console.log(data);
+        if (!this.state.fullField) {
+            return false;
+        }
+        this.createRole(data);
     }
 
     enableButton() {
         this.setState({ canSubmit: true });
+        if ((!this.state.canSubmit || this.state.canSubmit) && this.state.value.length > 0) {
+            this.setState({fullField: true});
+        } else {
+            this.setState({fullField: false});
+        }
     }
 
     disableButton() {
         this.setState({ canSubmit: false });
+        if (this.state.canSubmit) {
+            this.setState({fullField: false});
+        }
     }
 
     // toggleDisabled (e) {
@@ -60,6 +133,7 @@ export default class CreateRole extends Component {
     }
 
     render() {
+        // const disable = !this.state.canSubmit && !this.state.value;
         return (
             <seection className='role-info'>
                 <header className='sub-header row white-bg'>
@@ -69,15 +143,7 @@ export default class CreateRole extends Component {
                         </h1>
                     </div>
                 </header>
-                <div className='clearfix'>
-                    <Button bsStyle='warning'
-                            bsSize='small'
-                            onClick={::this.backToPrevious}>
-                        <FA name='chevron-left' className='m-r-xs'/>
-                        Вернуться
-                    </Button>
-                </div>
-                <div className='clearfix'>
+                <div className='clearfix holder-position'>
                     <Form className='m-t m-b-xl col-sm-offset-3 col-sm-6 main-form'
                           noValidate='noValidate'
                           name='loginForm'
@@ -93,8 +159,8 @@ export default class CreateRole extends Component {
                                              type='text'
                                              name='roleName'
                                              placeholder='Название роли'
-                                             validations='isEmail'
-                                             validationError='Пожалуйста заполните поле'
+                                             validations={validators}
+                                             validationError='Формат должен состоять минимум из 3 буквы и цифры'
                                              required />
                                 </div>
                                 <div className='form-group'>
@@ -109,7 +175,7 @@ export default class CreateRole extends Component {
                                 </div>
                                 <div className='form-group text-center'>
                                     <Button type='submit'
-                                            disabled={!this.state.canSubmit}
+                                            disabled={!this.state.fullField}
                                             bsStyle='primary'
                                             bsSize='small'>
                                         <FA name='plus m-r-xs' />
@@ -119,8 +185,31 @@ export default class CreateRole extends Component {
                             </div>
                         </div>
                     </Form>
+                    <Button bsStyle='warning'
+                            bsSize='small'
+                            className='absolute-box'
+                            onClick={::this.backToPrevious}>
+                        <FA name='chevron-left' className='m-r-xs'/>
+                        Вернуться
+                    </Button>
                 </div>
             </seection>
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        roles: state.roles,
+        permissions: state.permissions
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        rolesActions: bindActionCreators(RolesActions, dispatch),
+        permissionActions: bindActionCreators(PermissionsAction, dispatch)
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateRole)

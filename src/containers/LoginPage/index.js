@@ -42,7 +42,7 @@ export class LoginPage extends Component {
         };
         document.body.classList.remove('gray-bg');
         //TODO change to prop after route fix
-        if (!user) {
+        if (!(user && user.isAuthenticated)) {
             notify.show(
                 notifyOptions.message,
                 notifyOptions.type,

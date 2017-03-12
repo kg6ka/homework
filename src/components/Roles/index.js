@@ -10,7 +10,7 @@ import ModalDeleteRole from './Modal';
 
 import Notifications, {notify} from 'react-notify-toast';
 
-// import * as rolesApi from '../../utils/endpoints/rolesApi';
+import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
 
 const notifyOptions = {
@@ -42,7 +42,7 @@ export class Roles extends Component {
     }
     getAllRoles() {
         this.props.rolesActions.roles_request();
-        this.props.rolesActions.roles_success({
+        /*this.props.rolesActions.roles_success({
             list: [
                 {
                     id: 1,
@@ -55,8 +55,8 @@ export class Roles extends Component {
                     permissions: ['review', 'reject']
                 }
             ]
-        });
-        /*rolesApi
+        });*/
+        rolesApi
             .getAllRoles({'Authorization': this.props.user.token})
             .then(res => {
                 if (res.status === 200) {
@@ -65,16 +65,20 @@ export class Roles extends Component {
                     throw new Error(res.statusText);
                 }
             })
-            .then(roles => {
-               console.log('getAllRoles', roles);
+            .then(list => {
+               console.log('getAllRoles', list);
+               this.props.rolesActions.roles_success({list: list})
             })
             .catch(error => {
                 console.log(error.message);
                 // this.handleError({}, false);
-            });*/
+            });
     }
     removeRole(role) {
         this.props.rolesActions.role_delete(role);
+        this.showNotify();
+    }
+    showNotify() {
         notify.show(
             notifyOptions.message,
             notifyOptions.type,
@@ -82,9 +86,15 @@ export class Roles extends Component {
             notifyOptions.color
         );
     }
-    render() {
+
+    get roleList() {
         const { list } = this.props.roles;
+        return list;
+    }
+
+    render() {
         //TODO main table component
+        console.log(this.roleList);
         return (
             <section className='roles-management inside-notify'>
                 <header className='sub-header row white-bg'>
@@ -101,7 +111,7 @@ export class Roles extends Component {
                         Создать роль
                     </ButtonLink>
                 </div>
-                {list.length > 0 &&
+                {this.roleList.length > 0 &&
                     <div className='clearfix animated fadeInRight'>
                         <div className='col-lg-12'>
                            <div className="ibox-content row">
@@ -116,7 +126,7 @@ export class Roles extends Component {
                                    </thead>
                                    <tbody>
                                    {
-                                       list.map((item, index) =>
+                                       this.roleList.map((item, index) =>
                                            <tr key={index+1}>
                                                 <td>{index+1}</td>
                                                 <td>{item.name}</td>
@@ -124,9 +134,9 @@ export class Roles extends Component {
                                                     <ul className='info-list'>
                                                         {
                                                             item.permissions.map(permission =>
-                                                                <li key={permission}>
+                                                                <li key={permission.id}>
                                                                     <span className='label btn-status label-primary'>
-                                                                        {permission}
+                                                                        {permission.name.toLowerCase()}
                                                                     </span>
                                                                 </li>
                                                             )

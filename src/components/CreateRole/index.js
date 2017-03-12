@@ -10,24 +10,27 @@ import MyInput from '../../components/shared/MyInput';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-// import * as rolesApi from '../../utils/endpoints/rolesApi';
+import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
 import * as permissionsApi from '../../utils/endpoints/permissionsApi';
 import * as PermissionsAction from '../../actions/PermissionsAction';
 
+import Notifications, {notify} from 'react-notify-toast';
+
 import 'react-select/dist/react-select.css';
 
-const FLAVOURS = [
-    { label: 'Chocolate', value: 'chocolate' },
-    { label: 'Vanilla', value: 'vanilla' },
-    { label: 'Strawberry', value: 'strawberry' },
-    { label: 'Caramel', value: 'caramel' },
-    { label: 'Cookies and Cream', value: 'cookiescream' },
-    { label: 'Peppermint', value: 'peppermint' }
-];
-
 const validators = {
-    matchRegexp: /^[a-z0-9а-яё]+$/i
+    matchRegexp: /^[a-z0-9а-яё/\s]+$/i
+};
+
+const notifyOptions = {
+    message: 'Роль успешно создана',
+    type: 'custom',
+    timeout: 1500,
+    color: {
+        background: '#18a689',
+        text: '#fff'
+    }
 };
 
 export class CreateRole extends Component {
@@ -40,17 +43,17 @@ export class CreateRole extends Component {
             fullField: false,
             roleName: '',
             options: [],
-            value: ''
+            value: '',
+            permissions: []
         };
     }
 
     componentDidMount() {
-        this.setState({ options: FLAVOURS });
-        // this.getAllPermissions();
+        this.getAllPermissions();
     }
 
     getAllPermissions() {
-        this.props.permissionActions.roles_request();
+        this.props.permissionActions.permissions_request();
         permissionsApi
             .getAllPermissions({'Authorization': this.props.user.token})
             .then(res => {
@@ -60,8 +63,35 @@ export class CreateRole extends Component {
                     throw new Error(res.statusText);
                 }
             })
-            .then(roles => {
-               console.log('getAllRoles', roles);
+            .then(list => {
+                this.props.permissionActions.permissions_success({list});
+            })
+            .catch(error => {
+                console.log(error.message);
+                //TODO handle error global
+                // this.handleError({}, false);
+            });
+    }
+
+    createRole(params) {
+        this.setState({fullField: false});
+        this.props.rolesActions.create_role_request();
+        rolesApi
+            .createRole({'Authorization': this.props.user.token}, params)
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    throw new Error(res.statusText);
+                }
+            })
+            .then(role => {
+                this.props.rolesActions.create_role_success({role});
+                this.showNotify();
+                setTimeout(() => {
+                    this.backToPrevious();
+                    this.setState({fullField: true});
+                }, 500);
             })
             .catch(error => {
                 console.log(error.message);
@@ -69,29 +99,7 @@ export class CreateRole extends Component {
             });
     }
 
-    createRole(data) {
-        console.log(data);
-        this.props.rolesActions.roles_request();
-        // rolesApi
-        //     .createRole({'Authorization': this.props.user.token}, params)
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             return res.json();
-        //         } else {
-        //             throw new Error(res.statusText);
-        //         }
-        //     })
-        //     .then(roles => {
-        //        console.log('getAllRoles', roles);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.message);
-        //         // this.handleError({}, false);
-        //     });
-    }
-
     handleSelectChange(value) {
-        console.log('You\'ve selected:', value);
         this.setState({ value });
         if (this.state.canSubmit && value.length > 0) {
             this.setState({fullField: true});
@@ -101,11 +109,14 @@ export class CreateRole extends Component {
     }
 
     handleSubmit(data) {
-        console.log(data);
         if (!this.state.fullField) {
             return false;
         }
-        this.createRole(data);
+
+        this.createRole({
+            name: data.roleName,
+            permissions: this.sendPermissonList
+        });
     }
 
     enableButton() {
@@ -124,6 +135,26 @@ export class CreateRole extends Component {
         }
     }
 
+    get sendPermissonList() {
+        let valueList = this.state.value.split(',');
+        return this.permssionList.reduce((initialState, item) => {
+            if (valueList.indexOf(item.value) !== -1) {
+                initialState.push(item.id);
+            }
+            return initialState;
+        }, []);
+    }
+
+    showNotify() {
+        notify.show(
+            notifyOptions.message,
+            notifyOptions.type,
+            notifyOptions.timeout,
+            notifyOptions.color
+        );
+    }
+
+    //TODO disabled of select
     // toggleDisabled (e) {
     //     this.setState({ disabled: e.target.checked });
     // }
@@ -132,10 +163,18 @@ export class CreateRole extends Component {
         browserHistory.push('/role-management');
     }
 
+    get permssionList() {
+        const { list } = this.props.permissions;
+        return list.map(item => {
+           item.value = item.name.toLowerCase();
+           item.label = item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase();
+            return item;
+        });
+    }
+
     render() {
-        // const disable = !this.state.canSubmit && !this.state.value;
         return (
-            <seection className='role-info'>
+            <seection className='role-info inside-notify'>
                 <header className='sub-header row white-bg'>
                     <div className='col-lg-12'>
                         <h1 className='title pull-left'>
@@ -143,56 +182,59 @@ export class CreateRole extends Component {
                         </h1>
                     </div>
                 </header>
-                <div className='clearfix holder-position'>
-                    <Form className='m-t m-b-xl col-sm-offset-3 col-sm-6 main-form'
-                          noValidate='noValidate'
-                          name='loginForm'
-                          onSubmit={::this.handleSubmit}
-                          onValid={::this.enableButton}
-                          onInvalid={::this.disableButton}
-                          role='form'>
-                        <div className='row'>
-                            <div className='col-lg-12'>
-                                <div className='form-group'>
-                                    <label htmlFor='userEmail'>Название роли</label>
-                                    <MyInput value={this.state.roleName}
-                                             type='text'
-                                             name='roleName'
-                                             placeholder='Название роли'
-                                             validations={validators}
-                                             validationError='Формат должен состоять минимум из 3 буквы и цифры'
-                                             required />
-                                </div>
-                                <div className='form-group'>
-                                    <label>Права</label>
-                                    <Select multi
-                                            simpleValue
-                                            disabled={this.state.disabled}
-                                            value={this.state.value}
-                                            placeholder='Select your favourite(s)'
-                                            options={this.state.options}
-                                            onChange={::this.handleSelectChange} />
-                                </div>
-                                <div className='form-group text-center'>
-                                    <Button type='submit'
-                                            disabled={!this.state.fullField}
-                                            bsStyle='primary'
-                                            bsSize='small'>
-                                        <FA name='plus m-r-xs' />
-                                        Создать
-                                    </Button>
+                {this.permssionList.length > 0 &&
+                    <div className='clearfix holder-position'>
+                        <Form className='m-t m-b-xl col-sm-offset-3 col-sm-6 main-form'
+                              noValidate='noValidate'
+                              name='createForm'
+                              onSubmit={::this.handleSubmit}
+                              onValid={::this.enableButton}
+                              onInvalid={::this.disableButton}
+                              role='form'>
+                            <div className='row'>
+                                <div className='col-lg-12'>
+                                    <div className='form-group'>
+                                        <label htmlFor='userEmail'>Название роли</label>
+                                        <MyInput value={this.state.roleName}
+                                                 type='text'
+                                                 name='roleName'
+                                                 placeholder='Название роли'
+                                                 validations={validators}
+                                                 validationError='Формат должен состоять минимум из 3 буквы и цифры'
+                                                 required/>
+                                    </div>
+                                    <div className='form-group'>
+                                        <label>Права</label>
+                                        <Select multi
+                                                simpleValue
+                                                disabled={this.state.disabled}
+                                                value={this.state.value}
+                                                placeholder='Пожалуйста выберите роль(и)'
+                                                options={this.permssionList}
+                                                onChange={::this.handleSelectChange}/>
+                                    </div>
+                                    <div className='form-group text-center'>
+                                        <Button type='submit'
+                                                disabled={!this.state.fullField}
+                                                bsStyle='primary'
+                                                bsSize='small'>
+                                            <FA name='plus m-r-xs'/>
+                                            Создать
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Form>
-                    <Button bsStyle='warning'
-                            bsSize='small'
-                            className='absolute-box'
-                            onClick={::this.backToPrevious}>
-                        <FA name='chevron-left' className='m-r-xs'/>
-                        Вернуться
-                    </Button>
-                </div>
+                        </Form>
+                        <Button bsStyle='warning'
+                                bsSize='small'
+                                className='absolute-box'
+                                onClick={::this.backToPrevious}>
+                            <FA name='chevron-left' className='m-r-xs'/>
+                            Вернуться
+                        </Button>
+                    </div>
+                }
+                <Notifications />
             </seection>
         )
     }

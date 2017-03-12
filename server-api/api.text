@@ -21,7 +21,7 @@ GET            /roles                          controllers.RoleAPI.list
 POST           /roles                          controllers.RoleAPI.add //создание роли                                  modal: {
                                                                                                                                 id: 'id',
                                                                                                                                 name: 'string',
-                                                                                                                                permission: ['id', 'id']
+                                                                                                                                permissions: ['id', 'id']
                                                                                                                         }
 PUT            /roles                          controllers.RoleAPI.update
 

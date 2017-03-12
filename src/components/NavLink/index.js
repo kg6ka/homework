@@ -9,7 +9,7 @@ export default class NavLink extends Component {
         return currentLocation.pathname.slice(1).split('/').shift();
     }
     get toPath() {
-        return this.props.to;
+        return this.props.to.slice(1);
     }
     render() {
         let isActive = this.context.router.isActive(this.props.to, true),

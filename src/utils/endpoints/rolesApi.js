@@ -1,20 +1,19 @@
 import * as ApiUrl from '../../constants/Routes';
 
-const rolesUrl = ApiUrl.ROOT_API + ApiUrl.ROLES;
+const rolesURL = ApiUrl.ROOT_API + ApiUrl.ROLES;
 
 export const getAllRoles = (headers) => {
     let headerOptions = Object.assign({
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json; charset=utf-8'
     }, headers);
-    console.log('headerOptions', headerOptions);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'GET',
         headers: requestHeader,
         mode: 'cors'
     };
-    return fetch(rolesUrl, fetchOptions)
+    return fetch(rolesURL, fetchOptions)
 };
 
 export const getRole = (headers, param) => {
@@ -28,7 +27,7 @@ export const getRole = (headers, param) => {
         headers: requestHeader,
         mode: 'cors'
     };
-    return fetch(`${rolesUrl}?id=${param}`, fetchOptions)
+    return fetch(`${rolesURL}?id=${param}`, fetchOptions)
 };
 
 export const createRole = (headers, params) => {
@@ -43,7 +42,7 @@ export const createRole = (headers, params) => {
         mode: 'cors',
         body: JSON.stringify(params)
     };
-    return fetch(rolesUrl, fetchOptions)
+    return fetch(rolesURL, fetchOptions)
 };
 
 export const editRole = (headers, params) => {
@@ -58,7 +57,7 @@ export const editRole = (headers, params) => {
         mode: 'cors',
         body: JSON.stringify(params)
     };
-    return fetch(rolesUrl, fetchOptions)
+    return fetch(rolesURL, fetchOptions)
 };
 
 export const deleteRole = (headers, params) => {
@@ -73,5 +72,5 @@ export const deleteRole = (headers, params) => {
         mode: 'cors',
         body: JSON.stringify(params)
     };
-    return fetch(rolesUrl, fetchOptions)
+    return fetch(rolesURL, fetchOptions)
 };

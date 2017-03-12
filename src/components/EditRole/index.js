@@ -128,7 +128,7 @@ export class EditRole extends Component {
             })
             .then(list => {
                 this.props.permissionActions.current_permissions_success({list});
-                return this.currentPermssionList;
+                return this.currentPermissionList;
             })
             .then(list => {
                 this.setState({ value: list });
@@ -178,7 +178,7 @@ export class EditRole extends Component {
         }
     }
 
-    get permssionList() {
+    get permissionList() {
         const { list } = this.props.permissions;
         return list.map(item => {
             item.value = item.name.toLowerCase();
@@ -187,7 +187,7 @@ export class EditRole extends Component {
         });
     }
 
-    get currentPermssionList() {
+    get currentPermissionList() {
         const { currentList } = this.props.permissions;
         return currentList.map(item => {
             item.value = item.name.toLowerCase();
@@ -196,9 +196,10 @@ export class EditRole extends Component {
         });
     }
 
+    //TODO permissionIDs
     get permissionsName() {
         let self = this;
-        return self.currentPermssionList.reduce((initialState, item) => {
+        return self.currentPermissionList.reduce((initialState, item) => {
             if (self.defaultPermissionsName.indexOf(item.name) !== -1) {
                 initialState.push(item.id);
             }
@@ -207,7 +208,7 @@ export class EditRole extends Component {
     }
 
     get defaultPermissionsName() {
-        return this.currentPermssionList.map(item => {
+        return this.currentPermissionList.map(item => {
             return item.name;
         });
     }
@@ -233,7 +234,7 @@ export class EditRole extends Component {
                 }
             }
         }
-        if (self.selectedPermissionsName.length >= self.defaultPermissionsName.length) {
+        /*if (self.selectedPermissionsName.length >= self.defaultPermissionsName.length) {
             return self.selectedPermissionsName.map(item => {
                 if (self.defaultPermissionsName.indexOf(item) === -1) {
                     return item;
@@ -245,7 +246,7 @@ export class EditRole extends Component {
                     return item;
                 }
             });
-        }
+        }*/
 
     }
 
@@ -254,7 +255,6 @@ export class EditRole extends Component {
     }
 
     render() {
-        console.log('value', this.selectedValueNames);
         return (
             <seection className='role-info'>
                 <header className='sub-header row white-bg'>
@@ -264,7 +264,7 @@ export class EditRole extends Component {
                         </h1>
                     </div>
                 </header>
-                {this.permssionList.length > 0 &&
+                {this.permissionList.length > 0 &&
                     <div className='clearfix holder-position'>
                         <Form className='m-t m-b-xl col-sm-offset-3 col-sm-6 main-form'
                               noValidate='noValidate'
@@ -292,7 +292,7 @@ export class EditRole extends Component {
                                                 disabled={this.state.disabled}
                                                 value={this.state.value}
                                                 placeholder='Select your favourite(s)'
-                                                options={this.permssionList}
+                                                options={this.permissionList}
                                                 onChange={::this.handleSelectChange}/>
                                     </div>
                                     <div className='form-group text-center'>

@@ -10,6 +10,8 @@ import Notifications, {notify} from 'react-notify-toast';
 import { Form } from 'formsy-react';
 import MyInput from '../../components/shared/MyInput';
 
+import { Button } from 'react-bootstrap';
+
 const notifyOptions = {
     message: 'Добро пожаловать',
     type: 'custom',
@@ -86,6 +88,13 @@ export class LoginPage extends Component {
         }
     }
 
+    handleErrors(response) {
+        if (!response.ok || response.status !== 200) {
+            throw Error(response.statusText);
+        }
+        return response.json();
+    }
+
     handleSubmit(data) {
         if (!this.state.canSubmit) {
             return;
@@ -101,13 +110,7 @@ export class LoginPage extends Component {
         this.handleChangePassword(data.userPassword);
         //TODO  add expired data
         userAPI.getCurrentUser(currentUserBody)
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(this.handleErrors)
             .then(user => {
                 this.handleLogin(user, true);
             })
@@ -119,11 +122,10 @@ export class LoginPage extends Component {
     render() {
         return (
             <div className="loginColumns animated fadeInDown">
-                <Notifications />
-                <Spinner config={{ trickleRate: 0.02, trickleSpeed: 50 }}/>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="ibox-content">
+                            <h2 className='text-center'>RGAND</h2>
                             <Form className="sm-t"
                                   name="loginForm"
                                   role="form"
@@ -162,14 +164,18 @@ export class LoginPage extends Component {
                                              type="password"
                                              required />
                                 </div>
-                                <button type="submit"
+                                <Button type='submit'
                                         disabled={!this.state.canSubmit}
-                                        className="btn btn-primary block full-width m-b"
-                                >Login</button>
+                                        className='block full-width m-b'
+                                        bsStyle='primary'
+                                        bsSize='small'
+                                >Login</Button>
                             </Form>
                         </div>
                     </div>
                 </div>
+                <Spinner config={{ trickleRate: 0.02, trickleSpeed: 50 }}/>
+                <Notifications />
             </div>
         )
     }

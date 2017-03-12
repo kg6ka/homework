@@ -10,36 +10,36 @@ const navigationOptions = [
         icon: 'home',
         title: 'Главная'
     }, {
-        toPath: 'role-management',
+        toPath: '/role-management',
         icon: 'home',
         title: 'Управление ролями'
     }, {
-        toPath: 'user-management',
+        toPath: '/user-management',
         icon: 'home',
         title: 'Управление пользователями'
     }, {
-        toPath: 'my-catalogs',
+        toPath: '/my-catalogs',
         icon: 'list-alt',
         title: 'Мои товары'
     }, {
-        toPath: 'catalogs',
+        toPath: '/catalogs',
         sidebar: true,
         icon: 'list',
         title: 'Каталог всех товаров'
     }, {
-        toPath: 'goods-audit',
+        toPath: '/goods-audit',
         icon: 'home',
         title: 'Аудит товар'
     }, {
-        toPath: 'my-selling',
+        toPath: '/my-selling',
         icon: 'home',
         title: 'Мои продажи'
     }, {
-        toPath: 'partition-management',
+        toPath: '/partition-management',
         icon: 'home',
         title: 'Управление разделами'
     }, {
-        toPath: 'partition-shares',
+        toPath: '/partition-shares',
         icon: 'home',
         title: 'Управление акциями'
     }

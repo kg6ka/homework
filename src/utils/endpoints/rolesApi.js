@@ -7,6 +7,7 @@ export const getAllRoles = (headers) => {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json; charset=utf-8'
     }, headers);
+    console.log('headerOptions', headerOptions);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'GET',

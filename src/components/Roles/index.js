@@ -6,14 +6,39 @@ import FA from 'react-fontawesome';
 import { Button } from 'react-bootstrap';
 import { ButtonLink } from '../../components';
 
-// import { Modal } from 'react-bootstrap';
+import ModalDeleteRole from './Modal';
+
+import Notifications, {notify} from 'react-notify-toast';
 
 // import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
 
+const notifyOptions = {
+    message: 'Роль успешно удалена',
+    type: 'custom',
+    timeout: 1500,
+    color: {
+        background: '#18a689',
+        text: '#fff'
+    }
+};
+
 export class Roles extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalShow: false
+        }
+    }
     componentDidMount() {
         this.getAllRoles();
+    }
+    showModal(id) {
+        console.log('Item ID', id);
+        this.setState({ modalShow: true });
+    }
+    closeModal() {
+        this.setState({ modalShow: false });
     }
     getAllRoles() {
         this.props.rolesActions.roles_request();
@@ -31,31 +56,37 @@ export class Roles extends Component {
                 }
             ]
         });
-        // rolesApi
-        //     .getAllRoles({'Authorization': this.props.user.token})
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             return res.json();
-        //         } else {
-        //             throw new Error(res.statusText);
-        //         }
-        //     })
-        //     .then(roles => {
-        //        console.log('getAllRoles', roles);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.message);
-        //         // this.handleError({}, false);
-        //     });
+        /*rolesApi
+            .getAllRoles({'Authorization': this.props.user.token})
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    throw new Error(res.statusText);
+                }
+            })
+            .then(roles => {
+               console.log('getAllRoles', roles);
+            })
+            .catch(error => {
+                console.log(error.message);
+                // this.handleError({}, false);
+            });*/
     }
     removeRole(role) {
         this.props.rolesActions.role_delete(role);
+        notify.show(
+            notifyOptions.message,
+            notifyOptions.type,
+            notifyOptions.timeout,
+            notifyOptions.color
+        );
     }
     render() {
         const { list } = this.props.roles;
         //TODO main table component
         return (
-            <section className='roles-management'>
+            <section className='roles-management inside-notify'>
                 <header className='sub-header row white-bg'>
                     <div className='col-lg-12'>
                         <h1 className='title pull-left'>
@@ -108,11 +139,16 @@ export class Roles extends Component {
                                                                     to={`role-management/edit/${item.id}`}>
                                                             <FA name='pencil-square-o' />
                                                         </ButtonLink>
-                                                        <Button onClick={this.removeRole.bind(this, item)}
+                                                        <Button onClick={this.showModal.bind(this, item.id)}
                                                                 bsStyle='danger'
                                                                 bsSize='small'>
                                                             <FA name='times' />
                                                         </Button>
+                                                        {/*<Button onClick={this.removeRole.bind(this, item)}
+                                                                bsStyle='danger'
+                                                                bsSize='small'>
+                                                            <FA name='times' />
+                                                        </Button>*/}
                                                     </div>
                                                 </td>
                                            </tr>
@@ -124,6 +160,9 @@ export class Roles extends Component {
                         </div>
                     </div>
                 }
+                <ModalDeleteRole show={this.state.modalShow}
+                                 onHide={::this.closeModal}/>
+                <Notifications />
             </section>
         )
     }

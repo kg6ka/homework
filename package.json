@@ -49,6 +49,7 @@
     "webpack-merge": "^0.8.3"
   },
   "dependencies": {
+    "babel-core": "^6.7.2",
     "express": "^4.13.4",
     "formsy-react": "^0.19.2",
     "inspinia": "^2.6.5",

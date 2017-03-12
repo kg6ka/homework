@@ -1,20 +1,44 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     devtool: 'source-map',
 
-    entry: ['bootstrap-loader/extractStyles'],
+    entry: [
+        './src/index'
+    ],
 
     output: {
-        publicPath: 'dist/',
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js',
+        publicPath: '/dist/'
     },
 
     module: {
-        loaders: [{
-            test: /\.scss$/,
-            loader: 'style!css!postcss-loader!sass',
-        }],
+        loaders: [
+            {  
+                test: /\.js?$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.scss$/,
+                loader: 'style!css!postcss-loader!sass',
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass',
+            },
+            { 
+                test: /\.png$/,
+                loader: 'file' 
+            },
+            { 
+                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                loader: 'file'
+            }
+        ],
     },
 
     plugins: [

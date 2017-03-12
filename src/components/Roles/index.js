@@ -56,22 +56,22 @@ export class Roles extends Component {
                 }
             ]
         });
-        // rolesApi
-        //     .getAllRoles({'Authorization': this.props.user.token})
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             return res.json();
-        //         } else {
-        //             throw new Error(res.statusText);
-        //         }
-        //     })
-        //     .then(roles => {
-        //        console.log('getAllRoles', roles);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.message);
-        //         // this.handleError({}, false);
-        //     });
+        /*rolesApi
+            .getAllRoles({'Authorization': this.props.user.token})
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    throw new Error(res.statusText);
+                }
+            })
+            .then(roles => {
+               console.log('getAllRoles', roles);
+            })
+            .catch(error => {
+                console.log(error.message);
+                // this.handleError({}, false);
+            });*/
     }
     removeRole(role) {
         this.props.rolesActions.role_delete(role);
@@ -160,7 +160,8 @@ export class Roles extends Component {
                         </div>
                     </div>
                 }
-                <ModalDeleteRole show={this.state.modalShow} onHide={::this.closeModal}/>
+                <ModalDeleteRole show={this.state.modalShow}
+                                 onHide={::this.closeModal}/>
                 <Notifications />
             </section>
         )

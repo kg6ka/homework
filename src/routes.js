@@ -16,6 +16,7 @@ import Customers from './components/Customers';
 import { requireAuthentication } from './components';
 import { loginWrap } from './components';
 
+
 export const routes = (
     <div>
         <Route path='/' component={requireAuthentication(MainApp)}>

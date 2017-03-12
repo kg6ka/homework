@@ -95,3 +95,11 @@ body {
   left: 10px;
   top: 15px;
 }
+.inside-notify {
+  .toast-notification {
+    left: 20% !important;
+  }
+}
+.toast-notification {
+  z-index: 1000 !important;
+}

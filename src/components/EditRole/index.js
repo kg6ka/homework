@@ -10,22 +10,29 @@ import MyInput from '../../components/shared/MyInput';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-// import * as rolesApi from '../../utils/endpoints/rolesApi';
+import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
 import * as permissionsApi from '../../utils/endpoints/permissionsApi';
 import * as PermissionsAction from '../../actions/PermissionsAction';
 
-import 'react-select/dist/react-select.css';
+import Notifications, {notify} from 'react-notify-toast';
+import { handleErrors } from '../../utils/handleErrors';
 
-/*const FLAVOURS = [
-    { label: 'Chocolate', value: 'chocolate' },
-    { label: 'Vanilla', value: 'vanilla' },
-    { label: 'Strawberry', value: 'strawberry' },
-    { label: 'Caramel', value: 'caramel' }
-];*/
+import 'react-select/dist/react-select.css';
 
 const validators = {
     matchRegexp: /^[a-z0-9а-яё/\s]+$/i
+};
+
+//TODO notifyOptions
+const notifyOptions = {
+    message: 'Роль успешно обновлена',
+    type: 'custom',
+    timeout: 1500,
+    color: {
+        background: '#18a689',
+        text: '#fff'
+    }
 };
 
 export class EditRole extends Component {
@@ -39,7 +46,7 @@ export class EditRole extends Component {
             value: '',
             permissions: []
         };
-        this.roleID = this.props.params.id;
+        this.roleID = +this.props.params.id;
     }
 
     componentDidMount() {
@@ -51,7 +58,7 @@ export class EditRole extends Component {
     currentRoleName() {
         const roleList = JSON.parse(window.localStorage.getItem('roleList'));
         if (roleList.length) {
-            let roleName = roleList.filter(item => item.id === +this.roleID)[0].name;
+            let roleName = roleList.filter(item => item.id === this.roleID)[0].name;
             this.setState({ roleName });
         }
     }
@@ -60,13 +67,7 @@ export class EditRole extends Component {
         this.props.permissionActions.permissions_request();
         permissionsApi
             .getAllPermissions({'Authorization': this.props.user.token})
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(handleErrors)
             .then(list => {
                 this.props.permissionActions.permissions_success({list});
             })
@@ -77,25 +78,26 @@ export class EditRole extends Component {
             });
     }
 
-    editRole(data) {
-        console.log(data);
-        this.props.rolesActions.roles_request();
-        /*rolesApi
+    editRole(params) {
+        this.setState({fullField: false});
+        this.props.rolesActions.edit_role_request();
+
+        rolesApi
             .editRole({'Authorization': this.props.user.token}, params)
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
-            .then(roles => {
-               console.log('getAllRoles', roles);
+            .then(handleErrors)
+            .then(role => {
+               console.log('edited', role);
+               this.props.rolesActions.edit_role_success(role);
+                this.showNotify();
+                setTimeout(() => {
+                    this.backToPrevious();
+                    this.setState({fullField: true});
+                }, 500);
             })
             .catch(error => {
                 console.log(error.message);
                 // this.handleError({}, false);
-            });*/
+            });
     }
 
     getRole(param) {
@@ -121,15 +123,10 @@ export class EditRole extends Component {
 
     getCurrentPermissions() {
         this.props.permissionActions.current_permissions_request();
+
         permissionsApi
             .getCurrentPermissions({'Authorization': this.props.user.token}, this.roleID)
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(handleErrors)
             .then(list => {
                 this.props.permissionActions.current_permissions_success({list});
                 return this.permissionList('currentList');
@@ -155,20 +152,19 @@ export class EditRole extends Component {
     }
 
     handleSubmit(data) {
-        console.log(data);
         let self = this;
         if (!self.state.fullField) {
             return false;
         }
-        let newData = null;
-        if (self.isChangedPermission) {
+        let newData = {
+            id: self.roleID,
+            name: data.roleName
+        };
+        if (!self.isChangedPermission) {
             newData = {
+                id: self.roleID,
                 name: data.roleName,
                 permissions: self.permissionsIDs
-            }
-        } else {
-            newData = {
-                name: data.roleName
             }
         }
         self.editRole(newData);
@@ -234,7 +230,6 @@ export class EditRole extends Component {
         } else {
             return this.state.value.toUpperCase().split(',');
         }
-
     }
 
     get isChangedPermission() {
@@ -244,7 +239,7 @@ export class EditRole extends Component {
 
     arrayEqual() {
         const equal = x => y => x === y;
-        const arrayCompare = f=> ([x,...xs]) => ([y,...ys]) => {
+        const arrayCompare = f=> ([x, ...xs]) => ([y, ...ys]) => {
             if (x === undefined && y === undefined) {
                 return true;
             } else if (! f (x) (y)) {
@@ -257,13 +252,22 @@ export class EditRole extends Component {
         return arrayCompare(equal);
     }
 
+    showNotify() {
+        notify.show(
+            notifyOptions.message,
+            notifyOptions.type,
+            notifyOptions.timeout,
+            notifyOptions.color
+        );
+    }
+
     backToPrevious() {
         browserHistory.push('/role-management');
     }
 
     render() {
         return (
-            <seection className='role-info'>
+            <seection className='role-info inside-notify'>
                 <header className='sub-header row white-bg'>
                     <div className='col-lg-12'>
                         <h1 className='title pull-left'>
@@ -323,6 +327,7 @@ export class EditRole extends Component {
                         </Button>
                     </div>
                 }
+                <Notifications />
             </seection>
         )
     }

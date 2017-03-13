@@ -13,6 +13,8 @@ import Notifications, {notify} from 'react-notify-toast';
 import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
 
+import { handleErrors } from '../../utils/handleErrors';
+
 const notifyOptions = {
     message: 'Роль успешно удалена',
     type: 'custom',
@@ -58,13 +60,7 @@ export class Roles extends Component {
         });*/
         rolesApi
             .getAllRoles({'Authorization': this.props.user.token})
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(handleErrors)
             .then(list => {
                console.log('getAllRoles', list);
                this.props.rolesActions.roles_success({list: list});

@@ -6,7 +6,9 @@ import {
     CURRENT_ROLE_REQUEST,
     CURRENT_ROLE_SUCCESS,
     CREATE_ROLE_REQUEST,
-    CREATE_ROLE_SUCCESS
+    CREATE_ROLE_SUCCESS,
+    EDIT_ROLE_REQUEST,
+    EDIT_ROLE_SUCCESS
 } from '../../constants/Roles'
 
 const initialState = {
@@ -43,26 +45,43 @@ export default function rolesState(state = initialState, action) {
                 list: newList
             };
         }
+
         case CURRENT_ROLE_REQUEST:
             return {
                 ...state,
                 currentRole: null
             };
+
         case CURRENT_ROLE_SUCCESS:
             return {
                 ...state,
                 currentRole: action.payload.currentRole
             };
+
         case CREATE_ROLE_REQUEST:
             return {
                 ...state,
                 createdRole: false
             };
+
         case CREATE_ROLE_SUCCESS:
             return {
                 ...state,
                 createdRole: action.payload.role
             };
+
+        case EDIT_ROLE_REQUEST:
+            return {
+                ...state,
+                editedRole: false
+            };
+
+        case EDIT_ROLE_SUCCESS:
+            return {
+                ...state,
+                editedRole: action.payload.role
+            };
+
         default:
             return state
     }

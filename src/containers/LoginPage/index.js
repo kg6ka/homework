@@ -11,6 +11,7 @@ import { Form } from 'formsy-react';
 import MyInput from '../../components/shared/MyInput';
 
 import { Button } from 'react-bootstrap';
+import { handleErrors } from '../../utils/handleErrors';
 
 const notifyOptions = {
     message: 'Добро пожаловать',
@@ -88,13 +89,6 @@ export class LoginPage extends Component {
         }
     }
 
-    handleErrors(response) {
-        if (!response.ok || response.status !== 200) {
-            throw Error(response.statusText);
-        }
-        return response.json();
-    }
-
     handleSubmit(data) {
         if (!this.state.canSubmit) {
             return;
@@ -110,7 +104,7 @@ export class LoginPage extends Component {
         this.handleChangePassword(data.userPassword);
         //TODO  add expired data
         userAPI.getCurrentUser(currentUserBody)
-            .then(this.handleErrors)
+            .then(handleErrors)
             .then(user => {
                 this.handleLogin(user, true);
             })

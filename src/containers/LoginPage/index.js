@@ -74,7 +74,7 @@ export class LoginPage extends Component {
         if (success) {
             user.email = this.state.userEmail;
             user.isAuthenticated = true;
-            this.props.actions.login_success(user);
+            this.props.userActions.login_success(user);
             localStorage.setItem('user', JSON.stringify(user));
             browserHistory.push('/')
         } else {
@@ -83,7 +83,7 @@ export class LoginPage extends Component {
             user.token = '';
             user.user_id = '';
             user.expired = 0;
-            this.props.actions.login_fail(user);
+            this.props.userActions.login_fail(user);
             this.setState({userEmail: '', userPassword: ''});
         }
     }
@@ -100,7 +100,7 @@ export class LoginPage extends Component {
             return;
         }
 
-        this.props.actions.login_request();
+        this.props.userActions.login_request();
 
         let currentUserBody = {
             email: data.userEmail,
@@ -189,7 +189,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(UserActions, dispatch)
+        userActions: bindActionCreators(UserActions, dispatch)
     }
 };
 

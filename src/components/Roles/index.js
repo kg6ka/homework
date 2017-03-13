@@ -67,7 +67,8 @@ export class Roles extends Component {
             })
             .then(list => {
                console.log('getAllRoles', list);
-               this.props.rolesActions.roles_success({list: list})
+               this.props.rolesActions.roles_success({list: list});
+               this.setRoleList(list);
             })
             .catch(error => {
                 console.log(error.message);
@@ -78,6 +79,9 @@ export class Roles extends Component {
         this.props.rolesActions.role_delete(role);
         this.showNotify();
     }
+    setRoleList(list) {
+        window.localStorage.setItem('roleList', JSON.stringify(list));
+    }
     showNotify() {
         notify.show(
             notifyOptions.message,
@@ -86,12 +90,10 @@ export class Roles extends Component {
             notifyOptions.color
         );
     }
-
     get roleList() {
         const { list } = this.props.roles;
         return list;
     }
-
     render() {
         //TODO main table component
         console.log(this.roleList);

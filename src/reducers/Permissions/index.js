@@ -1,11 +1,14 @@
 import {
     PERMISSION_REQUEST,
     PERMISSION_FAIL,
-    PERMISSION_SUCCESS
+    PERMISSION_SUCCESS,
+    CURRENT_PERMISSION_REQUEST,
+    CURRENT_PERMISSION_SUCCESS,
+    CURRENT_PERMISSION_FAIL
 } from '../../constants/Permissions'
 
 const initialState = {
-    permissions: [],
+    list: [],
     fetching: false
 };
 
@@ -15,19 +18,38 @@ export default function permissionState(state = initialState, action) {
 
         case PERMISSION_REQUEST:
             return { ...state,
-                permissions: [],
+                list: [],
                 fetching: true
             };
 
         case PERMISSION_SUCCESS:
             return {...state,
-                list: action.payload.permissions,
+                list: action.payload.list,
                 fetching: false
             };
 
         case PERMISSION_FAIL:
             return {...state,
-                permissions: [],
+                list: [],
+                fetching: false
+            };
+
+
+        case CURRENT_PERMISSION_REQUEST:
+            return { ...state,
+                currentList: [],
+                fetching: true
+            };
+
+        case CURRENT_PERMISSION_SUCCESS:
+            return {...state,
+                currentList: action.payload.list,
+                fetching: false
+            };
+
+        case CURRENT_PERMISSION_FAIL:
+            return {...state,
+                currentList: [],
                 fetching: false
             };
 

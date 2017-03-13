@@ -16,6 +16,7 @@ import * as permissionsApi from '../../utils/endpoints/permissionsApi';
 import * as PermissionsAction from '../../actions/PermissionsAction';
 
 import Notifications, {notify} from 'react-notify-toast';
+import { handleErrors } from '../../utils/handleErrors';
 
 import 'react-select/dist/react-select.css';
 
@@ -56,35 +57,24 @@ export class CreateRole extends Component {
         this.props.permissionActions.permissions_request();
         permissionsApi
             .getAllPermissions({'Authorization': this.props.user.token})
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(handleErrors)
             .then(list => {
                 this.props.permissionActions.permissions_success({list});
             })
             .catch(error => {
                 console.log(error.message);
                 //TODO handle error global
-                // this.handleError({}, false);
+                // handleError({}, false);
             });
     }
 
     createRole(params) {
         this.setState({fullField: false});
         this.props.rolesActions.create_role_request();
+
         rolesApi
             .createRole({'Authorization': this.props.user.token}, params)
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(handleErrors)
             .then(role => {
                 this.props.rolesActions.create_role_success({role});
                 this.showNotify();
@@ -115,7 +105,7 @@ export class CreateRole extends Component {
 
         this.createRole({
             name: data.roleName,
-            permissions: this.sendPermissonList
+            permissions: this.sendPermissionList
         });
     }
 
@@ -135,7 +125,7 @@ export class CreateRole extends Component {
         }
     }
 
-    get sendPermissonList() {
+    get sendPermissionList() {
         let valueList = this.state.value.split(',');
         return this.permssionList.reduce((initialState, item) => {
             if (valueList.indexOf(item.value) !== -1) {

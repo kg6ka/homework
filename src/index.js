@@ -15,7 +15,7 @@ import './styles/common.scss';
 const rootApp = document.getElementById('rootApp');
 const store = configureStore();
 
-const history = syncHistoryWithStore(browserHistory, store)
+const history = syncHistoryWithStore(browserHistory, store);
 
 render(
     <Provider store={store}>

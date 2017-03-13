@@ -10,22 +10,29 @@ import MyInput from '../../components/shared/MyInput';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-// import * as rolesApi from '../../utils/endpoints/rolesApi';
+import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
 import * as permissionsApi from '../../utils/endpoints/permissionsApi';
 import * as PermissionsAction from '../../actions/PermissionsAction';
 
-import 'react-select/dist/react-select.css';
+import Notifications, {notify} from 'react-notify-toast';
+import { handleErrors } from '../../utils/handleErrors';
 
-/*const FLAVOURS = [
-    { label: 'Chocolate', value: 'chocolate' },
-    { label: 'Vanilla', value: 'vanilla' },
-    { label: 'Strawberry', value: 'strawberry' },
-    { label: 'Caramel', value: 'caramel' }
-];*/
+import 'react-select/dist/react-select.css';
 
 const validators = {
     matchRegexp: /^[a-z0-9а-яё/\s]+$/i
+};
+
+//TODO notifyOptions
+const notifyOptions = {
+    message: 'Роль успешно обновлена',
+    type: 'custom',
+    timeout: 1500,
+    color: {
+        background: '#18a689',
+        text: '#fff'
+    }
 };
 
 export class EditRole extends Component {
@@ -39,30 +46,28 @@ export class EditRole extends Component {
             value: '',
             permissions: []
         };
-        this.roleID = this.props.params.id;
+        this.roleID = +this.props.params.id;
     }
 
     componentDidMount() {
         this.getAllPermissions();
         this.getCurrentPermissions();
-        setTimeout(() => {
-            // const roleName = this.props.roles.currentRole.name;
-            // this.setState({ value: FLAVOURS });
-            // this.setState({ roleName });
-        }, 800)
+        this.currentRoleName();
+    }
+
+    currentRoleName() {
+        const roleList = JSON.parse(window.localStorage.getItem('roleList'));
+        if (roleList.length) {
+            let roleName = roleList.filter(item => item.id === this.roleID)[0].name;
+            this.setState({ roleName });
+        }
     }
 
     getAllPermissions() {
         this.props.permissionActions.permissions_request();
         permissionsApi
             .getAllPermissions({'Authorization': this.props.user.token})
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(handleErrors)
             .then(list => {
                 this.props.permissionActions.permissions_success({list});
             })
@@ -73,25 +78,26 @@ export class EditRole extends Component {
             });
     }
 
-    editRole(data) {
-        console.log(data);
-        this.props.rolesActions.roles_request();
-        // rolesApi
-        //     .editRole({'Authorization': this.props.user.token}, params)
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             return res.json();
-        //         } else {
-        //             throw new Error(res.statusText);
-        //         }
-        //     })
-        //     .then(roles => {
-        //        console.log('getAllRoles', roles);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.message);
-        //         // this.handleError({}, false);
-        //     });
+    editRole(params) {
+        this.setState({fullField: false});
+        this.props.rolesActions.edit_role_request();
+
+        rolesApi
+            .editRole({'Authorization': this.props.user.token}, params)
+            .then(handleErrors)
+            .then(role => {
+               console.log('edited', role);
+               this.props.rolesActions.edit_role_success(role);
+                this.showNotify();
+                setTimeout(() => {
+                    this.backToPrevious();
+                    this.setState({fullField: true});
+                }, 500);
+            })
+            .catch(error => {
+                console.log(error.message);
+                // this.handleError({}, false);
+            });
     }
 
     getRole(param) {
@@ -117,18 +123,13 @@ export class EditRole extends Component {
 
     getCurrentPermissions() {
         this.props.permissionActions.current_permissions_request();
+
         permissionsApi
             .getCurrentPermissions({'Authorization': this.props.user.token}, this.roleID)
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
+            .then(handleErrors)
             .then(list => {
                 this.props.permissionActions.current_permissions_success({list});
-                return this.currentPermissionList;
+                return this.permissionList('currentList');
             })
             .then(list => {
                 this.setState({ value: list });
@@ -142,7 +143,6 @@ export class EditRole extends Component {
     }
 
     handleSelectChange(value) {
-        console.log('You\'ve selected:', value);
         this.setState({ value });
         if (this.state.canSubmit && value.length > 0) {
             this.setState({fullField: true});
@@ -152,14 +152,22 @@ export class EditRole extends Component {
     }
 
     handleSubmit(data) {
-        console.log(data);
-        if (!this.state.fullField) {
+        let self = this;
+        if (!self.state.fullField) {
             return false;
         }
-        console.log('permissionsName', this.permissionsName);
-        console.log('selectedPermissionsName', this.selectedPermissionsName);
-        console.log('differentPermission', this.differentPermission);
-        // this.editRole(data);
+        let newData = {
+            id: self.roleID,
+            name: data.roleName
+        };
+        if (!self.isChangedPermission) {
+            newData = {
+                id: self.roleID,
+                name: data.roleName,
+                permissions: self.permissionsIDs
+            }
+        }
+        self.editRole(newData);
     }
 
     enableButton() {
@@ -178,8 +186,8 @@ export class EditRole extends Component {
         }
     }
 
-    get permissionList() {
-        const { list } = this.props.permissions;
+    permissionList(array) {
+        const list = this.props.permissions[array];
         return list.map(item => {
             item.value = item.name.toLowerCase();
             item.label = item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase();
@@ -187,20 +195,20 @@ export class EditRole extends Component {
         });
     }
 
-    get currentPermissionList() {
-        const { currentList } = this.props.permissions;
-        return currentList.map(item => {
-            item.value = item.name.toLowerCase();
-            item.label = item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase();
-            return item;
-        });
-    }
+    //TODO perhaps change logic for show/hide editForm
+    // get currentPermissionList() {
+    //     const { currentList } = this.props.permissions;
+    //     return currentList.map(item => {
+    //         item.value = item.name.toLowerCase();
+    //         item.label = item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase();
+    //         return item;
+    //     });
+    // }
 
-    //TODO permissionIDs
-    get permissionsName() {
+    get permissionsIDs() {
         let self = this;
-        return self.currentPermissionList.reduce((initialState, item) => {
-            if (self.defaultPermissionsName.indexOf(item.name) !== -1) {
+        return self.permissionList('currentList').reduce((initialState, item) => {
+            if (self.selectedPermissionsName.indexOf(item.name) !== -1) {
                 initialState.push(item.id);
             }
             return initialState;
@@ -208,7 +216,7 @@ export class EditRole extends Component {
     }
 
     get defaultPermissionsName() {
-        return this.currentPermissionList.map(item => {
+        return this.permissionList('currentList').map(item => {
             return item.name;
         });
     }
@@ -222,32 +230,35 @@ export class EditRole extends Component {
         } else {
             return this.state.value.toUpperCase().split(',');
         }
-
     }
 
-    get differentPermission() {
+    get isChangedPermission() {
         let self = this;
-        for (let i = 0; i < self.defaultPermissionsName; i++) {
-            for (let j = 0; j < self.selectedPermissionsName; j++) {
-                if (self.selectedPermissionsName[j] === self.defaultPermissionsName[i]) {
-                    console.log(self.selectedPermissionsName[j], self.defaultPermissionsName[i]);
-                }
-            }
-        }
-        /*if (self.selectedPermissionsName.length >= self.defaultPermissionsName.length) {
-            return self.selectedPermissionsName.map(item => {
-                if (self.defaultPermissionsName.indexOf(item) === -1) {
-                    return item;
-                }
-            });
-        } else {
-            return self.defaultPermissionsName.map(item => {
-                if (self.selectedPermissionsName.indexOf(item) === -1) {
-                    return item;
-                }
-            });
-        }*/
+        return this.arrayEqual()(self.defaultPermissionsName)(self.selectedPermissionsName);
+    }
 
+    arrayEqual() {
+        const equal = x => y => x === y;
+        const arrayCompare = f=> ([x, ...xs]) => ([y, ...ys]) => {
+            if (x === undefined && y === undefined) {
+                return true;
+            } else if (! f (x) (y)) {
+                return false;
+            } else {
+                return arrayCompare (f) (xs) (ys)
+            }
+        };
+
+        return arrayCompare(equal);
+    }
+
+    showNotify() {
+        notify.show(
+            notifyOptions.message,
+            notifyOptions.type,
+            notifyOptions.timeout,
+            notifyOptions.color
+        );
     }
 
     backToPrevious() {
@@ -256,7 +267,7 @@ export class EditRole extends Component {
 
     render() {
         return (
-            <seection className='role-info'>
+            <seection className='role-info inside-notify'>
                 <header className='sub-header row white-bg'>
                     <div className='col-lg-12'>
                         <h1 className='title pull-left'>
@@ -264,7 +275,7 @@ export class EditRole extends Component {
                         </h1>
                     </div>
                 </header>
-                {this.permissionList.length > 0 &&
+                {this.permissionList('list').length > 0 &&
                     <div className='clearfix holder-position'>
                         <Form className='m-t m-b-xl col-sm-offset-3 col-sm-6 main-form'
                               noValidate='noValidate'
@@ -292,7 +303,7 @@ export class EditRole extends Component {
                                                 disabled={this.state.disabled}
                                                 value={this.state.value}
                                                 placeholder='Select your favourite(s)'
-                                                options={this.permissionList}
+                                                options={this.permissionList('list')}
                                                 onChange={::this.handleSelectChange}/>
                                     </div>
                                     <div className='form-group text-center'>
@@ -316,6 +327,7 @@ export class EditRole extends Component {
                         </Button>
                     </div>
                 }
+                <Notifications />
             </seection>
         )
     }

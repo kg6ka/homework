@@ -10,3 +10,5 @@ config/test
 config/prod
 config/config.json
 bower_components/
+public/
+webpack/public/

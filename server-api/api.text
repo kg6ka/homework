@@ -13,4 +13,18 @@ POST           /login                          controllers.LoginAPI.login       
                                                                                                                                 password: 'admin'
                                                                                                                              }
 
-POST           /checkSession                   controllers.LoginAPI.checkSession
+POST           /checkSession                   controllers.LoginAPI.checkSession  //expire
+
+
+GET            /roles                          controllers.RoleAPI.list
+
+POST           /roles                          controllers.RoleAPI.add //создание роли                                  modal: {
+                                                                                                                                id: 'id',
+                                                                                                                                name: 'string',
+                                                                                                                                permissions: ['id', 'id']
+                                                                                                                        }
+PUT            /roles                          controllers.RoleAPI.update
+
+GET            /permissions                    controllers.PermissionsAPI.find //адейт тек. роли                        query_param: role_id
+
+GET            /permissions/all                controllers.PermissionsAPI.list   //создание и апдейт весь список

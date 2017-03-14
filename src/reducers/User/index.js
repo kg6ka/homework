@@ -19,20 +19,30 @@ export default function userState(state = initialState, action) {
             // TODO
             return {...state,
                 email: action.payload.email,
-                password: action.payload.password,
-                isAuthenticated: action.payload.isAuthenticated
+                token: action.payload.token,
+                user_id: action.payload.user_id,
+                isAuthenticated: action.payload.isAuthenticated,
+                expired: action.payload.expired
             };
 
         case LOGIN_FAIL:
             // TODO
-            return state;
+            return {...state,
+                email: action.payload.email,
+                token: '',
+                user_id: '',
+                expired: 0,
+                isAuthenticated: action.payload.isAuthenticated
+            };
 
         case LOGOUT_SUCCESS:
             // TODO
             return {...state,
-                email: action.payload.email,
-                password: action.payload.password,
-                isAuthenticated: action.payload.isAuthenticated
+                email: '',
+                token: '',
+                user_id: '',
+                expired: 0,
+                isAuthenticated: false
             };
 
         default:

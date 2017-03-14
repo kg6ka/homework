@@ -1,19 +1,27 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
+import FA from 'react-fontawesome';
 
-import NavLink  from '../NavLink';
+import { NavLink } from '../../components';
 // import { Accordion, Panel } from 'react-bootstrap';
+const { string, object } = PropTypes;
 
 export default class NavSubLink extends Component {
     render() {
+        console.log(this.props.children);
         let isActive = this.context.router.isActive(this.props.to, true),
             className = isActive ? 'active' : '',
             collapseIsActive = className ? 'in' : '',
             collapseClasses = `nav nav-second-level collapse ${collapseIsActive}`;
 
+        //TODO accordion
         return (
-                <li className={className}>
-                    <Link {...this.props} activeClassName='active'/>
+                <li className={`nav-link ${className} `}>
+                    {/*<Link {...this.props} activeClassName='active'/>*/}
+                    <a>
+                        <FA className="icon" name='list' />
+                        Каталог всех товаров
+                    </a>
                     <ul className={collapseClasses}>
                         <NavLink to='/catalogs/sub1'>
                             Sub catalog 1
@@ -50,5 +58,6 @@ export default class NavSubLink extends Component {
 }
 
 NavSubLink.contextTypes = {
-    router: PropTypes.object.isRequired
+    router: object.isRequired,
+    to: string
 };

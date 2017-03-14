@@ -10,16 +10,17 @@ export default class Promo extends Component {
      console.log(getPhotos())
      }*/
     componentDidMount() {
-        console.log(document.getElementById('page-wrapper').offsetHeight);
     }
     render() {
         return (
-            <section className="animated fadeInDown col-md-12">
-                <div className="wrapper border-bottom white-bg page-heading">
-                    <div className="ibox-title">
-                        <h2>Promo</h2>
+            <section className='promo'>
+                <header className='sub-header row white-bg'>
+                    <div className='col-lg-12'>
+                        <h1 className='title pull-left'>Главная</h1>
                     </div>
-                    <div className="ibox-content" id="program-page">
+                </header>
+                <div className='wrapper border-bottom white-bg page-heading animated fadeInRight'>
+                    <div className='ibox-content' id='program-page'>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam aspernatur consequuntur cum debitis doloremque explicabo facilis id
                         illo itaque laboriosam laborum maiores nemo nesciunt perferendis placeat quam quibusdam rerum, soluta, suscipit vero. Accusamus adipisci
                         aperiam esse eum exercitationem fuga illo iure laborum mollitia officia reiciendis sit, sunt voluptatum? Eius iure non provident quod reprehenderit.

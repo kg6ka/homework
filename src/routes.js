@@ -8,23 +8,38 @@ import NotFoundRoute from './containers/NotFoundRoute';
 import Promo from './components/Promo';
 import Catalog from './components/Catalog';
 import Categories from './components/Categories';
+import Roles from './components/Roles';
+import CreateRole from './components/CreateRole';
+import EditRole from './components/EditRole';
+import Customers from './components/Customers';
 
-import requireAuthentication from './components/shared/AuthenticatedComponent';
+import { requireAuthentication } from './components';
+import { loginWrap } from './components';
 
 export const routes = (
     <div>
         <Route path='/' component={requireAuthentication(MainApp)}>
-            <IndexRoute component={Promo}/>
-            <Route path='catalogs'>
-                <IndexRoute component={Catalog}/>
-                <Route path=':categories' component={Categories} />
+            <IndexRoute component={requireAuthentication(Promo)}/>
+            <Route path='role-management'>
+                <IndexRoute component={requireAuthentication(Roles)}/>
+                <Route path='create' component={requireAuthentication(CreateRole)} />
+                <Route path='edit/:id' component={requireAuthentication(EditRole)} />
             </Route>
-            <Route path='mycatalogs'>
-                <IndexRoute component={Catalog}/>
-                <Route path=':categories' component={Categories} />
+            <Route path='user-management'>
+                <IndexRoute component={requireAuthentication(Customers)}/>
+                {/*<Route path='create' component={requireAuthentication(CreateRole)} />*/}
+                {/*<Route path='edit/:id' component={requireAuthentication(EditRole)} />*/}
+            </Route>
+            <Route path='catalogs'>
+                <IndexRoute component={requireAuthentication(Catalog)}/>
+                <Route path=':categories' component={requireAuthentication(Categories)} />
+            </Route>
+            <Route path='my-catalogs'>
+                <IndexRoute component={requireAuthentication(Catalog, 'admin')}/>
+                <Route path=':categories' component={requireAuthentication(Categories)} />
             </Route>
         </Route>
-        <Route path='login' component={LoginPage}/>
-        <Route path='*' component={NotFoundRoute} />
+        <Route path='login' component={loginWrap(LoginPage)}/>
+        <Route path='*' component={requireAuthentication(NotFoundRoute)} />
     </div>
 );

@@ -1,0 +1,9 @@
+// ------------------------------------
+// Constants
+// ------------------------------------
+export const PERMISSION_REQUEST = 'PERMISSION_REQUEST';
+export const PERMISSION_FAIL = 'PERMISSION_FAIL';
+export const PERMISSION_SUCCESS = 'PERMISSION_SUCCESS';
+export const CURRENT_PERMISSION_REQUEST = 'CURRENT_PERMISSION_REQUEST';
+export const CURRENT_PERMISSION_SUCCESS = 'CURRENT_PERMISSION_SUCCESS';
+export const CURRENT_PERMISSION_FAIL = 'CURRENT_PERMISSION_FAIL';

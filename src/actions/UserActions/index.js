@@ -1,68 +1,42 @@
 /*eslint-disable*/
 import {
+  pendingTask,
+  begin,
+  end
+} from 'react-redux-spinner';
+import {
     LOGIN_REQUEST,
-    LOGIN_FAIL, //eslint-disable-line no-unused-vars
+    LOGIN_FAIL,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS
 } from '../../constants/User';
 
-import { ROUTING } from '../../constants/Routing';
-
-import { getStuff } from '../../utils/doSmth';
-
-export function login(payload) {
-    return (dispatch) => {
-        //TODO
-        //Promise.resolve([]);
-        dispatch({
-            type: LOGIN_REQUEST
-        });
-
-        //getStuff().theen(res);
-        setTimeout(() => {
-            dispatch({
-                type: LOGIN_SUCCESS,
-                payload: {
-                    email: payload.email,
-                    password: payload.password,
-                    isAuthenticated: true
-                }
-            });
-
-            dispatch({
-                type: ROUTING,
-                payload: {
-                    method: 'replace',
-                    nextUrl: '/'
-                }
-            });
-        }, 1500)
-    }
+export function login_request() {
+  return {
+    type: LOGIN_REQUEST,
+    [ pendingTask ]: begin
+  }
 }
 
-export function logout(payload) {
-    return (dispatch) => {
+export function login_success(payload) {
+  return {
+    type: LOGIN_SUCCESS,
+    payload,
+    [ pendingTask ]: end
+  }
+}
 
-        setTimeout(() => {
-            dispatch({
-                type: LOGOUT_SUCCESS,
-                payload: {
-                    email: payload.email,
-                    password: payload.password,
-                    isAuthenticated: false
-                }
-            });
+export function login_fail(payload) {
+  return {
+    type: LOGIN_FAIL,
+    payload,
+    [ pendingTask ]: end
+  }
+}
 
-            window.localStorage.clear();
-
-            dispatch({
-                type: ROUTING,
-                payload: {
-                    method: 'replace',
-                    nextUrl: '/login'
-                }
-            });
-        }, 1500)
-    }
+export function logout_success() {
+  return {
+    type: LOGOUT_SUCCESS
+  }
 }
 /*eslint-enable*/

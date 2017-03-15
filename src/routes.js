@@ -13,16 +13,17 @@ import CreateRole from './components/CreateRole';
 import EditRole from './components/EditRole';
 import Customers from './components/Customers';
 
+import { LocalizationComponents } from './components';
 import { requireAuthentication } from './components';
 import { requirePermissions } from './components';
 import { loginWrap } from './components';
 
 export const routes = (
-    <div>
+    <Route component={LocalizationComponents}>
         <Route path='/' component={requireAuthentication(MainApp)}>
             <IndexRoute component={Promo}/>
             <Route path='role-management'>
-                <IndexRoute component={requirePermissions(Roles, 'Admin')}/>
+                <IndexRoute component={Roles}/>
                 <Route path='create' component={CreateRole} />
                 <Route path='edit/:id' component={EditRole} />
             </Route>
@@ -32,7 +33,7 @@ export const routes = (
                 {/*<Route path='edit/:id' component={requireAuthentication(EditRole)} />*/}
             </Route>
             <Route path='catalogs'>
-                <IndexRoute component={Catalog}/>
+                <IndexRoute component={requirePermissions(Catalog, 'Admin')}/>
                 <Route path=':categories' component={Categories} />
             </Route>
             <Route path='my-catalogs'>
@@ -42,5 +43,5 @@ export const routes = (
         </Route>
         <Route path='login' component={loginWrap(LoginPage)}/>
         <Route path='*' component={requireAuthentication(NotFoundRoute)} />
-    </div>
+    </Route>
 );

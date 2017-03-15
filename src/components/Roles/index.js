@@ -12,6 +12,7 @@ import Notifications, {notify} from 'react-notify-toast';
 
 import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
+import * as UserActions from '../../actions/UserActions';
 
 import { handleErrors } from '../../utils/handleErrors';
 
@@ -29,40 +30,30 @@ export class Roles extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalShow: false
-        }
+            modalShow: false,
+            roleID: null
+        };
     }
     componentDidMount() {
         this.getAllRoles();
     }
     showModal(id) {
         console.log('Item ID', id);
-        this.setState({ modalShow: true });
+        this.setState({
+            modalShow: true,
+            roleID: id
+        });
     }
     closeModal() {
         this.setState({ modalShow: false });
     }
     getAllRoles() {
         this.props.rolesActions.roles_request();
-        /*this.props.rolesActions.roles_success({
-            list: [
-                {
-                    id: 1,
-                    name: 'Админ',
-                    permissions: ['create', 'edit', 'review', 'reject']
-                },
-                {
-                    id: 2,
-                    name: 'Рецензент',
-                    permissions: ['review', 'reject']
-                }
-            ]
-        });*/
+
         rolesApi
             .getAllRoles({'Authorization': this.props.user.token})
             .then(handleErrors)
             .then(list => {
-               console.log('getAllRoles', list);
                this.props.rolesActions.roles_success({list: list});
                this.setRoleList(list);
             })
@@ -92,7 +83,6 @@ export class Roles extends Component {
     }
     render() {
         //TODO main table component
-        console.log(this.roleList);
         return (
             <section className='roles-management inside-notify'>
                 <header className='sub-header row white-bg'>
@@ -169,6 +159,7 @@ export class Roles extends Component {
                     </div>
                 }
                 <ModalDeleteRole show={this.state.modalShow}
+                                 id={this.state.roleID}
                                  onHide={::this.closeModal}/>
                 <Notifications />
             </section>
@@ -177,13 +168,15 @@ export class Roles extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        roles: state.roles
+        roles: state.roles,
+        user: state.user
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        rolesActions: bindActionCreators(RolesActions, dispatch)
+        rolesActions: bindActionCreators(RolesActions, dispatch),
+        UserActions: bindActionCreators(UserActions, dispatch)
     }
 };
 

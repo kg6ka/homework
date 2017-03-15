@@ -79,8 +79,8 @@ export class CreateRole extends Component {
                 this.props.rolesActions.create_role_success({role});
                 this.showNotify();
                 setTimeout(() => {
-                    this.backToPrevious();
                     this.setState({fullField: true});
+                    this.backToPrevious();
                 }, 500);
             })
             .catch(error => {

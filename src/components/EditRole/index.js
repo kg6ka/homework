@@ -53,6 +53,7 @@ export class EditRole extends Component {
         this.getAllPermissions();
         this.getCurrentPermissions();
         this.currentRoleName();
+        console.log('componentWillUnmount this', this);
     }
 
     currentRoleName() {
@@ -90,35 +91,14 @@ export class EditRole extends Component {
                this.props.rolesActions.edit_role_success(role);
                 this.showNotify();
                 setTimeout(() => {
-                    this.backToPrevious();
                     this.setState({fullField: true});
+                    this.backToPrevious();
                 }, 500);
             })
             .catch(error => {
                 console.log(error.message);
                 // this.handleError({}, false);
             });
-    }
-
-    getRole(param) {
-        this.props.rolesActions.roles_request();
-        console.log(param);
-        /*rolesApi
-            .getRole({'Authorization': this.props.user.token}, param)
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                } else {
-                    throw new Error(res.statusText);
-                }
-            })
-            .then(roles => {
-               console.log('getAllRoles', roles);
-            })
-            .catch(error => {
-                console.log(error.message);
-                // this.handleError({}, false);
-            });*/
     }
 
     getCurrentPermissions() {
@@ -132,7 +112,8 @@ export class EditRole extends Component {
                 return this.permissionList('currentList');
             })
             .then(list => {
-                this.setState({ value: list });
+                // if (this.isMounted()) {
+                    this.setState({ value: list });
             })
             .catch(error => {
                 console.log(error.message);
@@ -207,7 +188,7 @@ export class EditRole extends Component {
 
     get permissionsIDs() {
         let self = this;
-        return self.permissionList('currentList').reduce((initialState, item) => {
+        return self.permissionList('list').reduce((initialState, item) => {
             if (self.selectedPermissionsName.indexOf(item.name) !== -1) {
                 initialState.push(item.id);
             }

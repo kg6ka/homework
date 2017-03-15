@@ -14,29 +14,30 @@ import EditRole from './components/EditRole';
 import Customers from './components/Customers';
 
 import { requireAuthentication } from './components';
+import { requirePermissions } from './components';
 import { loginWrap } from './components';
 
 export const routes = (
     <div>
         <Route path='/' component={requireAuthentication(MainApp)}>
-            <IndexRoute component={requireAuthentication(Promo)}/>
+            <IndexRoute component={Promo}/>
             <Route path='role-management'>
-                <IndexRoute component={requireAuthentication(Roles)}/>
-                <Route path='create' component={requireAuthentication(CreateRole)} />
-                <Route path='edit/:id' component={requireAuthentication(EditRole)} />
+                <IndexRoute component={requirePermissions(Roles, 'Admin')}/>
+                <Route path='create' component={CreateRole} />
+                <Route path='edit/:id' component={EditRole} />
             </Route>
             <Route path='user-management'>
-                <IndexRoute component={requireAuthentication(Customers)}/>
+                <IndexRoute component={Customers}/>
                 {/*<Route path='create' component={requireAuthentication(CreateRole)} />*/}
                 {/*<Route path='edit/:id' component={requireAuthentication(EditRole)} />*/}
             </Route>
             <Route path='catalogs'>
-                <IndexRoute component={requireAuthentication(Catalog)}/>
-                <Route path=':categories' component={requireAuthentication(Categories)} />
+                <IndexRoute component={Catalog}/>
+                <Route path=':categories' component={Categories} />
             </Route>
             <Route path='my-catalogs'>
-                <IndexRoute component={requireAuthentication(Catalog, 'admin')}/>
-                <Route path=':categories' component={requireAuthentication(Categories)} />
+                <IndexRoute component={Catalog}/>
+                <Route path=':categories' component={Categories} />
             </Route>
         </Route>
         <Route path='login' component={loginWrap(LoginPage)}/>

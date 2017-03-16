@@ -5,9 +5,6 @@ import { Button } from 'react-bootstrap';
 
 import Select from 'react-select';
 
-import * as rolesApi from '../../../utils/endpoints/rolesApi';
-import { handleErrors } from '../../../utils/handleErrors';
-
 export default class ModalDeleteRole extends Component {
     constructor(props) {
         super(props);
@@ -18,21 +15,24 @@ export default class ModalDeleteRole extends Component {
             value: ''
         };
         self.roleOfDelete = null;
-        self.roleOfChange = null;
+        self.roleOfReplace = null;
         self.optionsList = [];
     }
     componentWillReceiveProps(nextProps) {
         this.changedRoleList(nextProps.id);
         this.setState({value: ''});
+        this.setState({roleOfDelete: nextProps.id})
     }
 
     changedRoleList(id) {
         let self = this;
         if (!self.roleList.length) return null;
-        self.optionsList = self.roleList.filter(item => item.id !== id).map(item => {
-            item.value = item.name.toLowerCase();
-            item.label = item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase();
-            return item;
+        self.optionsList = self.roleList
+            .filter(item => item.id !== id)
+            .map(item => {
+                item.value = item.name;
+                item.label = item.name;
+                return item;
         });
     }
 
@@ -41,24 +41,21 @@ export default class ModalDeleteRole extends Component {
     }
 
     handleSelectChange(value) {
-        console.log('You\'ve selected:', value);
         this.setState({ value });
-        console.log(this.props.show);
+        this.setState({roleOfReplace: this.replacedRoleID(value)});
     }
 
-    deleteRole(params) {
-        this.props.rolesActions.delete_role_request();
+    replacedRoleID(value) {
+        return this.roleList
+            .filter(item => item.name.indexOf(value) !== -1)[0].id;
+    }
 
-        rolesApi
-            .deleteRole({'Authorization': this.props.user.token}, params)
-            .then(handleErrors)
-            .then(role => {
-                this.props.rolesActions.delete_role_success({deletedRole: role});
-            })
-            .catch(error => {
-                console.log(error.message);
-                this.props.rolesActions.delete_role_fail();
-            });
+    handleSubmit() {
+        let params = {
+            delete: this.state.roleOfDelete,
+            replace: this.state.roleOfReplace
+        };
+        this.props['data-onDelete'](params);
     }
 
     render() {
@@ -76,8 +73,10 @@ export default class ModalDeleteRole extends Component {
                             onChange={::this.handleSelectChange} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.onHide}>
-                        Закрыть
+                    <Button bsStyle='primary'
+                            bsSize='small'
+                            onClick={::this.handleSubmit}>
+                        Удалить
                     </Button>
                 </Modal.Footer>
             </Modal>

@@ -41,7 +41,6 @@ export class Roles extends Component {
         return this.props.user.token;
     }
     showModal(id) {
-        console.log('Item ID', id);
         this.setState({
             modalShow: true,
             roleID: id

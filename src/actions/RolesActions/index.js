@@ -2,13 +2,17 @@ import {
     ROLES_REQUEST,
     ROLES_FAIL,
     ROLES_SUCCESS,
+    DELETE_ROLE_REQUEST,
     DELETE_ROLE_SUCCESS,
+    DELETE_ROLE_FAIL,
     CURRENT_ROLE_REQUEST,
     CURRENT_ROLE_SUCCESS,
     CREATE_ROLE_REQUEST,
     CREATE_ROLE_SUCCESS,
+    CREATE_ROLE_FAIL,
     EDIT_ROLE_REQUEST,
-    EDIT_ROLE_SUCCESS
+    EDIT_ROLE_SUCCESS,
+    EDIT_ROLE_FAIL
 } from '../../constants/Roles';
 
 export function roles_request() {
@@ -31,10 +35,22 @@ export function roles_fail(payload) {
     }
 }
 
-export function role_delete(payload) {
+export function delete_role_request() {
+    return {
+        type: DELETE_ROLE_REQUEST
+    }
+}
+
+export function delete_role_success(payload) {
     return {
         type: DELETE_ROLE_SUCCESS,
         payload
+    }
+}
+
+export function delete_role_fail() {
+    return {
+        type: DELETE_ROLE_FAIL
     }
 }
 
@@ -64,6 +80,12 @@ export function create_role_success(payload) {
     }
 }
 
+export function create_role_fail() {
+    return {
+        type: CREATE_ROLE_FAIL
+    }
+}
+
 export function edit_role_request() {
     return {
         type: EDIT_ROLE_REQUEST
@@ -74,5 +96,11 @@ export function edit_role_success(payload) {
     return {
         type: EDIT_ROLE_SUCCESS,
         payload
+    }
+}
+
+export function edit_role_fail() {
+    return {
+        type: EDIT_ROLE_FAIL
     }
 }

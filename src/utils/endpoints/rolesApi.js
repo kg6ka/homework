@@ -1,4 +1,5 @@
 import * as ApiUrl from '../../constants/Routes';
+import { queryConstructor } from '../queryConstructor';
 
 const rolesURL = ApiUrl.ROOT_API + ApiUrl.ROLES;
 
@@ -69,8 +70,7 @@ export const deleteRole = (headers, params) => {
     let fetchOptions = {
         method: 'DELETE',
         headers: requestHeader,
-        mode: 'cors',
-        body: JSON.stringify(params)
+        mode: 'cors'
     };
-    return fetch(rolesURL, fetchOptions)
+    return fetch(`${rolesURL}${queryConstructor(params)}`, fetchOptions)
 };

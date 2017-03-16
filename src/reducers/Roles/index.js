@@ -51,10 +51,12 @@ export default function rolesState(state = initialState, action) {
             };
 
         case DELETE_ROLE_SUCCESS: {
+            console.log('DELETE_ROLE_SUCCESS', action);
             const newList = state.list.filter(item => item.id !== action.payload.id);
             return {
                 ...state,
-                deletedRole: newList
+                deletedRole: true,
+                list: newList
             };
         }
 

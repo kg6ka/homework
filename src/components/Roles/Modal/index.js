@@ -53,10 +53,11 @@ export default class ModalDeleteRole extends Component {
             .deleteRole({'Authorization': this.props.user.token}, params)
             .then(handleErrors)
             .then(role => {
-                this.props.rolesActions.delete_role_success({role});
+                this.props.rolesActions.delete_role_success({deletedRole: role});
             })
             .catch(error => {
                 console.log(error.message);
+                this.props.rolesActions.delete_role_fail();
             });
     }
 

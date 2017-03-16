@@ -9,8 +9,8 @@ import Promo from './components/Promo';
 import Catalog from './components/Catalog';
 import Categories from './components/Categories';
 import Roles from './components/Roles';
-import CreateRole from './components/CreateRole';
-import EditRole from './components/EditRole';
+import CreateRole from './components/Roles/CreateRole';
+import EditRole from './components/Roles/EditRole';
 import Customers from './components/Customers';
 
 import { LocalizationComponents } from './components';

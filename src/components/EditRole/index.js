@@ -36,6 +36,8 @@ const notifyOptions = {
     }
 };
 
+const pageChangeDelay = 700;
+
 export class EditRole extends Component {
     constructor(props) {
         super(props);
@@ -94,7 +96,7 @@ export class EditRole extends Component {
                 setTimeout(() => {
                     this.setState({fullField: true});
                     this.backToPrevious();
-                }, 500);
+                }, pageChangeDelay);
             })
             .catch(error => {
                 console.log(error.message);

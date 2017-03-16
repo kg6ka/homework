@@ -74,7 +74,10 @@ export class Roles extends Component {
             .deleteRole({'Authorization': self.userToken}, queryParams)
             .then(handleErrors)
             .then(role => {
-                self.props.rolesActions.delete_role_success({deletedRole: role});
+                self.props.rolesActions.delete_role_success({id: queryParams.delete});
+                return role;
+            })
+            .then(() => {
                 self.closeModal();
                 self.showNotify();
             })
@@ -84,8 +87,6 @@ export class Roles extends Component {
             });
     }
     handleSubmit(params) {
-        // this.props.rolesActions.role_delete(role);
-        console.log('handleSubmit', params);
         this.deleteRole(params);
     }
     setRoleList(list) {

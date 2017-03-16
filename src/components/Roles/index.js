@@ -37,6 +37,9 @@ export class Roles extends Component {
     componentDidMount() {
         this.getAllRoles();
     }
+    get userToken() {
+        return this.props.user.token;
+    }
     showModal(id) {
         console.log('Item ID', id);
         this.setState({
@@ -48,23 +51,42 @@ export class Roles extends Component {
         this.setState({ modalShow: false });
     }
     getAllRoles() {
-        this.props.rolesActions.roles_request();
+        let self = this;
+        self.props.rolesActions.roles_request();
 
         rolesApi
-            .getAllRoles({'Authorization': this.props.user.token})
+            .getAllRoles({'Authorization': self.userToken})
             .then(handleErrors)
             .then(list => {
-               this.props.rolesActions.roles_success({list: list});
-               this.setRoleList(list);
+                self.props.rolesActions.roles_success({list: list});
+                self.setRoleList(list);
             })
             .catch(error => {
                 console.log(error.message);
                 // this.handleError({}, false);
             });
     }
-    removeRole(role) {
-        this.props.rolesActions.role_delete(role);
-        this.showNotify();
+    deleteRole(queryParams) {
+        let self = this;
+        self.props.rolesActions.delete_role_request();
+
+        rolesApi
+            .deleteRole({'Authorization': self.userToken}, queryParams)
+            .then(handleErrors)
+            .then(role => {
+                self.props.rolesActions.delete_role_success({deletedRole: role});
+                self.closeModal();
+                self.showNotify();
+            })
+            .catch(error => {
+                console.log(error.message);
+                self.props.rolesActions.delete_role_fail();
+            });
+    }
+    handleSubmit(params) {
+        // this.props.rolesActions.role_delete(role);
+        console.log('handleSubmit', params);
+        this.deleteRole(params);
     }
     setRoleList(list) {
         window.localStorage.setItem('roleList', JSON.stringify(list));
@@ -160,7 +182,8 @@ export class Roles extends Component {
                 }
                 <ModalDeleteRole show={this.state.modalShow}
                                  id={this.state.roleID}
-                                 onHide={::this.closeModal}/>
+                                 onHide={::this.closeModal}
+                                 data-onDelete={::this.handleSubmit}/>
                 <Notifications />
             </section>
         )

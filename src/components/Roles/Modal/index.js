@@ -5,23 +5,60 @@ import { Button } from 'react-bootstrap';
 
 import Select from 'react-select';
 
+import * as rolesApi from '../../../utils/endpoints/rolesApi';
+import { handleErrors } from '../../../utils/handleErrors';
+
 export default class ModalDeleteRole extends Component {
     constructor(props) {
         super(props);
+        let self = this;
         this.state = {
-            disabled: false,
-            crazy: false,
             canSubmit: false,
-            fullField: false,
-            roleName: '',
             options: [],
             value: ''
         };
+        self.roleOfDelete = null;
+        self.roleOfChange = null;
+        self.optionsList = [];
+    }
+    componentWillReceiveProps(nextProps) {
+        this.changedRoleList(nextProps.id);
+        this.setState({value: ''});
+    }
+
+    changedRoleList(id) {
+        let self = this;
+        if (!self.roleList.length) return null;
+        self.optionsList = self.roleList.filter(item => item.id !== id).map(item => {
+            item.value = item.name.toLowerCase();
+            item.label = item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase();
+            return item;
+        });
+    }
+
+    get roleList() {
+        return JSON.parse(window.localStorage.getItem('roleList')) || [];
     }
 
     handleSelectChange(value) {
         console.log('You\'ve selected:', value);
         this.setState({ value });
+        console.log(this.props.show);
+    }
+
+    deleteRole(params) {
+        this.props.rolesActions.delete_role_request();
+
+        rolesApi
+            .deleteRole({'Authorization': this.props.user.token}, params)
+            .then(handleErrors)
+            .then(role => {
+                this.props.rolesActions.delete_role_success({deletedRole: role});
+            })
+            .catch(error => {
+                console.log(error.message);
+                this.props.rolesActions.delete_role_fail();
+            });
     }
 
     render() {
@@ -32,14 +69,10 @@ export default class ModalDeleteRole extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <h4>Wrapped Text</h4>
-                    {/*<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-                        egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>*/}
-                    <Select multi
-                            simpleValue
-                            disabled={this.state.disabled}
+                    <Select simpleValue
                             value={this.state.value}
                             placeholder='Select your favourite(s)'
-                            options={this.state.options}
+                            options={this.optionsList}
                             onChange={::this.handleSelectChange} />
                 </Modal.Body>
                 <Modal.Footer>

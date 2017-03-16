@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 
 import * as rolesApi from '../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../actions/RolesActions';
+import * as UserActions from '../../actions/UserActions';
 import * as permissionsApi from '../../utils/endpoints/permissionsApi';
 import * as PermissionsAction from '../../actions/PermissionsAction';
 
@@ -79,12 +80,13 @@ export class CreateRole extends Component {
                 this.props.rolesActions.create_role_success({role});
                 this.showNotify();
                 setTimeout(() => {
-                    this.backToPrevious();
                     this.setState({fullField: true});
+                    this.backToPrevious();
                 }, 500);
             })
             .catch(error => {
                 console.log(error.message);
+                this.props.rolesActions.create_role_fail();
                 // this.handleError({}, false);
             });
     }
@@ -232,6 +234,7 @@ export class CreateRole extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.user,
         roles: state.roles,
         permissions: state.permissions
     }
@@ -239,6 +242,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        UserActions: bindActionCreators(UserActions, dispatch),
         rolesActions: bindActionCreators(RolesActions, dispatch),
         permissionActions: bindActionCreators(PermissionsAction, dispatch)
     }

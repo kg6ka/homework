@@ -9,6 +9,8 @@ import {
     SubHeader
 } from '../../components';
 
+// import MainTable from '../../components/shared/MainTable';
+
 import ModalDeleteRole from './Modal';
 
 import Notifications, {notify} from 'react-notify-toast';
@@ -53,15 +55,14 @@ export class Roles extends Component {
         this.setState({ modalShow: false });
     }
     getAllRoles() {
-        let self = this;
-        self.props.rolesActions.roles_request();
+        this.props.rolesActions.roles_request();
 
         rolesApi
-            .getAllRoles({'Authorization': self.userToken})
+            .getAllRoles({'Authorization': this.userToken})
             .then(handleErrors)
             .then(list => {
-                self.props.rolesActions.roles_success({list: list});
-                self.setRoleList(list);
+                this.props.rolesActions.roles_success({list: list});
+                this.setRoleList(list);
             })
             .catch(error => {
                 console.log(error.message);
@@ -69,23 +70,23 @@ export class Roles extends Component {
             });
     }
     deleteRole(queryParams) {
-        let self = this;
-        self.props.rolesActions.delete_role_request();
+        this.props.rolesActions.delete_role_request();
 
+        //TODO move to action!!
         rolesApi
-            .deleteRole({'Authorization': self.userToken}, queryParams)
+            .deleteRole({'Authorization': this.userToken}, queryParams)
             .then(handleErrors)
             .then(role => {
-                self.props.rolesActions.delete_role_success({id: queryParams.delete});
-                self.closeModal();
+                this.props.rolesActions.delete_role_success({id: queryParams.delete});
+                this.closeModal();
                 return role;
             })
             .then(() => {
-                self.showNotify();
+                this.showNotify();
             })
             .catch(error => {
                 console.log(error.message);
-                self.props.rolesActions.delete_role_fail();
+                this.props.rolesActions.delete_role_fail();
             });
     }
     handleSubmit(params) {
@@ -118,7 +119,14 @@ export class Roles extends Component {
                         Создать роль
                     </ButtonLink>
                 </div>
-                {this.roleList.length > 0 &&
+                {/*{this.roleList.length > 0 ?
+                <MainTable options={{
+                    thead: ['№', 'Роль', 'Права', 'Управление'],
+                    tbody: this.roleList,
+                    permissions: true
+                }} /> : null
+                }*/}
+                {this.roleList.length > 0 ?
                     <div className='clearfix animated fadeInRight'>
                         <div className='col-lg-12'>
                            <div className="ibox-content row">
@@ -170,7 +178,7 @@ export class Roles extends Component {
                                </table>
                            </div>
                         </div>
-                    </div>
+                    </div> : null
                 }
                 <ModalDeleteRole show={this.state.modalShow}
                                  id={this.state.roleID}

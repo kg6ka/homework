@@ -8,6 +8,8 @@ POST           /registrationPending            controllers.RegistrationAPI.regis
 
 GET            /activate/*hash                 controllers.RegistrationAPI.registrationSecondStep(hash)
 
+---Auth---
+
 POST           /login                          controllers.LoginAPI.login                                             model: {
                                                                                                                                 email: 'admin@admin.com',
                                                                                                                                 password: 'admin'
@@ -15,10 +17,11 @@ POST           /login                          controllers.LoginAPI.login       
 
 POST           /checkSession                   controllers.LoginAPI.checkSession  //expire
 
+---Roles---
 
 GET            /roles                          controllers.RoleAPI.list
 
-POST           /roles                          controllers.RoleAPI.add //создание роли                                  modal: {
+POST           /roles                          controllers.RoleAPI.add //создание роли                                  model: {
                                                                                                                                 id: 'id',
                                                                                                                                 name: 'string',
                                                                                                                                 permissions: ['id', 'id']
@@ -28,3 +31,21 @@ PUT            /roles                          controllers.RoleAPI.update
 GET            /permissions                    controllers.PermissionsAPI.find //адейт тек. роли                        query_param: role_id
 
 GET            /permissions/all                controllers.PermissionsAPI.list   //создание и апдейт весь список
+
+DELETE         /roles                                                                                                   query_param: delete:id, replace: id
+
+---Customers---
+
+GET            /user                           controllers.UserAPI.list  //get all customers
+
+POST           /user/invite                    controllers.UserAPI.invite   //create customer                           model: {
+                                                                                                                               email: 'email@',
+                                                                                                                               role_id: id,
+                                                                                                                               password: 'password',
+                                                                                                                               first_name: 'f_name',
+                                                                                                                               last_name: 'l_name',
+                                                                                                                        }
+
+PUT            /user/block                     controllers.UserAPI.block   //block customer                             query_param: user_id
+
+PUT            /user/unblock                   controllers.UserAPI.unblock   //block customer                           query_param: user_id

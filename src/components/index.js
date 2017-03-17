@@ -17,9 +17,9 @@ export ButtonLink from './shared/ButtonLink';
 export MyInput from './shared/MyInput';
 export loginWrap from './LoginWrap';
 export Customers from './Customers';
+export NewUser from './Customers/NewUser';
 export requirePermissions from './PermissionsWrap';
 export LocalizationComponents from './LocalizationWrap';
 export SubHeader from './SubHeader';
 export Navigation from './Navigation';
 export MainTable from './shared/MainTable';
-

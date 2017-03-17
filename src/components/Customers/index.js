@@ -38,6 +38,17 @@ export class Customers extends Component {
                 // this.handleError({}, false);
             });
     }
+    get customerList() {
+        return this.props.customers.list;
+    }
+    get tableOptions() {
+        return {
+            thead: ['Имя', 'Роль', 'Email', 'Должность'],
+            tbody: this.roleList,
+            permissions: true,
+            showModal: ::this.showModal
+        };
+    }
     render() {
         return (
             <seection className='role-info'>
@@ -49,6 +60,15 @@ export class Customers extends Component {
                         Создать пользователя
                     </ButtonLink>
                 </div>
+                {this.props.customers ?
+                    <div className='clearfix animated fadeInRight'>
+                        <div className='col-lg-12'>
+                            <div className="ibox-content row">
+                                <MainTable options={this.tableOptions} />
+                            </div>
+                        </div>
+                    </div> : null
+                }
             </seection>
         )
     }

@@ -3,13 +3,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import FA from 'react-fontawesome';
-import { Button } from 'react-bootstrap';
 import {
     ButtonLink,
     SubHeader
 } from '../../components';
 
-// import MainTable from '../../components/shared/MainTable';
+import MainTable from '../../components/shared/MainTable';
 
 import ModalDeleteRole from './Modal';
 
@@ -104,8 +103,15 @@ export class Roles extends Component {
         );
     }
     get roleList() {
-        const { list } = this.props.roles;
-        return list;
+        return this.props.roles.list;
+    }
+    get tableOptions() {
+        return {
+            thead: ['№', 'Роль', 'Права', 'Управление'],
+            tbody: this.roleList,
+            permissions: true,
+            showModal: ::this.showModal
+        };
     }
     render() {
         //TODO main table component
@@ -119,63 +125,11 @@ export class Roles extends Component {
                         Создать роль
                     </ButtonLink>
                 </div>
-                {/*{this.roleList.length > 0 ?
-                <MainTable options={{
-                    thead: ['№', 'Роль', 'Права', 'Управление'],
-                    tbody: this.roleList,
-                    permissions: true
-                }} /> : null
-                }*/}
                 {this.roleList.length > 0 ?
                     <div className='clearfix animated fadeInRight'>
                         <div className='col-lg-12'>
                            <div className="ibox-content row">
-                               <table className="table main-table">
-                                   <thead>
-                                       <tr>
-                                           <th>№</th>
-                                           <th>Роль</th>
-                                           <th>Права</th>
-                                           <th>Управление</th>
-                                       </tr>
-                                   </thead>
-                                   <tbody>
-                                   {
-                                       this.roleList.map((item, index) =>
-                                           <tr key={index+1}>
-                                                <td>{index+1}</td>
-                                                <td>{item.name}</td>
-                                                <td>
-                                                    <ul className='info-list'>
-                                                        {
-                                                            item.permissions.map(permission =>
-                                                                <li key={permission.id}>
-                                                                    <span className='label btn-status label-primary'>
-                                                                        {permission.name.toLowerCase()}
-                                                                    </span>
-                                                                </li>
-                                                            )
-                                                        }
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <div className='btn-holder'>
-                                                        <ButtonLink className='btn btn-success btn-sm'
-                                                                    to={`role-management/edit/${item.id}`}>
-                                                            <FA name='pencil-square-o' />
-                                                        </ButtonLink>
-                                                        <Button onClick={this.showModal.bind(this, item.id)}
-                                                                bsStyle='danger'
-                                                                bsSize='small'>
-                                                            <FA name='times' />
-                                                        </Button>
-                                                    </div>
-                                                </td>
-                                           </tr>
-                                       )
-                                   }
-                                   </tbody>
-                               </table>
+                               <MainTable options={this.tableOptions} />
                            </div>
                         </div>
                     </div> : null

@@ -12,6 +12,7 @@ import Roles from './components/Roles';
 import CreateRole from './components/Roles/CreateRole';
 import EditRole from './components/Roles/EditRole';
 import Customers from './components/Customers';
+import NewUser from './components/Customers/NewUser';
 
 import { LocalizationComponents } from './components';
 import { requireAuthentication } from './components';
@@ -29,7 +30,7 @@ export const routes = (
             </Route>
             <Route path='user-management'>
                 <IndexRoute component={Customers}/>
-                {/*<Route path='create' component={requireAuthentication(CreateRole)} />*/}
+                <Route path='create' component={NewUser} />
                 {/*<Route path='edit/:id' component={requireAuthentication(EditRole)} />*/}
             </Route>
             <Route path='catalogs'>

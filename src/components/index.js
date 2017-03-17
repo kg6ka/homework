@@ -20,3 +20,6 @@ export Customers from './Customers';
 export requirePermissions from './PermissionsWrap';
 export LocalizationComponents from './LocalizationWrap';
 export SubHeader from './SubHeader';
+export Navigation from './Navigation';
+export MainTable from './shared/MainTable';
+

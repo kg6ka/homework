@@ -260,7 +260,7 @@ export class EditRole extends Component {
                             onChange={::this.handleSelectChange}
                             disabledSubmit={!this.state.fullField}
                             backToPrevious={::this.backToPrevious}
-                            submitText='Создать'
+                            submitText='Редактировать'
                     />
                 }
                 <Notifications />

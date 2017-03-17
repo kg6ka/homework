@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
-import RoleForm from '../../../components/Roles/RoleForm';
-import { SubHeader } from '../../../components';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import RoleForm from '../../../components/Roles/RoleForm';
+import { SubHeader } from '../../../components';
 
 import * as rolesApi from '../../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../../actions/RolesActions';
@@ -100,7 +100,6 @@ export class CreateRole extends Component {
     }
 
     handleSubmit(data) {
-        console.log(data);
         if (!this.state.fullField) {
             return false;
         }

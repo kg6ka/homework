@@ -38,7 +38,7 @@ export default (props) => {
                                     simpleValue
                                     disabled={props.disabledSelect}
                                     value={props.value}
-                                    placeholder='Select your favourite(s)'
+                                    placeholder='Выберите права'
                                     options={props.options}
                                     onChange={props.onChange}/>
                         </div>

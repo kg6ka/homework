@@ -17,20 +17,6 @@ export const getAllRoles = (headers) => {
     return fetch(rolesURL, fetchOptions)
 };
 
-export const getRole = (headers, param) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
-    let requestHeader =  new Headers(headerOptions);
-    let fetchOptions = {
-        method: 'GET',
-        headers: requestHeader,
-        mode: 'cors'
-    };
-    return fetch(`${rolesURL}?id=${param}`, fetchOptions)
-};
-
 export const createRole = (headers, params) => {
     let headerOptions = Object.assign({
         'Access-Control-Allow-Origin': '*',

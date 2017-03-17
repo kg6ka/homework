@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 
 import FA from 'react-fontawesome';
-import { ButtonLink } from '../../components'
+import {
+    ButtonLink,
+    SubHeader
+} from '../../components';
 
-export default class Customers extends Component {
+import * as UserActions from '../../actions/UserActions';
+import * as CustomerActions from '../../actions/CustomerActions';
+
+export class Customers extends Component {
     render() {
         return (
             <seection className='role-info'>
-                <header className='sub-header row white-bg'>
-                    <div className='col-lg-12'>
-                        <h1 className='title pull-left'>
-                            Управление пользователями
-                        </h1>
-                    </div>
-                </header>
+                <SubHeader title='Управление пользователями' />
                 <div className='ibox-title animated fadeInRight'>
                     <ButtonLink className='btn btn-sm btn-primary'
                                 to='user-management/create'>
@@ -26,3 +28,18 @@ export default class Customers extends Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+        customers: state.customers
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        userActions: bindActionCreators(UserActions, dispatch),
+        customerActions: bindActionCreators(CustomerActions, dispatch)
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Customers);

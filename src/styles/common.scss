@@ -103,3 +103,13 @@ body {
 .toast-notification {
   z-index: 1000 !important;
 }
+.modal-dialog {
+  .modal-body {
+    padding: 15px;
+  }
+  .modal-footer {
+    padding: 15px;
+    text-align: center;
+    border-top: 0;
+  }
+}

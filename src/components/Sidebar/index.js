@@ -3,6 +3,7 @@ import FA from 'react-fontawesome';
 
 import { NavLink, NavSubLink, UserInfo } from '../../components';
 
+//TODO move  to constant
 const navigationOptions = [
     {
         toPath: '/',
@@ -11,11 +12,11 @@ const navigationOptions = [
         title: 'Главная'
     }, {
         toPath: '/role-management',
-        icon: 'home',
+        icon: 'user-plus',
         title: 'Управление ролями'
     }, {
         toPath: '/user-management',
-        icon: 'home',
+        icon: 'users',
         title: 'Управление пользователями'
     }, {
         toPath: '/my-catalogs',

@@ -4,8 +4,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
-import * as userAPI from '../../utils/endpoints/userApi';
-
+import * as userAPI from '../../utils/endpoints/userApi'
+import { LocalizationChangeComponent } from '../../components';
+console.log(LocalizationChangeComponent)
 import Notifications, {notify} from 'react-notify-toast';
 import { Form } from 'formsy-react';
 import MyInput from '../../components/shared/MyInput';
@@ -165,6 +166,7 @@ export class LoginPage extends Component {
                                         bsSize='small'
                                 >Login</Button>
                             </Form>
+                            <LocalizationChangeComponent className='btn btn-primary pull-center' />
                         </div>
                     </div>
                 </div>

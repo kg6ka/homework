@@ -25,7 +25,7 @@ export function localization_fail() {
   }
 }
 
-export function localization_success(payload) {
+export function localization_set(payload) {
   return {
     type: LOCALIZATION_SET,
     payload

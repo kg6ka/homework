@@ -5,11 +5,13 @@ import { routerReducer } from 'react-router-redux'
 import user from './User';
 import roles from './Roles';
 import permissions from './Permissions';
+import localization from './Localization'
 
 export default combineReducers({
     user,
     roles,
     permissions,
+    localization,
     routing: routerReducer,
     pendingTasks
 })

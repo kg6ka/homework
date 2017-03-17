@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 
 import FA from 'react-fontawesome';
 import { Button } from 'react-bootstrap';
-import { ButtonLink } from '../../components';
+import {
+    ButtonLink,
+    SubHeader
+} from '../../components';
 
 import ModalDeleteRole from './Modal';
 
@@ -74,10 +77,10 @@ export class Roles extends Component {
             .then(handleErrors)
             .then(role => {
                 self.props.rolesActions.delete_role_success({id: queryParams.delete});
+                self.closeModal();
                 return role;
             })
             .then(() => {
-                self.closeModal();
                 self.showNotify();
             })
             .catch(error => {
@@ -107,13 +110,7 @@ export class Roles extends Component {
         //TODO main table component
         return (
             <section className='roles-management inside-notify'>
-                <header className='sub-header row white-bg'>
-                    <div className='col-lg-12'>
-                        <h1 className='title pull-left'>
-                            Управление ролями
-                        </h1>
-                    </div>
-                </header>
+                <SubHeader title='Управление ролями' />
                 <div className='ibox-title animated fadeInRight'>
                     <ButtonLink className='btn btn-sm btn-primary'
                                 to='role-management/create'>
@@ -164,11 +161,6 @@ export class Roles extends Component {
                                                                 bsSize='small'>
                                                             <FA name='times' />
                                                         </Button>
-                                                        {/*<Button onClick={this.removeRole.bind(this, item)}
-                                                                bsStyle='danger'
-                                                                bsSize='small'>
-                                                            <FA name='times' />
-                                                        </Button>*/}
                                                     </div>
                                                 </td>
                                            </tr>
@@ -203,4 +195,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Roles)
+export default connect(mapStateToProps, mapDispatchToProps)(Roles);

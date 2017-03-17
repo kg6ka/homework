@@ -23,3 +23,4 @@ export LocalizationComponents from './LocalizationWrap';
 export SubHeader from './SubHeader';
 export Navigation from './Navigation';
 export MainTable from './shared/MainTable';
+export LocalizationChangeComponent from './LocalizationChange';

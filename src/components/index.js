@@ -19,3 +19,4 @@ export loginWrap from './LoginWrap';
 export Customers from './Customers';
 export requirePermissions from './PermissionsWrap';
 export LocalizationComponents from './LocalizationWrap';
+export SubHeader from './SubHeader';

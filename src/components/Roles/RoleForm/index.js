@@ -11,10 +11,6 @@ const validators = {
 };
 
 export default class RoleForm extends Component {
-    constructor(props) {
-        super(props);
-        console.log('RoleForm', this);
-    }
     render() {
         return (
             <div className='clearfix holder-position form-holder'>
@@ -53,7 +49,7 @@ export default class RoleForm extends Component {
                                         bsStyle='primary'
                                         bsSize='small'>
                                     <FA name='plus m-r-xs'/>
-                                    Создать
+                                    {this.props.submitText}
                                 </Button>
                             </div>
                         </div>

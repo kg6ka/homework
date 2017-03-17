@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
 import RoleForm from '../../../components/Roles/RoleForm';
+import { SubHeader } from '../../../components';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -166,13 +167,7 @@ export class CreateRole extends Component {
     render() {
         return (
             <seection className='role-info inside-notify'>
-                <header className='sub-header row white-bg'>
-                    <div className='col-lg-12'>
-                        <h1 className='title pull-left'>
-                            Создание роли
-                        </h1>
-                    </div>
-                </header>
+                <SubHeader title='Создание роли'/>
                 {this.permissionList.length > 0 &&
                     <RoleForm onSubmit={::this.handleSubmit}
                               onValid={::this.enableButton}
@@ -184,6 +179,7 @@ export class CreateRole extends Component {
                               onChange={::this.handleSelectChange}
                               disabledSubmit={!this.state.fullField}
                               backToPrevious={::this.backToPrevious}
+                              submitText='Создать'
                     />
                 }
                 <Notifications />

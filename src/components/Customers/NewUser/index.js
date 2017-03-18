@@ -31,6 +31,12 @@ const notifyOptions = {
     }
 };
 
+const options = [
+    { label: 'Basic customer support', value: 1, color: '#E31864' },
+    { label: 'Premium customer support', value: 2, color: '#6216A3' },
+    { label: 'Pro customer support', value: 3, color: '#f09f34'}
+];
+
 const validators = {
     matchRegexp: /^[a-z0-9а-яё/\s]+$/i,
     minLength: 3
@@ -42,6 +48,7 @@ export class NewUser extends Component {
         this.state = {
             canSubmit: false,
             fullField: false,
+            confirmPassword: '',
             firstName: '',
             lastName: '',
             email: '',
@@ -79,6 +86,7 @@ export class NewUser extends Component {
             });
     }
 
+    //TODO search by ID
     get rolesList() {
         const { list } = this.props.roles;
         return list.map(item => {
@@ -90,6 +98,11 @@ export class NewUser extends Component {
 
     handleSubmit(data) {
         console.log(data);
+    }
+
+    handleSelectChange(value) {
+        console.log(value);
+        this.setState({ value });
     }
 
     enableButton() {
@@ -106,6 +119,17 @@ export class NewUser extends Component {
         // if (this.state.canSubmit) {
         //     this.setState({fullField: false});
         // }
+    }
+
+    handleChangePassword(e) {
+        this.setState({password: e.target.value});
+    }
+
+    handleConfirmPassword(e) {
+        console.log(this.state.password);
+        this.setState({confirmPassword: e.target.value});
+        console.log(this.state.password === e.target.value);
+        console.log(e.target.value);
     }
 
     showNotify(options) {
@@ -207,7 +231,7 @@ export class NewUser extends Component {
                                 </div>
                                 <div className='form-group'>
                                     <label htmlFor='userPassword'>Пароль</label>
-                                    <MyInput value={this.state.password}
+                                    {/*<MyInput value={this.state.password}
                                              type='text'
                                              name='userPassword'
                                              placeholder='Пароль'
@@ -219,7 +243,22 @@ export class NewUser extends Component {
                                                  isAlphanumeric: 'Пароль должен содержать буквы и цыфры латинского алфавита',
                                                  minLength: 'Пароль должен содержать минимум 6 символов'
                                              }}
-                                             required/>
+                                             required/>*/}
+                                    <input type="password"
+                                         name="userPassword"
+                                         className="form-control"
+                                         placeholder="Password"
+                                         value={this.state.password}
+                                         onChange={::this.handleChangePassword}
+                                         required/>
+                                    <input type="password"
+                                           name="userConfirmPassword"
+                                           className="form-control"
+                                           placeholder="Confirm Password"
+                                           value={this.state.confirmPassword}
+                                           onChange={::this.handleConfirmPassword}
+                                           required/>
+
                                 </div>
                                 <div className='form-group row'>
                                     <div className='col-lg-4 p-t-md'>
@@ -231,13 +270,12 @@ export class NewUser extends Component {
                                     </div>
                                     <div className='col-lg-8'>
                                         <label>Роли</label>
-                                        <Select multi
-                                                simpleValue
+                                        <Select simpleValue
                                                 disabled={this.state.disabledSelect}
                                                 value={this.state.value}
                                                 placeholder='Выберите роль'
-                                                options={this.rolesList}
-                                                onChange={this.onChange}/>
+                                                options={options}
+                                                onChange={::this.handleSelectChange}/>
                                     </div>
                                 </div>
                                 <div className='form-group text-center'>

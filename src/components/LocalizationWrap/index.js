@@ -20,8 +20,8 @@ class LocalizationComponent extends Component {
             getCurrentUser()
                 .then(handleErrors)
                 .then(localization => {
-                    localStorage.setItem('localization', JSON.stringify(localization));
-                    this.props.actions.localization_success(localization)
+                    localStorage.setItem('localization', JSON.stringify(localization.data));
+                    this.props.actions.localization_success(localization.data)
                 })
                 .catch(error => {
                     console.log(error.message);

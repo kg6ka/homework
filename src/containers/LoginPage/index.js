@@ -56,7 +56,7 @@ export class LoginPage extends Component {
         //TODO change to prop after route fix
         if (!(user && user.isAuthenticated)) {
             notify.show(
-                notifyOptions.message,
+                notifyOptions.message = this.props.localization.LOGIN.notifyOptions,
                 notifyOptions.type,
                 notifyOptions.timeout,
                 notifyOptions.color
@@ -140,7 +140,7 @@ export class LoginPage extends Component {
                                              name="userEmail"
                                              placeholder="Email"
                                              validations={emailValidations}
-                                             validationError='Не корректный емейл'
+                                             validationError={this.props.localization.LOGIN.emailValidationError}
                                              required />
                                 </div>
                                 <div className="form-group">
@@ -155,7 +155,7 @@ export class LoginPage extends Component {
                                              name="userPassword"
                                              placeholder="Password"
                                              validations={passValidations}
-                                             validationError={`Пароль должен состоять минимум из ${minLength} символов`}
+                                             validationError={this.props.localization.LOGIN.passwordValidationError}
                                              type="password"
                                              required />
                                 </div>
@@ -179,7 +179,8 @@ export class LoginPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        localization: state.localization
     }
 };
 

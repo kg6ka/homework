@@ -1,5 +1,24 @@
 {
     "data": {
-        "nav-title": "lion say raaar"
+        "LANGUAGE": "EN",
+        "NAV_TITLE": "lion say raaar",
+        "NAVIGATION": [
+            "Home",
+            "Role management",
+            "My Catalog",
+            "Catalogs",
+            "Goods audit",
+            "My selling",
+            "Partition management",
+            "Partition shares"
+        ],
+        "MAIN_TABLE_OPTIONS": {
+            "THEAD": [
+                "№",
+                "Roles",
+                "Permissions",
+                "Controls"
+            ]
+        }
     }
 }

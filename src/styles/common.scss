@@ -35,13 +35,15 @@ body {
   }
 }
 .main-table {
-  tr {
-    th:last-child,
-    td:last-child {
-      width: 15%;
-      text-align: center;
+  //&:not(.alt) {
+    tr {
+      th:last-child,
+      td:last-child {
+        width: 15%;
+        text-align: center;
+      }
     }
-  }
+  //}
 }
 .btn-holder {
   .btn {
@@ -112,4 +114,8 @@ body {
     text-align: center;
     border-top: 0;
   }
+}
+//common grid styles
+.p-t-md {
+  padding-top: 25px;
 }

@@ -44,9 +44,38 @@ export default (props) => {
                     )
                 }
         );
+    } else {
+        tbody = options.tbody.map(item => {
+            return (
+               <tr key={item.id} className={(item.block ? 'block' : 'unblock') + ' ' + (item.active ? 'is-active' : 'is-not-active')}>
+                   <td>{`${item.first_name} ${item.last_name}`}</td>
+                   <td>{item.roleName}</td>
+                   <td>{item.email}</td>
+                   <td>{item.job_title}</td>
+                   <td>
+                       <div className='btn-holder'>
+                           <ButtonLink className='btn btn-success btn-sm'
+                                       to={`user-management/edit/${item.id}`}>
+                               <FA name='pencil-square-o' />
+                           </ButtonLink>
+                           <Button onClick={options.reInviteCustomer.bind(this, item.email)}
+                                   bsStyle='warning'
+                                   bsSize='small'>
+                               <FA name='paper-plane-o' />
+                           </Button>
+                           <Button onClick={options.isBlockCustomer.bind(this, item.id, item.block)}
+                                   bsStyle='danger'
+                                   bsSize='small'>
+                               <FA name='times' />
+                           </Button>
+                       </div>
+                   </td>
+               </tr>
+            )
+        });
     }
     return (
-        <table className="table main-table">
+        <table className={`table main-table ${props.className}`}>
             <thead><tr>{th}</tr></thead>
             <tbody>{tbody}</tbody>
         </table>

@@ -24,7 +24,7 @@ import { ButtonLink, SubHeader } from '../../../components';
 const notifyOptions = {
     message: 'Пользователь успешно создан',
     type: 'custom',
-    timeout: 1500,
+    timeout: 2000,
     color: {
         background: '#18a689',
         text: '#fff'
@@ -32,7 +32,8 @@ const notifyOptions = {
 };
 
 const validators = {
-    matchRegexp: /^[a-z0-9а-яё/\s]+$/i
+    matchRegexp: /^[a-z0-9а-яё/\s]+$/i,
+    minLength: 3
 };
 
 export class NewUser extends Component {
@@ -68,11 +69,13 @@ export class NewUser extends Component {
             .getAllRoles({'Authorization': this.userToken})
             .then(handleErrors)
             .then(list => {
-                this.props.rolesActions.roles_success({list: list});
+                this.props.rolesActions.roles_success({list});
                 // this.setRoleList(list);
+                this.showNotify(notifyOptions);
             })
             .catch(error => {
                 console.log(error.message);
+                this.showNotify(notifyOptions);
             });
     }
 
@@ -85,12 +88,32 @@ export class NewUser extends Component {
         });
     }
 
-    showNotify() {
+    handleSubmit(data) {
+        console.log(data);
+    }
+
+    enableButton() {
+        this.setState({ canSubmit: true });
+        // if ((!this.state.canSubmit || this.state.canSubmit) && this.state.value.length > 0) {
+        //     this.setState({fullField: true});
+        // } else {
+        //     this.setState({fullField: false});
+        // }
+    }
+
+    disableButton() {
+        this.setState({ canSubmit: false });
+        // if (this.state.canSubmit) {
+        //     this.setState({fullField: false});
+        // }
+    }
+
+    showNotify(options) {
         notify.show(
-            notifyOptions.message,
-            notifyOptions.type,
-            notifyOptions.timeout,
-            notifyOptions.color
+            options.message,
+            options.type,
+            options.timeout,
+            options.color
         );
     }
     backToPrevious() {
@@ -104,48 +127,66 @@ export class NewUser extends Component {
                     <Form className='m-t m-b-xl col-sm-offset-3 col-sm-6 main-form'
                           noValidate='noValidate'
                           name='editForm'
-                          onSubmit={this.props.onSubmit}
-                          onValid={this.props.onValid}
-                          onInvalid={this.props.onInvalid}
+                          onSubmit={::this.handleSubmit}
+                          onValid={::this.enableButton}
+                          onInvalid={::this.disableButton}
                           role='form'>
                         <div className='row'>
                             <div className='col-lg-12'>
                                 <div className='form-group row'>
                                     <div className='col-lg-6'>
                                         <label htmlFor='firstName'>Имя</label>
-                                        <MyInput value={this.props.firstName}
+                                        <MyInput value={this.state.firstName}
                                              type='text'
                                              name='firstName'
                                              placeholder='Имя'
-                                             validations={validators}
-                                             validationError='Формат не корректен'
+                                             validations={{
+                                                 matchRegexp: /^[a-z0-9а-яё/\s]+$/i,
+                                                 minLength: 2
+                                             }}
+                                             validationErrors={{
+                                                 matchRegexp: 'Неверные формат',
+                                                 minLength: 'Имя должно состоять минимум из 2 символов'
+                                             }}
                                              required/>
                                     </div>
                                     <div className='col-lg-6'>
                                         <label htmlFor='lastName'>Фамилия</label>
-                                        <MyInput value={this.props.lastName}
+                                        <MyInput value={this.state.lastName}
                                                  type='text'
                                                  name='lastName'
                                                  placeholder='Фамилия'
-                                                 validations={validators}
-                                                 validationError='Формат не корректен'
+                                                 validations={{
+                                                     matchRegexp: /^[a-z0-9а-яё/\s]+$/i,
+                                                     minLength: 2
+                                                 }}
+                                                 validationErrors={{
+                                                     matchRegexp: 'Неверные формат',
+                                                     minLength: 'Фамилия должна состоять минимум из 2 символов'
+                                                 }}
                                                  required/>
                                     </div>
                                 </div>
                                 <div className='form-group row'>
                                     <div className='col-lg-6'>
                                         <label htmlFor='phone'>Телефон</label>
-                                        <MyInput value={this.props.phone}
+                                        <MyInput value={this.state.phone}
                                                  type='phone'
                                                  name='phone'
                                                  placeholder='Телефон'
-                                                 validations={validators}
-                                                 validationError='Формат не корректен'
+                                                 validations={{
+                                                     isInt: true,
+                                                     isLength: 10
+                                                 }}
+                                                 validationErrors={{
+                                                     isInt: 'Только цифры',
+                                                     isLength: 'Телефон должен содержать 10 цифр'
+                                                 }}
                                                  required/>
                                     </div>
                                     <div className='col-lg-6'>
                                         <label htmlFor='position'>Должность</label>
-                                        <MyInput value={this.props.position}
+                                        <MyInput value={this.state.position}
                                                  type='text'
                                                  name='position'
                                                  placeholder='Должность'
@@ -156,26 +197,32 @@ export class NewUser extends Component {
                                 </div>
                                 <div className='form-group'>
                                     <label htmlFor='userEmail'>Email</label>
-                                    <MyInput value={this.props.email}
+                                    <MyInput value={this.state.email}
                                              type='text'
                                              name='userEmail'
                                              placeholder='Email'
                                              validations='isEmail'
-                                             validationError='Формат не корректен'
+                                             validationError='Неверный email'
                                              required/>
                                 </div>
                                 <div className='form-group'>
                                     <label htmlFor='userPassword'>Пароль</label>
-                                    <MyInput value={this.props.password}
+                                    <MyInput value={this.state.password}
                                              type='text'
                                              name='userPassword'
                                              placeholder='Пароль'
-                                             validations={validators}
-                                             validationError='Некорректный формат'
+                                             validations={{
+                                                 isAlphanumeric: true,
+                                                 minLength: 6
+                                             }}
+                                             validationErrors={{
+                                                 isAlphanumeric: 'Пароль должен содержать буквы и цыфры латинского алфавита',
+                                                 minLength: 'Пароль должен содержать минимум 6 символов'
+                                             }}
                                              required/>
                                 </div>
                                 <div className='form-group row'>
-                                    <div className='col-lg-4'>
+                                    <div className='col-lg-4 p-t-md'>
                                         <ButtonLink className='btn btn-sm btn-success'
                                                     to='role-management/create'>
                                             <FA name='plus' className='m-r-xs' />
@@ -186,16 +233,16 @@ export class NewUser extends Component {
                                         <label>Роли</label>
                                         <Select multi
                                                 simpleValue
-                                                disabled={this.props.disabledSelect}
-                                                value={this.props.value}
+                                                disabled={this.state.disabledSelect}
+                                                value={this.state.value}
                                                 placeholder='Выберите роль'
                                                 options={this.rolesList}
-                                                onChange={this.props.onChange}/>
+                                                onChange={this.onChange}/>
                                     </div>
                                 </div>
                                 <div className='form-group text-center'>
                                     <Button type='submit'
-                                            disabled={this.props.disabledSubmit}
+                                            disabled={this.state.disabledSubmit}
                                             bsStyle='primary'
                                             bsSize='small'>
                                         <FA name='plus m-r-xs'/>

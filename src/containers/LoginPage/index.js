@@ -166,7 +166,7 @@ export class LoginPage extends Component {
                                         bsSize='small'
                                 >Login</Button>
                             </Form>
-                            <LocalizationChangeComponent className='btn btn-primary pull-center' />
+                            <LocalizationChangeComponent className='btn btn-primary btn-xs' />
                         </div>
                     </div>
                 </div>

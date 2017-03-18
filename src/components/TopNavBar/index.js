@@ -15,7 +15,7 @@ export default () => {
                            placeholder='Поиск'
                            required/>
                 </div>
-                <LocalizationChangeComponent className='btn btn-primary pull-right' />
+                <LocalizationChangeComponent className='btn btn-primary btn-s' />
                 <LogOut className='btn btn-primary pull-right'/>
             </nav>
         </div>

@@ -25,7 +25,7 @@ class LocalizationChangeComponent extends Component {
         const { className } = this.props;
         //change arg to real constatns with lang path
         return (
-            <div className={className}>
+            <div className="btn-group" role="group">
                 <button className={className}
                     type='button'
                     onClick={::this.changeLocalization.bind(this, 'eng')}>

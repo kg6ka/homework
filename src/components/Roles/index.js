@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import FA from 'react-fontawesome';
 import {
     ButtonLink,
-    SubHeader
+    SubHeader,
+    MainTable
 } from '../../components';
-
-import MainTable from '../../components/shared/MainTable';
 
 import ModalDeleteRole from './Modal';
 

@@ -33,10 +33,10 @@ export const createCustomer = (headers, params) => {
     return fetch(createCustomerURL, fetchOptions);
 };
 
-export const blockUnblockCustomer = (headers, params, path) => {
+export const isBlockCustomer = (headers, params, action) => {
+    let path = action ? 'unblock' : 'block';
     let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
+        'Access-Control-Allow-Origin': '*'
     }, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
@@ -45,4 +45,19 @@ export const blockUnblockCustomer = (headers, params, path) => {
         mode: 'cors'
     };
     return fetch(`${customersURL}/${path}${queryConstructor(params)}`, fetchOptions);
+};
+
+export const reInviteCustomer = (headers, params) => {
+    let headerOptions = Object.assign({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json; charset=utf-8'
+    }, headers);
+    let requestHeader =  new Headers(headerOptions);
+    let fetchOptions = {
+        method: 'POST',
+        headers: requestHeader,
+        mode: 'cors',
+        body: JSON.stringify(params)
+    };
+    return fetch(createCustomerURL, fetchOptions);
 };

@@ -12,8 +12,8 @@ class LocalizationChangeComponent extends Component {
         getCurrentUser(lang)
                 .then(handleErrors)
                 .then(localization => {
-                    localStorage.setItem('localization', JSON.stringify(localization));
-                    this.props.actions.localization_set(localization)
+                    localStorage.setItem('localization', JSON.stringify(localization.data));
+                    this.props.actions.localization_set(localization.data)
                 })
                 .catch(error => {
                     console.log(error.message);
@@ -25,21 +25,21 @@ class LocalizationChangeComponent extends Component {
         const { className } = this.props;
         //change arg to real constatns with lang path
         return (
-            <div className={className}>
+            <div className="btn-group" role="group">
                 <button className={className}
                     type='button'
                     onClick={::this.changeLocalization.bind(this, 'eng')}>
-                    ENG
+                    {this.props.localization.LOCALIZATION.eng}
                 </button>
                 <button className={className}
                     type='button'
                     onClick={::this.changeLocalization.bind(this, 'rus')}>
-                    RUS
+                    {this.props.localization.LOCALIZATION.rus}
                 </button>
                 <button className={className}
                     type='button'
                     onClick={::this.changeLocalization.bind(this, 'tr')}>
-                    TR
+                    {this.props.localization.LOCALIZATION.tr}
                 </button>
             </div>
         )

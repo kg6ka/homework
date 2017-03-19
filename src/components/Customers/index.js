@@ -43,15 +43,19 @@ export class Customers extends Component {
             .then(handleErrors)
             .then(list => {
                 this.props.customerActions.customers_success({list});
+                this.setCustomerList(list);
             })
             .catch(error => {
-                console.log(error.message);
+                console.log(error);
                 this.props.customerActions.customers_fail();
+                notifyOptions.message = `Произошла ошибка getAllCustomers ${error.message}`;
+                notifyOptions.type = 'error';
+                this.showNotify(notifyOptions);
                 // this.handleError({}, false);
             });
     }
     isBlockCustomer(id, action) {
-        console.log('cutomer bloked', action);
+        console.log(id, action);
         let queryParams = {
             user_id: id
         };
@@ -64,10 +68,10 @@ export class Customers extends Component {
                 action
             )
             .then(handleErrors)
-            .then(user => {
-                console.log('user', user);
+            .then(() => {
+                let message = action ? 'заблокирован' : 'разблокирован';
                 this.props.customerActions.block_customer_success({id, action});
-                this.showNotify('Пользователь успешно заблокирован', notifyOptions.type);
+                this.showNotify(`Пользователь успешно ${message}`, notifyOptions.type);
             })
             .catch(error => {
                 console.log(error.message);
@@ -84,13 +88,11 @@ export class Customers extends Component {
                 {email}
             )
             .then(handleErrors)
-            .then(user => {
-                console.log('user', user);
+            .then(() => {
                 this.props.customerActions.reinvite_customer_success();
-                this.showNotify('Приглашение отправленно успешно', notifyOptions.type);
+                this.showNotify(notifyOptions);
             })
             .catch(error => {
-                console.log(error.message);
                 this.showNotify(`Произошла ошибка ${error.message}`, 'error');
                 this.props.customerActions.reinvite_customer_fail();
             });
@@ -102,16 +104,21 @@ export class Customers extends Component {
         return {
             thead: ['Имя', 'Роль', 'Email', 'Должность', 'Управление'],
             tbody: this.customerList,
-            isBlockCustomer: ::this.isBlockCustomer,
+            blockCustomer: ::this.isBlockCustomer,
             reInviteCustomer: ::this.reInviteCustomer
         };
     }
-    showNotify(message, type) {
+
+    setCustomerList(list) {
+        window.localStorage.setItem('customerList', JSON.stringify(list));
+    }
+
+    showNotify(options) {
         notify.show(
-            message,
-            type,
-            notifyOptions.timeout,
-            notifyOptions.color
+            options.message,
+            options.type,
+            options.timeout,
+            options.color
         );
     }
     render() {

@@ -16,6 +16,8 @@ import * as PermissionsAction from '../../../actions/PermissionsAction';
 import Notifications, {notify} from 'react-notify-toast';
 import { handleErrors } from '../../../utils/handleErrors';
 
+import { COMMON } from '../../../constants/Common';
+
 import 'react-select/dist/react-select.css';
 
 const notifyOptions = {
@@ -27,8 +29,6 @@ const notifyOptions = {
         text: '#fff'
     }
 };
-
-const pageChangeDelay = 700;
 
 export class CreateRole extends Component {
     constructor(props) {
@@ -81,11 +81,12 @@ export class CreateRole extends Component {
                 setTimeout(() => {
                     this.setState({fullField: true});
                     this.backToPrevious();
-                }, pageChangeDelay);
+                }, COMMON.PAGE_CHANGE_DELAY);
             })
             .catch(error => {
                 console.log(error.message);
                 this.props.rolesActions.create_role_fail();
+                this.setState({fullField: true});
                 // this.handleError({}, false);
             });
     }
@@ -151,7 +152,7 @@ export class CreateRole extends Component {
     // }
 
     backToPrevious() {
-        browserHistory.push('/role-management');
+        browserHistory.goBack();
     }
 
     get permissionList() {

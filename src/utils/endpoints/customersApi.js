@@ -3,12 +3,13 @@ import { queryConstructor } from '../queryConstructor';
 
 const customersURL = ApiUrl.ROOT_API + ApiUrl.USER;
 const createCustomerURL = ApiUrl.ROOT_API + ApiUrl.USER_INVITE;
+const defaultHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json; charset=utf-8'
+};
 
 export const getAllCustomers = (headers) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
+    let headerOptions = Object.assign(defaultHeaders, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'GET',
@@ -19,10 +20,7 @@ export const getAllCustomers = (headers) => {
 };
 
 export const createCustomer = (headers, params) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
+    let headerOptions = Object.assign(defaultHeaders, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'POST',
@@ -33,10 +31,22 @@ export const createCustomer = (headers, params) => {
     return fetch(createCustomerURL, fetchOptions);
 };
 
+export const updateCustomer = (headers, params) => {
+    let headerOptions = Object.assign(defaultHeaders, headers);
+    let requestHeader =  new Headers(headerOptions);
+    let fetchOptions = {
+        method: 'PUT',
+        headers: requestHeader,
+        mode: 'cors',
+        body: JSON.stringify(params)
+    };
+    return fetch(customersURL, fetchOptions);
+};
+
 export const isBlockCustomer = (headers, params, action) => {
     let path = action ? 'unblock' : 'block';
     let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': defaultHeaders['Access-Control-Allow-Origin']
     }, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
@@ -48,10 +58,7 @@ export const isBlockCustomer = (headers, params, action) => {
 };
 
 export const reInviteCustomer = (headers, params) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
+    let headerOptions = Object.assign(defaultHeaders, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'POST',

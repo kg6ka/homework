@@ -13,6 +13,7 @@ import CreateRole from './components/Roles/CreateRole';
 import EditRole from './components/Roles/EditRole';
 import Customers from './components/Customers';
 import NewUser from './components/Customers/NewUser';
+import UpdateUser from './components/Customers/UpdateUser';
 
 import { LocalizationComponents } from './components';
 import { requireAuthentication } from './components';
@@ -31,7 +32,7 @@ export const routes = (
             <Route path='user-management'>
                 <IndexRoute component={Customers}/>
                 <Route path='create' component={NewUser} />
-                {/*<Route path='edit/:id' component={requireAuthentication(EditRole)} />*/}
+                <Route path='edit/:id' component={UpdateUser} />
             </Route>
             <Route path='catalogs'>
                 <IndexRoute component={requirePermissions(Catalog, 'Admin')}/>

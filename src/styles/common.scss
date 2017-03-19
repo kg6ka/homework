@@ -98,6 +98,8 @@ body {
   top: 15px;
 }
 .inside-notify {
+  display: block;
+  position: relative;
   .toast-notification {
     left: 20% !important;
   }

@@ -1,0 +1,51 @@
+{
+    "data": {
+        "LANGUAGE": "EN",
+        "NAV_TITLE": "lion say raaar",
+        "NAVIGATION": [
+            "Home",
+            "Role management",
+            "My Catalog",
+            "Catalogs",
+            "Goods audit",
+            "My selling",
+            "Partition management",
+            "Partition shares"
+        ],
+        "MAIN_TABLE_OPTIONS": {
+            "THEAD": [
+                "№",
+                "Roles",
+                "Permissions",
+                "Controls"
+            ]
+        },
+        "ROLES": {
+            "create_role": "Create Role"
+        },
+        "USER": {
+            "create_user": "Create User"
+        },
+        "LOGIN": {
+            "notifyOptions": "Welcome",
+            "emailValidationError": "Not valid email",
+            "passwordValidationError": "Password must be at least 6 characters"
+        },
+        "LOCALIZATION": {
+            "eng": "eng",
+            "rus": "rus",
+            "tr": "tr"
+        },
+        "PROMO": {
+            "title": "Main",
+            "content": "A lot of dumy text"
+        },
+        "INPUT": {
+            "search": "search"
+        },
+        "MY_CATALOGS": {
+            "title" : "My Catalogs",
+            "to_Categories": "to Categories"
+        }
+    }
+}

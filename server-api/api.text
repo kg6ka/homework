@@ -49,3 +49,5 @@ POST           /user/invite                    controllers.UserAPI.invite   //cr
 PUT            /user/block                     controllers.UserAPI.block   //block customer                             query_param: user_id
 
 PUT            /user/unblock                   controllers.UserAPI.unblock   //block customer                           query_param: user_id
+
+POST           /user/reinvite                  controllers.UsersAPI.reinvite                                            val email = (json \ "email").as[String]

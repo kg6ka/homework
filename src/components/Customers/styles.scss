@@ -1,0 +1,11 @@
+.main-table {
+  .isunblock {
+    background: rgba(255, 0, 0, .15);
+    &.is-not-active {
+      background: rgba(231, 234, 236, .7);
+    }
+  }
+  .is-not-active {
+    background: rgba(231, 234, 236, .7);
+  }
+}

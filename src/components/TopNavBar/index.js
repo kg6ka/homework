@@ -1,6 +1,7 @@
 import React  from 'react';
 
 import LogOut from '../LogOut';
+import LocalizationChangeComponent from '../LocalizationChange';
 
 export default () => {
     return (
@@ -14,6 +15,7 @@ export default () => {
                            placeholder='Поиск'
                            required/>
                 </div>
+                <LocalizationChangeComponent className='btn btn-primary btn-s' />
                 <LogOut className='btn btn-primary pull-right'/>
             </nav>
         </div>

@@ -7,7 +7,7 @@ import {
 
 const initialState = JSON.parse(window.localStorage.getItem('localization')) || {};
 
-export default function userState(state = initialState, action) {
+export default function localizationState(state = initialState, action) {
 
     switch (action.type) {
 

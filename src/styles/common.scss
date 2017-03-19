@@ -35,13 +35,15 @@ body {
   }
 }
 .main-table {
-  tr {
-    th:last-child,
-    td:last-child {
-      width: 15%;
-      text-align: center;
+  //&:not(.alt) {
+    tr {
+      th:last-child,
+      td:last-child {
+        width: 15%;
+        text-align: center;
+      }
     }
-  }
+  //}
 }
 .btn-holder {
   .btn {
@@ -96,6 +98,8 @@ body {
   top: 15px;
 }
 .inside-notify {
+  display: block;
+  position: relative;
   .toast-notification {
     left: 20% !important;
   }
@@ -112,4 +116,8 @@ body {
     text-align: center;
     border-top: 0;
   }
+}
+//common grid styles
+.p-t-md {
+  padding-top: 25px;
 }

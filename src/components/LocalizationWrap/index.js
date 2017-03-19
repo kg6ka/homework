@@ -1,7 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { getCurrentUser } from '../../utils/endpoints/localizationApi';
+import { handleErrors } from '../../utils/handleErrors';
+import * as LocalizationActions from '../../actions/LocalizationAction';
 const { node } = PropTypes;
 
-export default class LocalizationComponent extends Component {
+class LocalizationComponent extends Component {
     componentWillMount() {
         this.checkLocalization()
     }
@@ -9,10 +14,19 @@ export default class LocalizationComponent extends Component {
     checkLocalization() {
         let localization = JSON.parse(localStorage.getItem('localization'));
         if (localization) {
-            console.log(1);
+            this.props.actions.localization_success(localization);
         } else {
-            //TODO fetch localization
-            localStorage.setItem('localization', JSON.stringify({}));
+            // GET default localization from server
+            getCurrentUser()
+                .then(handleErrors)
+                .then(localization => {
+                    localStorage.setItem('localization', JSON.stringify(localization.data));
+                    this.props.actions.localization_success(localization.data)
+                })
+                .catch(error => {
+                    console.log(error.message);
+                    //TODO - create default localzation object and save it when connection problems
+                });
         }
     }
 
@@ -30,16 +44,16 @@ LocalizationComponent.contextTypes = {
     children: node
 };
 
-// const mapStateToProps = (state) => {
-//     return {
-//         user: state.user
-//     }
-// };
+const mapStateToProps = (state) => {
+    return {
+        localization: state.localization
+    }
+};
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         actions: bindActionCreators(UserActions, dispatch)
-//     }
-// };
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(LocalizationActions, dispatch)
+    }
+};
 
-// export default connect(mapStateToProps,mapDispatchToProps)(LocalizationComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(LocalizationComponent)

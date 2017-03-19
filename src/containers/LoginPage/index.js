@@ -4,8 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
-import * as userAPI from '../../utils/endpoints/userApi';
-
+import * as userAPI from '../../utils/endpoints/userApi'
+import * as inviteApi from '../../utils/endpoints/checkInviteApi'
+import { LocalizationChangeComponent } from '../../components';
+console.log(LocalizationChangeComponent)
 import Notifications, {notify} from 'react-notify-toast';
 import { Form } from 'formsy-react';
 import MyInput from '../../components/shared/MyInput';
@@ -55,11 +57,18 @@ export class LoginPage extends Component {
         //TODO change to prop after route fix
         if (!(user && user.isAuthenticated)) {
             notify.show(
-                notifyOptions.message,
+                notifyOptions.message = this.props.localization.LOGIN.notifyOptions,
                 notifyOptions.type,
                 notifyOptions.timeout,
                 notifyOptions.color
             );
+        }
+    }
+
+    componentWillMount() {
+        if(window.location.search){
+            //TODO handle options parsing
+            inviteApi.checkInvite()
         }
     }
 
@@ -139,7 +148,7 @@ export class LoginPage extends Component {
                                              name="userEmail"
                                              placeholder="Email"
                                              validations={emailValidations}
-                                             validationError='Не корректный емейл'
+                                             validationError={this.props.localization.LOGIN.emailValidationError}
                                              required />
                                 </div>
                                 <div className="form-group">
@@ -154,7 +163,7 @@ export class LoginPage extends Component {
                                              name="userPassword"
                                              placeholder="Password"
                                              validations={passValidations}
-                                             validationError={`Пароль должен состоять минимум из ${minLength} символов`}
+                                             validationError={this.props.localization.LOGIN.passwordValidationError}
                                              type="password"
                                              required />
                                 </div>
@@ -165,6 +174,7 @@ export class LoginPage extends Component {
                                         bsSize='small'
                                 >Login</Button>
                             </Form>
+                            <LocalizationChangeComponent className='btn btn-primary btn-xs' />
                         </div>
                     </div>
                 </div>
@@ -177,7 +187,8 @@ export class LoginPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        localization: state.localization
     }
 };
 

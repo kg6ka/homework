@@ -19,11 +19,9 @@ import {
     Spinner
 } from '../../../components';
 
-import { COMMON } from '../../../constants/Common';
-
 //TODO notify global
 const notifyOptions = {
-    message: 'Пользователь успешно создан',
+    message: 'Пользователь успешно обнавлен',
     type: 'custom',
     timeout: 2000,
     color: {
@@ -32,26 +30,29 @@ const notifyOptions = {
     }
 };
 
-export class NewUser extends Component {
+export class UpdateUser extends Component {
     constructor(props) {
         super(props);
+        console.log('UpdateUser', props);
         this.state = {
             canSubmit: false,
             fullField: false,
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            phone: '',
-            position: '',
             options: [],
             value: '',
+            password: '',
+            email: '',
+            job_title: '',
+            first_name: '',
+            last_name: '',
+            phone: '',
             roles: []
         };
+        this.userID = +this.props.params.id;
     }
 
     componentDidMount() {
         this.getAllRoles();
+        this.currentUser();
     }
 
     get userToken() {
@@ -83,36 +84,49 @@ export class NewUser extends Component {
         });
     }
 
-    createCustomer(params) {
+    updateCustomer() {
         this.setState({fullField: false});
-        this.props.customerActions.create_customer_request();
+        this.props.customerActions.update_customer_request();
+
         customersApi
-            .createCustomer({'Authorization': this.userToken}, params)
+            .createCustomer({'Authorization': this.userToken})
             .then(handleErrors)
             .then(() => {
-                this.props.customerActions.create_customer_success();
+                this.props.customerActions.update_customer_success();
                 this.showNotify(notifyOptions);
-
-                setTimeout(() => {
-                    this.setState({fullField: true});
-                    this.backToPrevious();
-                }, COMMON.PAGE_CHANGE_DELAY);
+                this.setState({fullField: true});
             })
             .catch(error => {
                 notifyOptions.message = `Произошла ошибка ${error.message}`;
                 notifyOptions.type = 'error';
-                this.props.customerActions.create_customer_fail();
+                this.props.customerActions.update_customer_fail();
                 this.showNotify(notifyOptions);
                 this.setState({fullField: true});
             });
     }
 
-    handleSubmit(data) {
-        data.role_id = this.state.value;
-        this.createCustomer(data);
+    currentUser() {
+        if (this.customerList.length) {
+            let user = this.customerList
+                .filter(item => item.id === this.userID)[0];
+            this.setState({
+                email: user.email,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                job_title: user.job_title,
+                phone: user.phone
+            });
+        }
+        return null;
     }
 
-    //TODO extend checking
+
+    handleSubmit(data) {
+        console.log(data);
+        // this.updateCustomer();
+    }
+
+    //TODO general checking
     handleSelectChange(value) {
         this.setState({ value });
         if (this.state.canSubmit && value) {
@@ -122,7 +136,7 @@ export class NewUser extends Component {
         }
     }
 
-
+    //TODO custom correct validation
     enableButton() {
         this.setState({ canSubmit: true });
         if ((!this.state.canSubmit || this.state.canSubmit) && this.state.value) {
@@ -139,6 +153,10 @@ export class NewUser extends Component {
         }
     }
 
+    get customerList() {
+        return JSON.parse(window.localStorage.getItem('customerList')) || [];
+    }
+
     showNotify(options) {
         notify.show(
             options.message,
@@ -147,19 +165,21 @@ export class NewUser extends Component {
             options.color
         );
     }
+
     backToPrevious() {
         browserHistory.goBack();
     }
     render() {
         return (
             <seection className='customer-info inside-notify'>
-                <SubHeader title='Создание пользователя'/>
-                <CustomerForm submitText='Создать'
+                <SubHeader title='Редактирование пользователя'/>
+                <CustomerForm submitText='Обновить'
                               onSubmit={::this.handleSubmit}
                               onValid={::this.enableButton}
                               onInvalid={::this.disableButton}
                               state={this.state}
                               options={this.roleList}
+                              confirm='true'
                               onChange={::this.handleSelectChange}
                               backToPrevious={::this.backToPrevious}/>
                 <Notifications />
@@ -185,4 +205,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewUser)
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateUser)

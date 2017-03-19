@@ -48,21 +48,13 @@ export default function customerState(state = initialState, action) {
          * Block customer
          */
         case BLOCK_CUSTOMER_REQUEST:
-            return { ...state,
-                list: []
-            };
+            return { ...state};
 
         case BLOCK_CUSTOMER_SUCCESS: {
-            console.log(state.list);
             const updatedList = state.list.map(item => {
-                if (item.id === action.payload.id && !action.payload.action) {
-                    item.block = true;
-                } else {
-                    item.block = false;
-                }
+                item.block = item.id === action.payload.id && !action.payload.action;
                 return item;
             });
-            console.log(updatedList);
             return {...state,
                 list: updatedList
             };
@@ -96,17 +88,20 @@ export default function customerState(state = initialState, action) {
          */
         case CREATE_CUSTOMER_REQUEST:
             return { ...state,
-                createdCustomer: false
+                createdCustomer: false,
+                done: true
             };
 
         case CREATE_CUSTOMER_SUCCESS:
             return {...state,
-                createdCustomer: true
+                createdCustomer: true,
+                done: false
             };
 
         case CREATE_CUSTOMER_FAIL:
             return { ...state,
-                createdCustomer: false
+                createdCustomer: false,
+                done: false
             };
 
         /**
@@ -114,17 +109,20 @@ export default function customerState(state = initialState, action) {
          */
         case UPDATE_CUSTOMER_REQUEST:
             return { ...state,
-                updatedCustomer: false
+                updatedCustomer: false,
+                done: true
             };
 
         case UPDATE_CUSTOMER_SUCCESS:
             return {...state,
-                updatedCustomer: true
+                updatedCustomer: true,
+                done: false
             };
 
         case UPDATE_CUSTOMER_FAIL:
             return { ...state,
-                updatedCustomer: false
+                updatedCustomer: false,
+                done: false
             };
 
         default:

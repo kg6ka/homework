@@ -5,11 +5,11 @@ import { browserHistory } from 'react-router';
 //TODO will create
 export const handleErrors = (response) => {
     if (!response.ok || response.status !== 200) {
-        throw Error(response.statusText);
-    }else if(response.status === 401) {
+        throw Error(response.status + ' ' + response.statusText);
+    } else if(response.status === 401) {
         localStorage.removeItem('user');
         browserHistory.push('/login');
-    }else {
+    } else {
         return response.json();
     }
 };

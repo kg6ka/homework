@@ -21,10 +21,10 @@
             ]
         },
         "ROLES": {
-            "create_role": "+ Create Role"
+            "create_role": "Create Role"
         },
         "USER": {
-            "create_user": "+ Create User"
+            "create_user": "Create User"
         },
         "LOGIN": {
             "notifyOptions": "Welcome",

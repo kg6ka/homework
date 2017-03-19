@@ -13,6 +13,7 @@ export const USER = '/user';
 export const USER_INVITE = '/user/invite';
 export const USER_BLOCK = '/user/block';
 export const USER_UNBLOCK = '/user/unblock';
+export const ACTIVATE_USER ='/activate/';
 
 //TODO - add lolcalization router and path for different localizations
 // export const LOCALIZAATION = '/lolcalization';

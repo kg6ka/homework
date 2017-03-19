@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router';
 /**
  * Handle Errors
  */
@@ -5,6 +6,10 @@
 export const handleErrors = (response) => {
     if (!response.ok || response.status !== 200) {
         throw Error(response.statusText);
+    }else if(response.status === 401) {
+        localStorage.removeItem('user');
+        browserHistory.push('/login');
+    }else {
+        return response.json();
     }
-    return response.json();
 };

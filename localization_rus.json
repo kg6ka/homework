@@ -21,10 +21,10 @@
             ]
         },
         "ROLES": {
-            "create_role": "+ Создать роль"
+            "create_role": "Создать роль"
         },
         "USER": {
-            "create_user": "+ Создаль пользователя"
+            "create_user": "Создаль пользователя"
         },
         "LOGIN": {
             "notifyOptions": "Добро пожаловать",

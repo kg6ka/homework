@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
 import * as userAPI from '../../utils/endpoints/userApi'
+import * as inviteApi from '../../utils/endpoints/checkInviteApi'
 import { LocalizationChangeComponent } from '../../components';
 console.log(LocalizationChangeComponent)
 import Notifications, {notify} from 'react-notify-toast';
@@ -61,6 +62,13 @@ export class LoginPage extends Component {
                 notifyOptions.timeout,
                 notifyOptions.color
             );
+        }
+    }
+
+    componentWillMount() {
+        if(window.location.search){
+            //TODO handle options parsing
+            inviteApi.checkInvite()
         }
     }
 

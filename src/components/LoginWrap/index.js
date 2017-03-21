@@ -22,10 +22,7 @@ export default function loginWrap(Component) {
         render() {
             return (
                 <div>
-                    {!this.props.user.isAuthenticated
-                        ? <Component {...this.props} />
-                        : null
-                    }
+                    <Component {...this.props} />
                 </div>
             )
         }

@@ -19,7 +19,7 @@ import { handleErrors } from '../../utils/handleErrors';
 import './styles.scss';
 
 const notifyOptions = {
-    message: 'text',
+    message: '',
     type: 'custom',
     timeout: 2500,
     color: {
@@ -29,6 +29,9 @@ const notifyOptions = {
 };
 
 export class Customers extends Component {
+    constructor(props) {
+        super(props);
+    }
     componentDidMount() {
         this.getAllCustomers();
     }
@@ -90,6 +93,7 @@ export class Customers extends Component {
             .then(handleErrors)
             .then(() => {
                 this.props.customerActions.reinvite_customer_success();
+                notifyOptions.message = 'Письмо успешно отправлено';
                 this.showNotify(notifyOptions);
             })
             .catch(error => {

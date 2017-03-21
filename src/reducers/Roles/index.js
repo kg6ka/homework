@@ -82,38 +82,44 @@ export default function rolesState(state = initialState, action) {
         case CREATE_ROLE_REQUEST:
             return {
                 ...state,
-                createdRole: false
+                createdRole: false,
+                fetching: true
             };
 
         case CREATE_ROLE_SUCCESS:
             return {
                 ...state,
-                createdRole: action.payload.role
+                createdRole: action.payload.role,
+                fetching: false
             };
 
         case CREATE_ROLE_FAIL:
             return {
                 ...state,
-                createdRole: false
+                createdRole: false,
+                fetching: false
             };
 
         //Edit selected role
         case EDIT_ROLE_REQUEST:
             return {
                 ...state,
-                editedRole: false
+                editedRole: false,
+                fetching: true
             };
 
         case EDIT_ROLE_SUCCESS:
             return {
                 ...state,
-                editedRole: action.payload.role
+                editedRole: action.payload.role,
+                fetching: false
             };
 
         case EDIT_ROLE_FAIL:
             return {
                 ...state,
-                editedRole: false
+                editedRole: false,
+                fetching: false
             };
 
         default:

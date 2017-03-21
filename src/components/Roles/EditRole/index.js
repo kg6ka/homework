@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
-import RoleForm from '../../../components/Roles/RoleForm';
-import { SubHeader } from '../../../components';
+import {
+    RoleForm,
+    Spinner,
+    SubHeader
+} from '../../../components';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -90,7 +93,6 @@ export class EditRole extends Component {
                 this.showNotify();
 
                 setTimeout(() => {
-                    this.setState({fullField: true});
                     this.backToPrevious();
                 }, COMMON.PAGE_CHANGE_DELAY);
             })
@@ -176,16 +178,6 @@ export class EditRole extends Component {
         });
     }
 
-    //TODO perhaps change logic for show/hide editForm
-    // get currentPermissionList() {
-    //     const { currentList } = this.props.permissions;
-    //     return currentList.map(item => {
-    //         item.value = item.name.toLowerCase();
-    //         item.label = item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase();
-    //         return item;
-    //     });
-    // }
-
     get permissionsIDs() {
         let self = this;
         return self.permissionList('list').reduce((initialState, item) => {
@@ -264,6 +256,7 @@ export class EditRole extends Component {
                             submitText='Редактировать'
                     />
                 }
+                <Spinner data-show={this.props.roles.done}/>
                 <Notifications />
             </seection>
         )

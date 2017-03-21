@@ -1,13 +1,11 @@
 import * as ApiUrl from '../../constants/Routes';
 import { queryConstructor } from '../queryConstructor';
+import { COMMON } from '../../constants/Common';
 
 const rolesURL = ApiUrl.ROOT_API + ApiUrl.ROLES;
 
 export const getAllRoles = (headers) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'GET',
@@ -18,10 +16,7 @@ export const getAllRoles = (headers) => {
 };
 
 export const createRole = (headers, params) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'POST',
@@ -33,10 +28,7 @@ export const createRole = (headers, params) => {
 };
 
 export const editRole = (headers, params) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'PUT',
@@ -48,10 +40,7 @@ export const editRole = (headers, params) => {
 };
 
 export const deleteRole = (headers, params) => {
-    let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8'
-    }, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'DELETE',

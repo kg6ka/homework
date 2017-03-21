@@ -6,7 +6,8 @@ import FA from 'react-fontawesome';
 import {
     ButtonLink,
     SubHeader,
-    MainTable
+    MainTable,
+    Spinner
 } from '../../components';
 
 import ModalDeleteRole from './Modal';
@@ -137,6 +138,7 @@ export class Roles extends Component {
                                  id={this.state.roleID}
                                  onHide={::this.closeModal}
                                  data-onDelete={::this.handleSubmit}/>
+                <Spinner data-show={this.props.roles.fetching}/>
                 <Notifications />
             </section>
         )

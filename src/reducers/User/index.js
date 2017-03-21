@@ -17,33 +17,15 @@ export default function userState(state = initialState, action) {
 
         case LOGIN_SUCCESS:
             // TODO
-            return {...state,
-                email: action.payload.email,
-                token: action.payload.token,
-                user_id: action.payload.user_id,
-                isAuthenticated: action.payload.isAuthenticated,
-                expired: action.payload.expired
-            };
+            return {...state, ...action.payload };
 
         case LOGIN_FAIL:
             // TODO
-            return {...state,
-                email: action.payload.email,
-                token: '',
-                user_id: '',
-                expired: 0,
-                isAuthenticated: action.payload.isAuthenticated
-            };
+            return {...state, ...action.payload};
 
         case LOGOUT_SUCCESS:
             // TODO
-            return {...state,
-                email: '',
-                token: '',
-                user_id: '',
-                expired: 0,
-                isAuthenticated: false
-            };
+            return {...state, ...action.payload};
 
         default:
             return state

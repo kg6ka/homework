@@ -82,6 +82,11 @@ export class LoginPage extends Component {
 
     handleLogin(user, success) {
         if (success) {
+            let permissions = {};
+            user.permissions.forEach((perm) => {
+                permissions[perm] = perm;
+            })
+            user.permissions = permissions;
             user.email = this.state.userEmail;
             user.isAuthenticated = true;
             this.props.userActions.login_success(user);
@@ -93,6 +98,7 @@ export class LoginPage extends Component {
             user.token = '';
             user.user_id = '';
             user.expired = 0;
+            user.permissions = {};
             this.props.userActions.login_fail(user);
             this.setState({userEmail: '', userPassword: ''});
         }

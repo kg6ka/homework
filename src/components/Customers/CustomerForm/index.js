@@ -131,6 +131,7 @@ export default (props) => {
                             <div className='col-lg-8'>
                                 <label>Роли</label>
                                 <Select simpleValue
+                                        name="selected-state"
                                         value={props.state.value}
                                         placeholder='Выберите роль'
                                         options={props.options}

@@ -11,6 +11,7 @@ export const ROLES = '/roles';
 export const PERMISSIONS = '/permissions';
 export const USER = '/user';
 export const USER_INVITE = '/user/invite';
+export const USER_REINVITE = '/user/reinvite';
 export const USER_BLOCK = '/user/block';
 export const USER_UNBLOCK = '/user/unblock';
 export const ACTIVATE_USER ='/activate/';

@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router'
 import * as UserActions from '../../actions/UserActions';
 import * as userAPI from '../../utils/endpoints/userApi'
 import * as inviteApi from '../../utils/endpoints/checkInviteApi'
+import { getParams } from '../../utils/endpoints/getUrlParams';
 import { LocalizationChangeComponent } from '../../components';
 console.log(LocalizationChangeComponent)
 import Notifications, {notify} from 'react-notify-toast';
@@ -66,9 +67,8 @@ export class LoginPage extends Component {
     }
 
     componentWillMount() {
-        if(window.location.search){
-            //TODO handle options parsing
-            inviteApi.checkInvite()
+        if(getParams('options', window.location.search) === 'activate_invite'){
+            inviteApi.checkInvite(getParams('hash', window.location.search))
         }
     }
 

@@ -1,15 +1,13 @@
 import * as ApiUrl from '../../constants/Routes';
 import { queryConstructor } from '../queryConstructor';
+import { COMMON } from '../../constants/Common';
 
 const customersURL = ApiUrl.ROOT_API + ApiUrl.USER;
 const createCustomerURL = ApiUrl.ROOT_API + ApiUrl.USER_INVITE;
-const defaultHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json; charset=utf-8'
-};
+const reInviteCustomerURL = ApiUrl.ROOT_API + ApiUrl.USER_REINVITE;
 
 export const getAllCustomers = (headers) => {
-    let headerOptions = Object.assign(defaultHeaders, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'GET',
@@ -20,7 +18,7 @@ export const getAllCustomers = (headers) => {
 };
 
 export const createCustomer = (headers, params) => {
-    let headerOptions = Object.assign(defaultHeaders, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'POST',
@@ -32,7 +30,7 @@ export const createCustomer = (headers, params) => {
 };
 
 export const updateCustomer = (headers, params) => {
-    let headerOptions = Object.assign(defaultHeaders, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'PUT',
@@ -46,7 +44,7 @@ export const updateCustomer = (headers, params) => {
 export const isBlockCustomer = (headers, params, action) => {
     let path = action ? 'unblock' : 'block';
     let headerOptions = Object.assign({
-        'Access-Control-Allow-Origin': defaultHeaders['Access-Control-Allow-Origin']
+        'Access-Control-Allow-Origin': COMMON.DEFAULT_HEADERS['Access-Control-Allow-Origin']
     }, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
@@ -58,7 +56,7 @@ export const isBlockCustomer = (headers, params, action) => {
 };
 
 export const reInviteCustomer = (headers, params) => {
-    let headerOptions = Object.assign(defaultHeaders, headers);
+    let headerOptions = Object.assign(COMMON.DEFAULT_HEADERS, headers);
     let requestHeader =  new Headers(headerOptions);
     let fetchOptions = {
         method: 'POST',
@@ -66,5 +64,5 @@ export const reInviteCustomer = (headers, params) => {
         mode: 'cors',
         body: JSON.stringify(params)
     };
-    return fetch(createCustomerURL, fetchOptions);
+    return fetch(reInviteCustomerURL, fetchOptions);
 };

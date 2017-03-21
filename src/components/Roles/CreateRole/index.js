@@ -4,8 +4,11 @@ import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import RoleForm from '../../../components/Roles/RoleForm';
-import { SubHeader } from '../../../components';
+import {
+    RoleForm,
+    Spinner,
+    SubHeader
+} from '../../../components';
 
 import * as rolesApi from '../../../utils/endpoints/rolesApi';
 import * as RolesActions from '../../../actions/RolesActions';
@@ -79,7 +82,6 @@ export class CreateRole extends Component {
                 this.props.rolesActions.create_role_success({role});
                 this.showNotify();
                 setTimeout(() => {
-                    this.setState({fullField: true});
                     this.backToPrevious();
                 }, COMMON.PAGE_CHANGE_DELAY);
             })
@@ -182,6 +184,7 @@ export class CreateRole extends Component {
                               submitText='Создать'
                     />
                 }
+                <Spinner data-show={this.props.roles.fetching}/>
                 <Notifications />
             </seection>
         )

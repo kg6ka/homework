@@ -20,7 +20,8 @@ const initialState = {
     list: [],
     reInvite: false,
     createdCustomer: false,
-    updatedCustomer: false
+    updatedCustomer: false,
+    done: false
 };
 
 export default function customerState(state = initialState, action) {

@@ -33,13 +33,13 @@ const notifyOptions = {
 export class UpdateUser extends Component {
     constructor(props) {
         super(props);
-        console.log('UpdateUser', props);
         this.state = {
             canSubmit: false,
             fullField: false,
             options: [],
-            value: '',
+            value: null,
             password: '',
+            confirmPass: '',
             email: '',
             job_title: '',
             first_name: '',
@@ -84,12 +84,12 @@ export class UpdateUser extends Component {
         });
     }
 
-    updateCustomer() {
+    updateCustomer(params) {
         this.setState({fullField: false});
         this.props.customerActions.update_customer_request();
 
         customersApi
-            .createCustomer({'Authorization': this.userToken})
+            .updateCustomer({'Authorization': this.userToken}, params)
             .then(handleErrors)
             .then(() => {
                 this.props.customerActions.update_customer_success();
@@ -109,12 +109,15 @@ export class UpdateUser extends Component {
         if (this.customerList.length) {
             let user = this.customerList
                 .filter(item => item.id === this.userID)[0];
+            console.log('currentUser', user);
+
             this.setState({
                 email: user.email,
                 first_name: user.first_name,
                 last_name: user.last_name,
                 job_title: user.job_title,
-                phone: user.phone
+                phone: user.phone,
+                value: user.role_id
             });
         }
         return null;
@@ -122,8 +125,9 @@ export class UpdateUser extends Component {
 
 
     handleSubmit(data) {
+        data.role_id = this.state.value;
         console.log(data);
-        // this.updateCustomer();
+        this.updateCustomer(data);
     }
 
     //TODO general checking

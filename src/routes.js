@@ -35,7 +35,7 @@ export const routes = (
                 <Route path='edit/:id' component={UpdateUser} />
             </Route>
             <Route path='catalogs'>
-                <IndexRoute component={requirePermissions(Catalog, 'Admin')}/>
+                <IndexRoute component={requirePermissions(Catalog, ['CATEGORY_ADD', 'CATALOG_MAIN_MENU', 'BLOCK_USER'])}/>
                 <Route path=':categories' component={Categories} />
             </Route>
             <Route path='my-catalogs'>

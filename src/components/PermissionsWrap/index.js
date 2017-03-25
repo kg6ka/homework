@@ -12,7 +12,10 @@ export default function requirePermissions(Component, permissions) {
         }
 
         checkPermissions() {
-            if(this.props.user.permissions !== permissions) {
+            const missingPerms =  permissions.filter((value) => {
+                return !this.props.user.permissions[value]
+            })
+            if(missingPerms.length) {
                 browserHistory.push('/');
             }
         }

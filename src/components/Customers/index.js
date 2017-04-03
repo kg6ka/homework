@@ -16,8 +16,12 @@ import * as CustomerActions from '../../actions/CustomerActions';
 import Notifications, {notify} from 'react-notify-toast';
 import { handleErrors } from '../../utils/handleErrors';
 
+import StorageServiceClass from '../../utils/StorageService';
+
 import './styles.scss';
 
+
+const StorageService = new StorageServiceClass();
 const notifyOptions = {
     message: '',
     type: 'custom',
@@ -114,7 +118,7 @@ export class Customers extends Component {
     }
 
     setCustomerList(list) {
-        window.localStorage.setItem('customerList', JSON.stringify(list));
+        StorageService.set('customerList', list);
     }
 
     showNotify(options) {

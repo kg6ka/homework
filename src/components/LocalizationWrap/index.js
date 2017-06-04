@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getCurrentUser } from '../../utils/endpoints/localizationApi';
+
+import { getCurrentLocalization } from '../../utils/endpoints/localizationApi';
 import { handleErrors } from '../../utils/handleErrors';
+
 import * as LocalizationActions from '../../actions/LocalizationAction';
+
 const { node } = PropTypes;
 
 class LocalizationComponent extends Component {
@@ -12,30 +15,32 @@ class LocalizationComponent extends Component {
     }
 
     checkLocalization() {
-        let localization = JSON.parse(localStorage.getItem('localization'));
+        this.props.localizationActions.localization_request();
+
+        const localization = JSON.parse(localStorage.getItem('localization'));
         if (localization) {
-            this.props.actions.localization_success(localization);
+            this.props.localizationActions.localization_success(localization);
         } else {
             // GET default localization from server
-            getCurrentUser()
-                .then(handleErrors)
-                .then(localization => {
-                    localStorage.setItem('localization', JSON.stringify(localization.data));
-                    this.props.actions.localization_success(localization.data)
-                })
-                .catch(error => {
-                    console.log(error.message);
-                    //TODO - create default localzation object and save it when connection problems
-                });
+          getCurrentLocalization()
+            .then(handleErrors)
+            .then(response => {
+                localStorage.setItem('localization', JSON.stringify(response.data));
+                this.props.localizationActions.localization_success(response.data)
+            })
+            .catch(() => {
+              this.props.localizationActions.localization_fail();
+                //TODO - create default localzation object and save it when connection problems
+            });
         }
     }
 
     render() {
         let self = this;
         return (
-            <div id="wrapper">
-                {self.props.children}
-            </div>
+          <div id="wrapper">
+              {self.props.children}
+          </div>
         )
     }
 }
@@ -52,7 +57,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(LocalizationActions, dispatch)
+      localizationActions: bindActionCreators(LocalizationActions, dispatch)
     }
 };
 

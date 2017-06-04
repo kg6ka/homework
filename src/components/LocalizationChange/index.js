@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getCurrentUser } from '../../utils/endpoints/localizationApi';
+import { getCurrentLocalization } from '../../utils/endpoints/localizationApi';
 import { handleErrors } from '../../utils/handleErrors';
 import * as LocalizationActions from '../../actions/LocalizationAction';
 
 class LocalizationChangeComponent extends Component {
 
     changeLocalization(lang) {
-        console.log(lang);
-        getCurrentUser(lang)
-                .then(handleErrors)
-                .then(localization => {
-                    localStorage.setItem('localization', JSON.stringify(localization.data));
-                    this.props.actions.localization_set(localization.data)
-                })
-                .catch(error => {
-                    console.log(error.message);
-                    //TODO - create default localzation object and save it when connection problems
-                });
+      getCurrentLocalization(lang)
+        .then(handleErrors)
+        .then(localization => {
+            localStorage.setItem('localization', JSON.stringify(localization.data));
+            this.props.actions.localization_set(localization.data)
+        })
+        .catch(error => {
+            console.log(error.message);
+            //TODO - create default localzation object and save it when connection problems
+        });
     }
 
     render() {

@@ -19,9 +19,11 @@ import * as PermissionsAction from '../../../actions/PermissionsAction';
 import Notifications, {notify} from 'react-notify-toast';
 import { handleErrors } from '../../../utils/handleErrors';
 
-import { COMMON } from '../../../constants/Common';
-
 import 'react-select/dist/react-select.css';
+
+import StorageServiceClass from '../../../utils/StorageService';
+
+const StorageService = new StorageServiceClass();
 
 //TODO notifyOptions
 const notifyOptions = {
@@ -45,23 +47,33 @@ export class EditRole extends Component {
             value: '',
             permissions: []
         };
+
         this.roleID = +this.props.params.id;
     }
 
+    // TODO api client
     get userToken() {
         return this.props.user.token;
     }
 
     componentDidMount() {
-        this.getAllPermissions();
-        this.getCurrentPermissions();
-        this.currentRoleName();
+      this.getAllPermissions();
+      this.getCurrentPermissions();
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+      // this.currentRoleName();
+      console.log('nextProps', nextProps);
+      this.currentRoleName();
     }
 
     currentRoleName() {
-        const roleList = JSON.parse(window.localStorage.getItem('roleList'));
+        const roleList = StorageService.get('rgand_common').roleList;
+
         if (roleList.length) {
             let roleName = roleList.filter(item => item.id === this.roleID)[0].name;
+            console.log('roleName', roleName);
             this.setState({ roleName });
         }
     }
@@ -91,10 +103,6 @@ export class EditRole extends Component {
             .then(role => {
                 this.props.rolesActions.edit_role_success(role);
                 this.showNotify();
-
-                setTimeout(() => {
-                    this.backToPrevious();
-                }, COMMON.PAGE_CHANGE_DELAY);
             })
             .catch(error => {
                 console.log(error.message);
@@ -235,7 +243,7 @@ export class EditRole extends Component {
     }
 
     backToPrevious() {
-        browserHistory.goBack();
+        browserHistory.push('/role-management');
     }
 
     render() {

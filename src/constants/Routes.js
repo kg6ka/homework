@@ -2,6 +2,7 @@
 // Constants
 // ------------------------------------
 export const ROOT_API = 'https://rgand-b2b.herokuapp.com/api';
+export const ROOT = 'https://rgand-b2b.herokuapp.com';
 
 export const RECOVERY_PASSWORD = '/recoveryPassword/*hash';
 export const REGISTRATION_PENDING = '/registrationPending';
@@ -17,7 +18,7 @@ export const USER_UNBLOCK = '/user/unblock';
 export const ACTIVATE_USER ='/activate/';
 
 //TODO - add lolcalization router and path for different localizations
-// export const LOCALIZAATION = '/lolcalization';
-// export const ENG_LOCALIZAATION = '/eng';
-// export const RUS_LOCALIZAATION = '/rus';
-// export const TYR_LOCALIZAATION = '/tyr';
+export const LOCALIZATION = '/assets/localization_eng.json';
+// export const ENG_LOCALIZATION = '/eng';
+// export const RUS_LOCALIZATION = '/rus';
+// export const TYR_LOCALIZATION = '/tyr';

@@ -3,8 +3,13 @@ import rootReducer from '../reducers';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
+// import { routerMiddleware, routerReducer } from 'react-router-redux';
+// import { browserHistory } from 'react-router';
+
 import { redirectMiddleware } from '../middlewares/redirect.middleware';
 import { spinnerMiddleware } from '../middlewares/spinner.middleware';
+
+import * as sideEffects from 'side-effects';
 
 export default function configureStore() {
     // const logger = createLogger();
@@ -19,7 +24,10 @@ export default function configureStore() {
         applyMiddleware(thunk),
         applyMiddleware(createLogger()),
         applyMiddleware(redirectMiddleware),
-        applyMiddleware(spinnerMiddleware)
+        // applyMiddleware(routerMiddleware(browserHistory)),
+        applyMiddleware(spinnerMiddleware),
+        applyMiddleware(sideEffects.toastrEffects),
+        applyMiddleware(sideEffects.redirectEffect)
     )(createStore)(rootReducer);
 
     if(module.hot) {

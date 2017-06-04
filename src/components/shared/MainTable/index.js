@@ -4,7 +4,8 @@ import { Button } from 'react-bootstrap';
 import { ButtonLink } from '../../../components';
 
 export default (props) => {
-    const { options } = props;
+    const { options, disable } = props;
+    console.log('ButtonLink', props);
     let tbody = null;
     const th = options.thead.map(item => <th key={item}>{item}</th>);
 
@@ -33,11 +34,13 @@ export default (props) => {
                                             to={`role-management/edit/${item.id}`}>
                                     <FA name='pencil-square-o' />
                                 </ButtonLink>
+                              {disable && options.tbody.length > 1 && (
                                 <Button onClick={options.showModal.bind(this, item.id)}
                                         bsStyle='danger'
                                         bsSize='small'>
                                     <FA name='times' />
                                 </Button>
+                              )}
                             </div>
                         </td>
                     </tr>

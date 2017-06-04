@@ -1,15 +1,16 @@
 import { COMMON } from '../../constants/Common';
+import * as ApiUrl from '../../constants/Routes';
 
-export const getCurrentUser = (localizationType = 'eng') => {
-    //TODO: change url
-    // let loginURl = ApiUrl.ROOT_API + ApiUrl.LOCALIZATION + localizationType;
-    console.log('localizationType is ', localizationType)
-    let loginURl = 'http://localhost:5010/localization_eng.json';
-    let requestHeader =  new Headers(COMMON.DEFAULT_HEADERS);
-    let fetchOptions = {
+const loginURL =  ApiUrl.ROOT + ApiUrl.LOCALIZATION;
+
+export const getCurrentLocalization = (localizationType = 'eng') => {
+    console.log('localizationType is ', localizationType);
+
+    const requestHeader =  new Headers(COMMON.DEFAULT_HEADERS);
+    const fetchOptions = {
         method: 'GET',
         headers: requestHeader,
         mode: 'cors'
     };
-    return fetch(loginURl, fetchOptions)
+    return fetch(loginURL, fetchOptions)
 };

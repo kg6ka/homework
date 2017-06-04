@@ -19,10 +19,12 @@ import * as PermissionsAction from '../../../actions/PermissionsAction';
 import Notifications, {notify} from 'react-notify-toast';
 import { handleErrors } from '../../../utils/handleErrors';
 
-import { COMMON } from '../../../constants/Common';
+import StorageServiceClass from '../../../utils/StorageService';
 
 import 'react-select/dist/react-select.css';
 
+const StorageService = new StorageServiceClass();
+// TODO remove all notify, instead use toastr
 const notifyOptions = {
     message: 'Роль успешно создана',
     type: 'custom',
@@ -79,16 +81,15 @@ export class CreateRole extends Component {
             .createRole({'Authorization': this.userToken}, params)
             .then(handleErrors)
             .then(role => {
-                this.props.rolesActions.create_role_success({role});
-                this.showNotify();
-                setTimeout(() => {
-                    this.backToPrevious();
-                }, COMMON.PAGE_CHANGE_DELAY);
+                console.log('Authorization 1111111111111111111111111s', role);
+               this.updateRoleList(role);
+               this.showNotify();
+               this.props.rolesActions.create_role_success({role});
             })
             .catch(error => {
-                console.log(error.message);
-                this.props.rolesActions.create_role_fail();
-                this.setState({fullField: true});
+               console.log(error.message);
+               this.props.rolesActions.create_role_fail();
+               this.setState({fullField: true});
                 // this.handleError({}, false);
             });
     }
@@ -111,6 +112,12 @@ export class CreateRole extends Component {
             name: data.roleName,
             permissions: this.sendPermissionList
         });
+    }
+
+    updateRoleList(role) {
+      let list = StorageService.get('rgand_common').roleList;
+      list.push(role);
+      StorageService.set('roleList', list)
     }
 
     enableButton() {
@@ -154,7 +161,7 @@ export class CreateRole extends Component {
     // }
 
     backToPrevious() {
-        browserHistory.goBack();
+        browserHistory.push('/role-management');
     }
 
     get permissionList() {
